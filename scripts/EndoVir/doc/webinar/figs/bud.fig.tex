@@ -1,0 +1,24 @@
+ \begin{tikzpicture}[>=latex,shorten >=2pt,shorten <=2pt]
+
+    \node (sra)       [db,  below = of mapper]    {SRA};
+    \node (fmapper)   [tool, below = of sra]      {magicBLAST};
+    \node (flanker)   [function, right = of fmapper]  {Flanker};
+    \node (ctgs)      [data, right = of flanker]  {Contigs};
+    \node (cscreen)   [tool, below = of ctgs]     {Motif screen};
+    \node (overlaps)  [function, left = of fmapper]   {Overlapper};
+    \node (extend)    [function, below = of overlaps] {Extender};
+    \node (ctgChk)    [function, right = of extend]   {Contig inspector};
+    \node (ctgMerge)  [function, below = of cscreen]  {Contig merger};
+
+
+    \path[->] (sra)       edge (fmapper)
+              (ctgs)      edge (flanker)
+              (flanker)   edge (fmapper)
+              (fmapper)   edge (overlaps)
+              (overlaps)  edge (extend)
+              (extend)    edge (ctgChk)
+              (ctgChk)    edge (cscreen)
+                          edge (ctgMerge)
+              (ctgMerge)  edge (cscreen)
+              (cscreen)   edge (ctgs);
+  \end{tikzpicture}

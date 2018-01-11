@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+  \def\n {40}
+  \def\Ynormfac{7}
+  \def\nodeYcoord{\n/2/\Ynormfac}
+  \node (vir) [vrsgenomecolor,  font=\small] at (-1,\nodeYcoord) {Virus reads};
+  \node (host)[hostgenomecolor, font=\small] at (8,\nodeYcoord) {Host/Sample reads};
+  \def\labelYcoord{0}
+  \foreach \x in {0,...,\n} % draw n read
+  {
+    \pgfmathsetmacro{\Ya}{((random(\n)))/\Ynormfac}
+    \pgfmathsetmacro{\Xa}{((random(\n)))/8}
+    \pgfmathsetmacro{\La}{random()+0.5}
+    \def\xcoord{\pgfmathparse{(\La+\Xa)/2)}}
+    \ifthenelse{\x>30}
+    {
+      \draw[vrsgenome, very thick] (\Xa, \Ya) -- (\La+\Xa, \Ya);{}
+      \coordinate (x) at (\Xa, \Ya);
+      \draw[-, vrsgenomecolor!60,thick, shorten >=0pt,shorten <=2pt] (x) -- (vir.east);
+    }
+    {
+     \draw[hostgenome] (\Xa, \Ya) -- (\La+\Xa, \Ya);{}
+     \coordinate (x) at (\Xa+\La, \Ya);
+      \draw[-, hostgenomecolor!60, shorten >=0pt,shorten <=1pt] (x) -- (host.west);
+    }
+  }
+
+
+\end{tikzpicture}

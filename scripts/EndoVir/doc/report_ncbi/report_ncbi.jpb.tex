@@ -1,0 +1,134 @@
+%%%%%%%%%%%%%%%%%%%%%%
+% USYD Biodomain 2016-08-04
+% (c) jpb, jan.buchmann@sydney.edu.au
+%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme{default}
+\beamertemplatenavigationsymbolsempty
+\usepackage{xspace}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage{ifthen}
+\usepackage{jpb.pgf}
+  \lstset{basicstyle=\tiny\ttfamily,breaklines=true}
+  \usetikzlibrary{shapes.geometric, positioning, calc, shadings}
+  \tikzset{%
+  db/.style = {cylinder, draw, fill=white, inner sep=2pt},
+  tool/.style = {rectangle, draw, fill=white, inner sep=2pt},
+  data/.style = {},
+  func/.style = {},
+  fake/.style = {},
+  path/.style = {thick},
+  dna/.style = {draw, very thick},
+  pipe/.style = {draw, very thick, dashed},
+  partLabel/.style = {font=\bfseries,
+                      fill=gray!10,rounded corners, draw=black!50, dashed},
+  every legend to name picture/.style={west}
+  }
+  \pgfdeclareplotmark{db}{\node [cylinder, draw=black] {};}
+
+  \definecolor{struc}{rgb}{0.8,0.09,0.01}
+  \definecolor{func}{rgb}{0.17,0.48,0.71}
+  \definecolor{rightfl}{rgb}{0.14,0.75,0.4}
+  \definecolor{leftfl}{rgb}{0.64,0.06,0.06}
+  \usepackage{inconsolata}
+  \hypersetup{pdfstartview={Fit}}
+
+
+%%% Titleslide  %%%
+\title[]{Endovir}
+\subtitle{Report NCBI Visiting Bioinf}
+\author[]{Jan P. Buchmann}
+\institute{NCBI, NLM, NIH, Bethesda, MD, USA \\
+           The University of Sydney, Sydney, Australia}
+\date{2017-12-08}
+%**************************
+
+
+\begin{document}
+  \titlepage
+
+  \begin{frame}{Exogenous / Endogenous viruses}
+    \begin{block}{Exogenous virus}
+      \begin{itemize}
+       \item Integration into host genome not required for replication
+       \item Can occur occasionally, e.g. Human Hepres virus 6
+       \item Clearly separated form host genome
+      \end{itemize}
+      \input{figs/exovir.fig.tex}
+    \end{block}
+
+    \begin{block}{Endogenous virus}
+      \begin{itemize}
+       \item Integration into host genome mandatory for replication
+       \item Retroviridae, e.g. HIV
+       \item Part of the host genome
+      \end{itemize}
+      \input{figs/endovir.fig.tex}
+    \end{block}
+  \end{frame}
+
+  \begin{frame}{SRA data}
+    \begin{itemize}
+      \item SRA data contains host and virus sequences
+      \item Endogenous and putative novel viruses
+    \end{itemize}
+    \input{figs/sra.fig.tex}
+  \end{frame}
+
+  \begin{frame}{Previous work}
+    \begin{itemize}
+      \item ViruSpy \footnote{https://github.com/NCBI-Hackathons/ViruSpy}
+      \item Logic  mostly implemented in Bash and Perl \\
+              $\rightarrow$ Complex to expand and adjust
+      \item BUD algorithm
+    \end{itemize}
+    \includegraphics[width=\linewidth]{figs/bud_algo.jpg}
+  \end{frame}
+
+
+  \begin{frame}{Endovir}
+    \resizebox{\linewidth}{!}{\input{figs/workflow.fig.tex}}
+  \end{frame}
+
+  \begin{frame}{Usage}
+    \input{listings/usage.lst.tex}
+  \end{frame}
+
+
+  \begin{frame}{Init}
+    \resizebox{\linewidth}{!}{\input{figs/init.fig.tex}}
+  \end{frame}
+
+  \begin{frame}{Bud}
+    \resizebox{\linewidth}{!}{\input{figs/bud.fig.tex}}
+  \end{frame}
+
+  \begin{frame}{Flanker}
+    \input{figs/flanker.fig.tex}
+  \end{frame}
+
+  \begin{frame}{Modularity}
+    \begin{itemize}
+     \item Facilitating extending and adding other tools using classes
+           which act as messenger between tool and Endovir.
+    \end{itemize}
+    \input{listings/alignment.lst.tex}
+  \end{frame}
+
+  \begin{frame}{Modularity}
+    \input{listings/alignment_base.lst.tex}
+  \end{frame}
+
+  \begin{frame}{Outlook}
+    \begin{itemize}
+     \item Adjust tool parameters on the fly
+     \item Replace SRA toolkit with NCBI's ngs-python
+     \item Test on more diverse datasets
+     \item Docker
+    \end{itemize}
+  \end{frame}
+
+\end{document}

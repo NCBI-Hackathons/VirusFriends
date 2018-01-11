@@ -1,0 +1,61 @@
+\usetikzlibrary{shapes.geometric, positioning, calc, shadings}
+\tikzset{%
+        point/.style = {rectangle, draw,inner sep=0},
+        }
+
+  \begin{tikzpicture}
+    \def\cLen{10cm}
+    \def\fLen{0.25*\cLen}
+    \def\eLen{0.20*\cLen}
+    \def\fY{2}
+    \def\eY{2*\fY}
+
+    \coordinate[label=left:cBeg] (cBeg)  at (0, 0);
+    \coordinate[label=right:cEnd] (cEnd)  at ($(cBeg) + (\cLen, 0)$);
+
+    \coordinate[label=left:$F\_lhs_{beg}$] (lfBeg) at ($(cBeg) + (0, \fY)$);
+    \coordinate[label=right:$F\_lhs_{end}$] (lfEnd) at ($(cBeg) + (\fLen, \fY)$);
+
+    \coordinate[label=left:$F\_rhs_{beg}$] (rfBeg) at ($(cEnd) + (-\fLen, \fY)$);
+    \coordinate[label=right:$F\_rhs_{end}$] (rfEnd) at ($(cEnd) + (0, \fY)$);
+
+    \coordinate[label=left:$E\_lhs_{beg}$] (leBeg) at ($(cBeg) + (\eLen*-0.5, \eY)$);
+    \coordinate[label=right:$E\_lhs_{end}$] (leEnd) at ($(cBeg) + (\eLen*0.5, \eY)$);
+
+    \coordinate[label=left:$E\_rhs_{beg}$] (reBeg) at ($(cEnd) + (-\eLen/2, \eY)$);
+    \coordinate[label=right:$E\_rhs_{end}$] (reEnd) at ($(cEnd) + (\eLen, \eY)$);
+
+    \coordinate[label=left:$c_{beg}^{\prime}$] (cBegp) at ($(cBeg) + (\eLen*-0.5, -\fY)$);
+    \coordinate[label=right:$c_{end}^{\prime}$] (cEndp) at ($(cEnd) + (\eLen, -\fY)$);
+
+    %\coordinate (leBreak) at ($(leBeg)!0.5!(leEnd)$) node {kk};
+
+    \coordinate (lhsExtStopCtg) at ($ (cBeg) + (\eLen/2, 0)$);
+    \coordinate (lhsFlkStopCtg) at ($ (cBeg) + (\fLen, 0)$);
+
+    \coordinate (rhsExtStopCtg) at ($ (cEnd) + (-\eLen/2, 0)$);
+    \coordinate (rhsFlkStopCtg) at ($ (cEnd) + (-\fLen, 0)$);
+
+    %\node (lshift) [] at ($(leBeg) -| (lfBeg)$)  {sasa};
+    \draw[loosely dashed] (leEnd) -- (lhsExtStopCtg) -- ($(cBegp) + (\eLen/2, 0)$);
+    \draw[loosely dashed] (lfEnd) -- (lhsFlkStopCtg) -- ($(cBegp) + (\fLen, 0)$);
+    \draw[loosely dashed] (lfBeg) -- (cBeg) -- (cBegp);
+    \draw[vrsgenome, vrsgenomecolor!60] (cBeg) -- (cEnd);
+    \draw[vrsgenome, vrsgenomecolor!60] (cBeg) -- (cEnd);
+    \draw[vrsgenome, vrsgenomecolor!60] (lfBeg) -- (lfEnd);
+    \draw[vrsgenome, gray] (leBeg) -- (leEnd);
+    \draw[vrsgenome, gray] (reBeg) -- (reEnd);
+    \draw[vrsgenome] (cBegp) -- (cEndp);
+
+    \draw[vrsgenome, vrsgenomecolor!60] (rfBeg) -- (rfEnd);
+    \draw[loosely dashed] (reBeg) -- (rhsExtStopCtg) -- ($(cEndp) - (\eLen/2, 0)$);;
+    \draw[loosely dashed] (rfBeg) -- (rhsFlkStopCtg) -- ($(cEndp) - (\fLen, 0)$);
+
+    \draw[loosely dashed] (leBeg) -- (cBegp);
+    \draw[loosely dashed] (reEnd) -- (cEndp);
+    \draw[loosely dashed] (rfEnd) -- (cEnd) -- (cEndp);
+
+
+
+    \draw[->, very thick, loosely dashed]  ($(cBegp)+(0, -1)$) -- ($(cEndp)+(0, -1)$) node[below, midway] {Normalized direction during analysis};
+  \end{tikzpicture}

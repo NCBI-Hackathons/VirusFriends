@@ -1,0 +1,20 @@
+\begin{tikzpicture}
+  \def\n {30}
+  \node (vir)  at (8,6) {Virus reads};
+  \node (host) at (8,1) {Host/Sample reads};
+  \foreach \x in {0,...,\n} % draw n read
+  {
+    \pgfmathsetmacro{\Ya}{((random(\n)))/4 }
+    \pgfmathsetmacro{\Xa}{((random(\n)))/6  }
+    \pgfmathsetmacro{\La}{random()+0.5}
+    \ifthenelse{\x>25}
+    {
+      \draw[red, dna, very thick] (\Xa, \Ya) -- (\La+\Xa, \Ya);
+      \draw[->, shorten >=2pt,shorten <=2pt] (\La+\Xa, \Ya) -- (vir.west);
+    }
+    {
+     \draw[gray, dna] (\Xa, \Ya) -- (\La+\Xa, \Ya);
+      \draw[->, shorten >=2pt,shorten <=2pt, gray!60] (\La+\Xa, \Ya) -- (host.west);
+    }
+  }
+\end{tikzpicture}

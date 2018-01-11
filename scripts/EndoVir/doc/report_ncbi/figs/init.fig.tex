@@ -1,0 +1,27 @@
+\tikzset{%
+  db/.style = {cylinder, draw},
+  tool/.style = {rectangle, draw},
+  data/.style = {},
+  func/.style = {},
+  fake/.style = {}
+}
+
+\begin{tikzpicture}
+
+  \node (mapper)    [tool] {magicBLAST};
+  \node (refseq)    [db,  above = of mapper] {RefSeq};
+  \node (sra)       [db,  below = of mapper] {SRA};
+  \node (asm)       [tool, right = of mapper]             {Assembler};
+  \node (mscreen)   [tool, right = of asm]                {Motif screen};
+  \node (reject)    [data, right = of mscreen]            {Rejected contigs};
+  \node (ctgs)      [data, below = of mscreen]            {Contigs};
+  \node (bud)       [func, below = of ctgs]               {BUD};
+
+  \path[->] (refseq)    edge (mapper)
+            (sra)       edge (mapper)
+            (mapper)    edge (asm)
+            (asm)       edge (mscreen)
+            (mscreen)   edge (reject)
+                        edge (ctgs)
+            (ctgs)      edge (bud);
+\end{tikzpicture}

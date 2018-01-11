@@ -1,0 +1,103 @@
+\begin{tikzpicture}%[>=latex,shorten >=2pt,shorten <=2pt]
+ \tikzset
+ {
+  box/.style = {fill=gray!10,rounded corners, draw=black!50, dashed},
+  boxtxt/.style = {font=\bfseries}
+ }
+  \pgfdeclarelayer{background}
+  \pgfdeclarelayer{foreground}
+  \pgfsetlayers{background,main,foreground}
+
+  \begin{scope}[yshift=0]
+    \node (db)  [db,    inner sep=0.5em] at (1,-1)      {Flanks};
+    \node (mb)  [tool,  inner sep=0.5em, right = of db] {magicBLAST};
+    \node (sra) [db,    inner sep=0.5em, right = of mb] {SRA};
+
+    \def\n {4}
+    \coordinate (lf) at (-3em, \n/2/\n);
+    \coordinate (rf) at (9 em, \n/2/\n);
+    \foreach \y in {0,...,\n}
+    {
+      \pgfmathsetmacro{\Xa}{(random(\n)/\n)}
+      \pgfmathsetmacro{\len}{random(2,5)+\Xa}
+      \pgfmathsetmacro{\lb}{\Xa-0.15em}
+      \pgfmathsetmacro{\rb}{\len+0.15em}
+      \coordinate (lb) at (\lb em, \y  em);
+      \coordinate (ctgA) at (\Xa em, \y em);
+      \coordinate (ctgB) at (\len em, \y em);
+      \coordinate (rb) at (\rb em, \y em);
+      \draw[leftfl, shorten >=2pt,shorten <=2pt, dna] (lb) -- (ctgA);
+      \draw[dna] (ctgA) -- (ctgB);
+      \draw[dna, rightfl, shorten >=2pt,shorten <=2pt] (ctgB) -- (rb);
+      \draw[leftfl, shorten <=2pt] ($(lb)!0.5!(ctgA)$) -- (db.north);
+      \draw[rightfl, shorten <=2pt] ($(ctgB)!0.5!(rb)$) -- (db.north);
+
+    }
+    \path[->, path, shorten >=2pt,shorten <=2pt]
+      (db)  edge (mb)
+      (sra) edge (mb);
+    \begin{pgfonlayer}{background}
+      \path (lb.west |- lb.north)+(-0.5, 0.5) node (a) {};
+      \path (sra.south -| sra.east)+(+0.5,-0.5) node (b) {};
+      \path[boxtxt] (a -| b)+(0, 0.25) node (t.east) {Screen flanks};
+      \path[box]
+          (a) rectangle (b);
+    \end{pgfonlayer}
+  \end{scope}
+
+  \begin{scope}[yshift=3em]
+    \coordinate (A) at ($ (mb.east)+(0, -1.5)$);
+    \coordinate (B) at ($ (mb.east)+(1, -1.5)$);
+    \coordinate (Z) at ($ (mb.west)+(0, -1.5)$);
+    \coordinate (Y) at ($ (mb.west)+(-1, -1.5)$);
+    \draw[dna] (A) -- (B);
+    \draw[->, path] (mb.south) -- ($(Z)!0.5!(Y) + (0,0.2)$);
+    \draw[->, path] (mb.south) -- ($(A)!0.5!(B) + (0,0.2)$);
+    \draw[dna, path, color=black!70] (A) -- (Z);
+    \draw[dna] (Z) -- (Y);
+
+    \def\n {4}
+    \def\sp {0.15}
+    \coordinate (K) at ($ (A)+(0.5, -\sp)$);
+    \coordinate (L) at ($ (B)+(0.5, -\sp)$);
+    \coordinate (Q) at ($ (Z)+(-0.5, -\sp)$);
+    \coordinate (R) at ($ (Y)+(-0.5, -\sp)$);
+    \draw[dna, rightfl](K) -- (L);
+    \draw[dna, leftfl](Q) -- (R);
+    \foreach \y in {2,...,\n}
+    {
+      \pgfmathsetmacro{\Xa}{(random()-0.3}
+      \coordinate (C) at ($ (A)+(\Xa, -\y*\sp)$);
+      \coordinate (D) at ($ (B)+(\Xa, -\y*\sp)$);
+      \coordinate (V) at ($ (Z)+(-\Xa, -\y*\sp)$);
+      \coordinate (W) at ($ (Y)+(-\Xa, -\y*\sp)$);
+      \draw[dna, rightfl!60] (C) - - (D);
+      \draw[dna, leftfl!60]  (V) - - (W);
+    }
+
+    \coordinate (0) at ($(L)+(0,-1)$);
+    \coordinate (1) at ($(A)+(0,-1.15)$);
+    \coordinate (2) at ($(R)+(0,-1)$);
+    \coordinate (3) at ($(Z)+(0,-1.15)$);
+
+    \draw[dna, rightfl] (0) -- (1);
+    \draw[dna, leftfl] (2) -- (3);
+
+    \begin{pgfonlayer}{background}
+      \path (Y -| a)+(0, 0.5) node (z) {};
+      \path (1 -| b)+(0, -0.5) node (y) {};
+      \path[boxtxt] (z -| y)+(0, 0.25) node (t.east) {Extend flanks};
+      \path[box]
+          (z) rectangle (y);
+    \end{pgfonlayer}
+  \end{scope}
+
+  \begin{scope}
+    \node [tool] (blast) [below = 5em of Z.west] {BLASTN};
+    \draw[->, path, shorten >=2pt,shorten <=2pt] (db) |- (blast);
+    \coordinate (topB) at ($(blast.north)+(0,0.4)$);
+    \draw[->, path, shorten <=2pt,shorten >=2pt] ($(0)!0.5!(1)$) |- (topB) -- (blast.north);
+    \draw[path] ($(2)!0.5!(3)$) |- (topB);
+    \draw[path] ($(2)!0.5!(3)$) |- (topB);
+  \end{scope}
+\end{tikzpicture}

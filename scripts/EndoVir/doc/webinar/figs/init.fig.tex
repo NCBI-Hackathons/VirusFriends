@@ -1,0 +1,25 @@
+\begin{tikzpicture}[>=latex,shorten >=2pt,shorten <=2pt, thick]
+
+  \node (mapper)    [tool] {magicBLAST};
+  \node (refseq)    [db,   above=of mapper]  {RefSeq Virus};
+  \node (mbparser)  [function, right=of mapper] {parser};
+  \node (vdbdump)   [tool, right=5em of mbparser]   {vdb-dump};
+  \node (sra)       [db,  below = of mapper]  {SRA};
+  \node (asm)       [tool, right = of vdbdump]   {megahit};
+  \node (mscreen)   [tool, below = of asm]      {rpstblastn};
+  \node (reject)    [data, below = 4em of mscreen]  {Rejected contigs};
+  \node (ctgs)      [data, left =of reject]  {Contigs};
+  \node (cdd)       [db, left = of mscreen]    {Virus Cdd};
+  \node (bud)       [function, below = of ctgs] {BUD};
+
+  \path[->] (refseq)    edge (mapper)
+            (sra)       edge (mapper)
+            (mapper)    edge[pipe, -] (mbparser)
+            (mbparser)  edge[pipe] node[flowcomment] {SRA rowids} (vdbdump)
+            (vdbdump)   edge[path] node[flowcomment] {Reads} (asm)
+            (asm)       edge[pipe] node[flowcomment, right] {Contigs} (mscreen)
+            (cdd)       edge (mscreen)
+            (mscreen.south)   edge node[flowcomment, right=1em] {no virus domains} (reject)
+                        edge node[flowcomment, left=1em] {virus domains} (ctgs)
+            (ctgs)      edge (bud);
+\end{tikzpicture}

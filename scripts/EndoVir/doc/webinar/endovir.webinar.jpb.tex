@@ -1,0 +1,251 @@
+%%%%%%%%%%%%%%%%%%%%%%
+% Endovir NCBI Webinar 2018-01-09/10
+% (c) jpb, jan.buchmann@sydney.edu.au
+%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme{default}
+\usepackage{inconsolata}
+\hypersetup{pdfstartview={Fit}}
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}[frame number]
+\usepackage{xspace}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage{ifthen}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{bibentry}
+  \lstset{basicstyle=\tiny\ttfamily,breaklines=true}
+  \usetikzlibrary{shapes.geometric, positioning, calc, shadings}
+  \tikzset{%
+  db/.style = {cylinder, draw, fill=white, inner sep=3pt},
+  tool/.style = {rectangle, draw, fill=white, inner sep=3pt, font=\ttfamily},
+  function/.style = {functioncolor, inner sep=3pt},
+  data/.style = {},
+  orf/.style = {rectangle, font=\bfseries, inner sep=3pt, fill=orfcolor},
+  fake/.style = {},
+  path/.style = {thick},
+  vrsgenome/.style = {draw, ultra thick, vrsgenomecolor},
+  hostgenome/.style = {draw, ultra thick, hostgenomecolor},
+  pipe/.style = {draw, very thick, dashed},
+  end/.style = {font=\large, very thick},
+  title/.style = {font=\bfseries},
+  flowcomment/.style = {font=\small\itshape, above},
+  partLabel/.style = {font=\bfseries, fill=gray!10,rounded corners,
+                      draw=black!50, dashed},
+  every legend to name picture/.style={west}
+  }
+  \pgfdeclareplotmark{db}{\node [cylinder, draw=black] {};}
+  \definecolor{orfcolor}{rgb}{0.89,0.33,0.25}
+  \definecolor{vrsgenomecolor}{rgb}{0.89,0.33,0.25}
+  \definecolor{hostgenomecolor}{rgb}{0.48,0.55,0.55}
+  \definecolor{rightfl}{rgb}{0.14,0.75,0.4}
+  \definecolor{leftfl}{rgb}{0.64,0.06,0.06}
+  \definecolor{functioncolor}{rgb}{0.17,0.48,0.71}
+
+
+%%% Titleslide  %%%
+\title[]{Endovir}
+\subtitle{A pipeline to identify endogenous viruses in SRA datasets\\[1em]
+          \small{\url{https://github.com/NCBI-Hackathons/EndoVir}}}
+\author[]{Jan P. Buchmann}
+\institute{NCBI, NLM, NIH, Bethesda, MD, USA \\
+           The University of Sydney, Sydney, Australia}
+\date{2018-01-09}
+%**************************
+
+
+\begin{document}
+  \titlepage
+
+  \begin{frame}{Foreword}
+    \begin{block}{Based on previous work}
+      \begin{itemize}
+        \item ViruSpy \footnote{https://github.com/NCBI-Hackathons/ViruSpy}
+        \item Logic  mostly implemented in Bash and Perl \\
+              $\rightarrow$ Complex to expand and adjust
+        \item Initiated during my stay as a visiting bioinformatician as NCBI
+              from Oct.2017 to Dec. 2017.
+        \item Ongoing
+      \end{itemize}
+    \end{block}
+  \end{frame}
+
+
+
+  \begin{frame}{Foreword}
+    \begin{block}{Standing on the shoulder of giants}
+      \begin{itemize}
+        \item Karina Zile, karina.zile@gmail.com
+        \item Mitchell A. Ellison II, mae92@pitt.edu
+        \item Jacob Waldman, jaw267@pitt.edu
+        \item Kristyna Kupkova, kupkova@feec.vutbr.cz
+        \item Cody Glickman, cody.glickman@ucdenver.edu
+        \item Andrew Clugston, andrew.clugston@pitt.edu
+        \item Paul G. Cantalupo, pcantalupo@gmail.com
+        \item Vineet Raghu, vineet@cs.pitt.edu
+      \end{itemize}
+    \end{block}
+  \end{frame}
+
+  \begin{frame}{Exogenous viruses}
+    \begin{itemize}
+      \item Integration into host genome not required for replication
+      \item Hist genome integration occurs occasionally, e.g. Human Herpes virus 6
+      \item Not part of the host genome
+      \item RNA viruses: $\le \approx$ 40~kb
+      \item DNA viruses: $\le \approx$ 2~Mbp
+    \end{itemize}
+    \center
+    \input{figs/exovir.fig.tex}
+  \end{frame}
+
+  \begin{frame}{Endogenous viral element (EVEs)}
+      \center
+        \input{figs/endovir.fig.tex}
+      \begin{itemize}
+        \item Integration into host genome mandatory for replication
+        \item Retroviridae, e.g. HIV
+        \item Part of the host genome
+        \item Not widely analyzed: complex analysis and missing data
+              \footnote{Katzourakis, A. and Gifford, R.J. (2010). PLos Genet., 6, e1001191}
+        \item Allowing to date virus evolution
+        \item Characterize the mechanisms that underpin the integration of
+              viruses into host genomes
+      \end{itemize}
+  \end{frame}
+
+  \begin{frame}{SRA data: a treasure trove for virus genomics}
+    \begin{itemize}
+      \item SRA data contains host and virus sequences
+      \item Exo/Endogenous and putative novel viruses
+    \end{itemize}
+    \input{figs/sra.fig.tex}
+  \end{frame}
+
+
+  \begin{frame}{BUD algorithm}
+    \begin{itemize}
+      \item "Building Up Domains"
+    \end{itemize}
+    \center
+    \includegraphics[width=\linewidth]{figs/bud_algo.jpg}
+  \end{frame}
+
+
+  \begin{frame}{Endovir}
+    \begin{description}
+      \item[Open source] MIT license
+      \item[Modern] Implemented in Python 3 (3.6)
+      \item[Independent] Using only Python standard libraries
+      \item[Limited disk I/O] Using pipes where possible
+      \item[Modularity] Changing external tools, e.g. assembler,
+                         without touching Endovir internals
+      \item[Status] Alpha, ongoing development
+    \end{description}
+  \end{frame}
+
+  \begin{frame}{Biological databases}
+    Endovir uses two biological databases:
+    \begin{description}
+        \item[Sequences] Virus genomes sequences from RefSeq
+        \item[Domains] virus-specific Cdd database. We provide a setup script
+                       to create the Cdd database
+    \end{description}
+  \end{frame}
+
+  \begin{frame}{Usage}
+    \input{listings/usage.lst.tex}
+  \end{frame}
+
+  \begin{frame}{Workflow}
+    \resizebox{\linewidth}{!}{\input{figs/workflow.fig.tex}}
+  \end{frame}
+
+  %\begin{frame}{Workflow}
+    %\resizebox{\linewidth}{!}{\input{figs/flanker.fig.tex}}
+  %\end{frame}
+
+  \begin{frame}{Init: current version}
+    \resizebox{\linewidth}{!}{\input{figs/init.fig.tex}}
+  \end{frame}
+
+  \begin{frame}{Init: SRR5150787 example (Ebola)}
+    \includegraphics[width=0.9\linewidth]{figs/ebovexample/ebov_contigs.pdf}
+  \end{frame}
+
+  \begin{frame}{Endovir's contig model}
+    \resizebox{\linewidth}{!}{\input{figs/contig_model.tex}}
+  \end{frame}
+
+  \begin{frame}{BUD: Extending}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \input{figs/bud.i.fig.tex}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \input{listings/extend.stdout.lst.tex}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}{BUD: Extending}
+    \includegraphics[width=0.9\linewidth]{figs/ebovexample/flanks/flankext.pdf}
+    \input{listings/extend2.stdout.lst.tex}
+  \end{frame}
+
+  \begin{frame}{BUD: Extending}
+    \includegraphics[width=\linewidth]{figs/ebovexample/flanks/flankgrow.pdf}
+  \end{frame}
+
+
+  \begin{frame}{BUD: Overlap check}
+    \input{figs/bud.ii.fig.tex}
+  \end{frame}
+
+  \begin{frame}{BUD: Overlap check}
+    \input{listings/merge.stdout.lst.tex}
+  \end{frame}
+
+  \begin{frame}{BUD: Break conditions}
+    \begin{description}
+      \item[Extending into host genome]  Empty Cdd database screen
+      \item[No grow] Contig was not extended
+      \item[No contigs] No contigs were identified
+    \end{description}
+  \end{frame}
+
+  \begin{frame}{Modularity}
+    \begin{itemize}
+     \item Facilitating extending and adding other tools using classes
+           which act as messenger between tool and Endovir.
+    \end{itemize}
+    \input{listings/alignment_base.lst.tex}
+  \end{frame}
+
+
+  \begin{frame}{Outlook}
+    \begin{itemize}
+     \item Adjust tool parameters on the fly
+     \item Replace SRA toolkit with NCBI's ngs-python
+     \item Test on more diverse datasets
+     \item Docker
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Acknowledgments}
+    \begin{itemize}
+      \item Ben Busby
+      \item Niki Athanasiadou
+      \item Yadi Zhou
+      \item Richard Copin
+      \item Jeff Robinson
+      \item Greg Boratyn
+      \item Virus Genome Refseq Group at NCBI
+      \item Edward C. Holmes
+    \end{itemize}
+  \end{frame}
+
+\end{document}

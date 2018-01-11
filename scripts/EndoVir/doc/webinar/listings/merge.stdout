@@ -1,0 +1,31 @@
+Checking flanks for overlaps
+Blast results: ctg_0_lhs vs. ctg_0_lhs
+Not an overlap
+-----------
+Blast results: ctg_0_lhs vs. ctg_2_rhs
+Checking ctg_0_lhs and ctg_2_rhs
+ctg_2:rhs + ctg_0:lhs
+LHS:  130
+RHS 117
+oLHS: 129
+oRHS  139
+Src: ctg_2  7724
+ RHS_flank: 7224  7724  500
+  Extension: 7544 7606  182
+Dst: ctg_0  5482  0 126 0
+Brk: ctg_2  7597  ctg_0 129
+--------------------------------------
+Blast results: ctg_0_rhs vs. ctg_1_lhs
+Checking ctg_0_rhs and ctg_1_lhs
+  Update: ctg_0 is now ctg_2
+ctg_2 ctg_1
+ctg_2:rhs + ctg_1:lhs
+LHS:  130
+RHS 0
+oLHS: 134
+oRHS  12
+Src: ctg_2  7724
+ RHS_flank: 7224  7724  500
+  Extension: 10428  10568 0
+Dst: ctg_1  5042  0 134 0
+Brk: ctg_2  7589  ctg_1 134

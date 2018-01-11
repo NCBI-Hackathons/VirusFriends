@@ -1,0 +1,27 @@
+\begin{tikzpicture}[node distance=1cm]
+   \tikzset{%
+      n/.style = {orf, minimum width=0.7cm},
+      m/.style = {orf, minimum width=0.85cm},
+      g/.style = {orf, minimum width=0.83cm},
+      l/.style = {orf, minimum width=3.2cm},
+      }
+    \def\d {0.2}
+
+    \node (lead)  [end]                           {3$^{\prime}$};
+    \node (n)     [orf, n, right = \d cm of lead] {N};
+    \node (m)     [orf, m, right = \d cm of n] {M};
+    \node (g)     [orf, g, right = \d cm of m]    {G};
+    \node (l)     [orf, l, right = \d cm of g]    {L};
+    \node (trail) [end, right = \d cm of l]       {5$^{\prime}$};
+    \coordinate (tpos) at ($(lead)!.5!(trail)$);
+
+    \draw[vrsgenome] (lead) -- (n) -- (m) -- (g) -- (l) -- (trail);
+    \node at (tpos) [title, above = 1em] {Rabies virus};
+    \draw[|-|, semithick] ($(lead.east) + (0, -0.5)$) -- ($(trail.west) + (0, -0.5)$) node[midway, below] {11~kb};
+
+    %\begin{scope}[yshift=-4em]
+      %\node (leg0) at (0,0) [draw, orf, fill=struc] {};
+      %\node [right = of leg0] {Strucutral ORF};
+      %\node (leg1)[below = of leg0] {Strucutral ORF};
+    %\end{scope}
+\end{tikzpicture}

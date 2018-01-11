@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+  \def\d {0.2}
+  \node (lead)    [end]                           {5$^{\prime}$};
+  \node (vrsbeg)  [right = 2 cm of lead]          {};
+  \node (orf0)    [orf, right = \d cm of vrsbeg]  {ORF1};
+  \node (orf1)    [orf, right = \d cm of orf0]    {ORF2};
+  \node (orf2)    [orf, right = \d cm of orf1]    {ORF3};
+  \node (vrsend)  [right = \d cm of orf2]         {};
+  \node (trail)   [end, right = 2 cm of vrsend]     {3$^{\prime}$};
+  \draw[hostgenome] (lead) -- (vrsbeg.east);
+  \draw[vrsgenome] (vrsbeg) -- (orf0) -- (orf1) -- (orf2) -- (vrsend);
+  \draw[hostgenome] (vrsend.west) -- (trail);
+  \draw[|-|, semithick] ($(vrsbeg.east) + (0, -0.5)$) -- ($(vrsend.west) + (0, -0.5)$) node [midway, below] {$\le$20~kb};
+
+\end{tikzpicture}
