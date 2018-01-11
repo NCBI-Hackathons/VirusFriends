@@ -1,4 +1,4 @@
-# GoodDoc -- A Template for Simple and Clear Documentation of Bioinformatics Code!
+# VirusFriends -- A pipeline for surveying and exporing related viral strains from SRA datasets
 
 ## Please cite our work -- here is the ICMJE Standard Citation:
 
