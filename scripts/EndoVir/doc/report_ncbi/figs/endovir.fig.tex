@@ -1,0 +1,20 @@
+\begin{tikzpicture}
+   \tikzset{%
+      prot/.style = {rectangle, draw},
+      dna/.style = {black, thick},
+      strucorf/.style = {fill=struc, inner sep=1pt},
+      funcorf/.style = {fill=func, inner sep=1pt},
+      end/.style = {font=\small},
+      mid/.style = {black, thick, minimum width=0.1mm}
+      }
+    \def\d {0.15}
+    \node (lead)    [end]                                   {5$^{\prime}$};
+    \node (orf0)    [prot, strucorf, right = 3 cm of lead] {ORF1};
+    \node (orf1)    [prot, funcorf, right = \d cm of orf0]  {ORF2};
+    \node (orf2)    [prot, strucorf, right = \d cm of orf1] {ORF3};
+    \node (trail)   [end, right = 2 cm of orf2]            {3$^{\prime}$};
+    \draw[dna] (lead) -- (orf0);
+    \draw[mid] (orf0) -- (orf1);
+    \draw[mid] (orf1) -- (orf2);
+    \draw[dna] (orf2) -- (trail);
+\end{tikzpicture}

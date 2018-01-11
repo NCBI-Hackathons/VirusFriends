@@ -1,0 +1,10 @@
+usage: endovir.py [-h] [-srr SRR] [--wd WD] [--max_cpu MAX_CPU]
+
+Endovir
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -srr SRR              SRR number, e.g. SRR5150787
+  --wd WD               Working directory for analysis
+  --max_cpu MAX_CPU, -p MAX_CPU
+                        Max number of cores to use. NOT YET IMPLEMENTED

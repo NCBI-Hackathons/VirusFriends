@@ -1,0 +1,103 @@
+%% https://tex.stackexchange.com/questions/62262/legend-in-tikzpicture
+% argument #1: any options
+\newenvironment{customlegend}[1][]{%
+    \begingroup
+    % inits/clears the lists (which might be populated from previous
+    % axes):
+    \csname pgfplots@init@cleared@structures\endcsname
+    \pgfplotsset{#1}%
+}{%
+    % draws the legend:
+    \csname pgfplots@createlegend\endcsname
+    \endgroup
+}%
+
+% makes \addlegendimage available (typically only available within an
+% axis environment):
+\def\addlegendimage{\csname pgfplots@addlegendimage\endcsname}
+
+%%--------------------------------
+
+% definition to insert numbers
+\pgfkeys{/pgfplots/number in legend/.style={%
+        /pgfplots/legend image code/.code={%
+            \node at (0.125,-0.0225){#1}; % <= changed x value
+        },%
+    },
+}
+
+  \def\blockdist{0.3}
+  \begin{tikzpicture}[>=latex,shorten >=2pt,shorten <=2pt]
+    \pgfdeclarelayer{background}
+    \pgfdeclarelayer{foreground}
+    \pgfsetlayers{background,main,foreground}
+
+    \node (mapper)    [tool] {mapper};
+    \node (refseq)    [db,  above = of mapper]    {RefSeq Virus};
+    \node (sra)       [db,  below = of mapper]    {SRA};
+    \node (fmapper)   [tool, below = of sra]   {mapper};
+    \node (flankdb)   [db,   right = of fmapper]      {FlankDb};
+    \node (flanker)   [function, right = of flankdb]  {flanker};
+    \node (asm)       [tool] at (mapper -| flanker)   {assembler};
+    \node (ctgs)      [data, right = of flanker]  {Contigs};
+    \node (extend)    [function, below = 4em of fmapper] {extender};
+    \node (blastn)    [tool, below = 4em of flankdb]   {blastn};
+    \node (ctgInsp)   [function, right = of blastn]   {contig inspector};
+    \node (cscreen)   [tool, right = of ctgs]     {rpstblastn};
+    \node (ctgMerge)  [function] at (ctgInsp -| cscreen)  {contig fuser};
+    \node (cdd)       [db, above = of cscreen]    {Virus Cdd};
+    \node (reject)    [data, right = of cdd]  {Rejected contigs};
+    \node (mscreen)   [tool] at (asm -| cscreen)      {rpstblastn};
+
+    \path[->] (refseq)        edge [path] (mapper)
+              (sra)           edge [path] (mapper)
+                              edge [path] (fmapper)
+              (mapper)        edge [path] (asm)
+              (asm)           edge [pipe] (mscreen)
+              (cdd)           edge [path] (mscreen)
+                              edge [path] (cscreen)
+              (mscreen)       edge [path] (reject.west)
+                              edge [pipe] (ctgs)
+              (ctgs)          edge [pipe, -] (flanker)
+              (flanker)       edge [pipe] (flankdb)
+              (flankdb)       edge [path] (fmapper)
+                              edge [path] (blastn)
+              (fmapper)       edge [pipe, -] (extend)
+              (extend)        edge [pipe] (blastn)
+              (blastn)        edge [pipe, -] (ctgInsp)
+              (ctgInsp.east)  edge [pipe] node [above, left=1em] {no overlaps} (cscreen.south)
+                              edge [pipe, -] node [below] {overlaps} (ctgMerge.west)
+              (ctgMerge)      edge [pipe] (cscreen)
+              (cscreen)       edge [path] (ctgs)
+              (cscreen.east)  edge [path] (reject.west);
+
+    \path[partLabel] (asm.north) + (0,+2*\blockdist) node (inital_desc) {Initial run};
+    \path[partLabel] (flanker.north) +(0,+2*\blockdist) node (bud) {BUD};
+    \begin{pgfonlayer}{background}
+      \path (mapper.west |- mapper.north)+(-0.3, \blockdist) node (a) {};
+      \path (mscreen.south -| mscreen.east)+(+0.3,-0.3) node (b) {};
+
+
+      \path (fmapper.west |- fmapper.north)+(-0.3, \blockdist) node (c) {};
+      \path (ctgMerge.south -| ctgMerge.east)+(+0.3, -0.3) node (d) {};
+      \path[partLabel]
+          (a) rectangle (b);
+      \path[partLabel]
+          (c) rectangle (d);
+    \end{pgfonlayer}
+    \begin{customlegend}[legend cell align=left, %<= to align cells
+                         legend entries={ % <= in the following there are the entries
+                                           External tools,
+                                           Database,
+                                           I/O,
+                                           Piping (no disk I/O),
+                                           Endovir functions},
+                         legend style={at={($(d.east) + (0, -1)$)},font=\footnotesize}] % <= to define position and font legend
+    % the following are the "images" and numbers in the legend
+        \addlegendimage{area legend}
+        \addlegendimage{mark=db, draw=white}
+        \addlegendimage{color=black}
+        \addlegendimage{style=dashed, color=black}
+        \addlegendimage{color=functioncolor}
+    \end{customlegend}
+  \end{tikzpicture}

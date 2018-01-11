@@ -1,0 +1,20 @@
+ \begin{tikzpicture}[>=latex,shorten >=2pt,shorten <=2pt]
+
+    \node (ctgs)        [data]  {Contigs};
+    \node (flanker)     [function, below = of ctgs]  {flanker};
+    \node (flankeexp)   [left = 1em of flanker, font=\small\itshape, text width=2.75cm]  {Extracting 500bp \\ rhs and lhs flanks};
+    \node (flankdb)     [db,   below = of flanker]      {FlankDb};
+    \node (fmapper)     [tool, below = of flankdb]      {magicBLAST};
+    \node (extender)    [function, below = of fmapper]   {extender};
+    \node (extenderexp) [left = 1em of extender, font=\small\itshape, text width=2.75cm]   {Find read with \\ longest extension};
+    \node (vdbdump)     [tool, right = of extender]   {vdb-dump};
+    \node (blastn)      [tool, below = of extender]   {blastn};
+    \node (sra)         [db,  left = of fmapper]    {SRA};
+    \path[->] (ctgs)      edge[pipe, -] (flanker)
+              (flanker)   edge[pipe]    (flankdb)
+              (flankdb)   edge[path] (fmapper)
+              (fmapper)   edge[pipe, -] (extender)
+              (extender)  edge[pipe, <->] (vdbdump)
+                          edge[pipe] (blastn)
+              (sra)       edge (fmapper);
+  \end{tikzpicture}

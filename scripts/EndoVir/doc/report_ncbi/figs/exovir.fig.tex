@@ -1,0 +1,30 @@
+\begin{tikzpicture}[node distance=1cm]
+   \tikzset{%
+      prot/.style = {rectangle, draw},
+      dna/.style = {black, thick},
+      n/.style = {fill=struc, inner sep=1pt, minimum width=0.9cm},
+      p/.style = {fill=func, inner sep=1pt, minimum width=0.4cm},
+      lnyv/.style = {fill=func, inner sep=1pt, minimum width=0.4cm},
+      m/.style = {fill=struc, inner sep=1pt, minimum width=0.25cm},
+      g/.style = {fill=struc, inner sep=1pt, minimum width=0.75cm},
+      l/.style = {fill=func, inner sep=1pt, minimum width=2.5cm},
+      end/.style = {font=\small},
+      mid/.style = {black, thick, minimum width=0.1mm}
+      }
+    \def\d {0.15}
+    \node (lead)    [end]                  {3$^{\prime}$};
+    \node (n)       [prot, n, right = \d cm of lead] {N};
+    \node (p)       [prot, p, right = \d cm of n]    {P};
+    \node (lnyv)    [prot, lnyv, right = \d cm of p]    {LNYV};
+    \node (m)       [prot, m, right = \d cm of lnyv] {M};
+    \node (g)       [prot, g, right = \d cm of m]    {G};
+    \node (l)       [prot, l, right = \d cm of g]    {L};
+    \node (trail)   [end, right = \d cm of l]     {5$^{\prime}$};
+    \draw[dna] (lead) -- (n);
+    \draw[mid] (n) -- (p);
+    \draw[mid] (p) -- (lnyv);
+    \draw[mid] (lnyv) -- (m);
+    \draw[mid] (m) -- (g);
+    \draw[mid] (g) -- (l);
+    \draw[dna] (l) -- (trail);
+\end{tikzpicture}
