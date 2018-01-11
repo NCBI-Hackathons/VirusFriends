@@ -5,12 +5,12 @@ import pysam
 
 
 
-def sort_matches(samfile, outdir, MIN_MATCHED_BASES = 50, WEAK_MATCH_THRESHOLD=0.8, STRONG_MATCH_THRESHOLD=0.7, new_name=None, log=True):
-    print('start')
-    if not new_name:
-        new_name = samfile.split('.')[0].split('/')[-1]
+def sort_matches(samfile, outdir, MIN_MATCHED_BASES = 50, WEAK_MATCH_THRESHOLD=0.8, STRONG_MATCH_THRESHOLD=0.7, log=True):
+
     if not outdir.endswith('/'):
         outdir = outdir + '/'
+
+    new_name = samfile.split('.')[0].split('/')[-1]
 
     if samfile.endswith('.sam'):
         readtype = 'r'
@@ -49,12 +49,14 @@ def sort_matches(samfile, outdir, MIN_MATCHED_BASES = 50, WEAK_MATCH_THRESHOLD=0
             strong_reads.append(read)
 
     #write strong reads to new file:
-    outfile = pysam.AlignmentFile(outdir + new_name + ".sam", "w", template=samfile)
-    for read in strong_reads:
-        outfile.write(read)
+    with open(outdir + 'strong_' + new_name + '.fasta', 'w') as outfile:
+        for read in strong_reads:
+            refname = read.query_name
+            dna = read.get_reference_sequence()
+            outfile.write('>{}\n{}\n'.format(refname, dna))
 
     #write fasta file
-    with open(outdir + new_name + '.fasta', 'w') as outfile:
+    with open(outdir + 'weak_' + new_name + '.fasta', 'w') as outfile:
         for read in weak_reads:
             refname = read.query_name
             dna = read.get_reference_sequence()
@@ -70,6 +72,7 @@ if __name__ == '__main__':
     parser.add_argument('-w', '--weak_match_threshold', help='Consider matches LESS than this % to be weak (and output to fasta); default .8', type=int)
     parser.add_argument('-s', '--strong_match_threshold', help='Consider matches GREATER than this % to be strong (and output to a new samfile); default .7', type=int)
     parser.add_argument('-v', '--verbose', help='Output a log file of the initial input stats. NOT WORKING', action='store_true')
+
 
     try:
         args = parser.parse_args()
@@ -90,5 +93,5 @@ if __name__ == '__main__':
     elif args.strong_match_threshold > 1:
         args.strong_match_threshold = args.strong_match_threshold/100
 
-    sort_matches(args.input, args.output)
+    sort_matches(args.input, args.output, args.length, args.weak_match_threshold, args.strong_match_threshold, args.verbose)
     sys.exit(0)
