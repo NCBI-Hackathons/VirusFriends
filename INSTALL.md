@@ -1,0 +1,1 @@
+Run setup.sh in EndoVir to download all of the databases you will need. You will have to run EndoVir from the work directory.
