@@ -1,33 +1,71 @@
-# VirusML
-A machine learning approach to identify and validate viruses from metagenomes
+# GoodDoc -- A Template for Simple and Clear Documentation of Bioinformatics Code!
 
-Filtering pipeline:
-Magic Blast against RefSeqVir (start with a low threshold)
-              |
-              | Filter on %ID
-              |----------------> 97%+, known virus 
-              |                 | 
-              |           Test for coverage -------> good coverage -> analysis TBD
-              |                 | bad coverage is lumped with partials
-              v                 v 
-            80-96%, partial virus
-                      |
-                      |
-                      v
-                Do awesome stuff
+## Please cite our work -- here is the ICMJE Standard Citation:
 
-Purpose:
-Surveying SRA for viral topography 
-Expand known viral database to include closely related sequences
+### ...and a link to the DOI:
 
-Pipeline:
-4000 reference viruses as our test dataset
-Run through our filtering step above
-Assemble contigs from the reads that survive filter
-Run flanker to help scaffold these viral seqs
+## Awesome Logo
 
-Future directions:
-* Instead of RefSeqVir, the reference could be any 
+### You can make a free DOI with zenodo <link>
 
-Notes:
-Endovir.py is a good reference to base our pipeline
+## Website (if applicable)
+
+## Intro statement
+
+## What's the problem?
+viral sequences 
+## Why should we solve it?
+
+# What is <this software>?
+
+Overview Diagram
+
+# How to use <this software>
+
+## Installation options:
+
+We provide two options for installing <this software>: Docker or directly from Github.
+
+### Docker
+
+The Docker image contains <this software> as well as a webserver and FTP server in case you want to deploy the FTP server. It does also contain a web server for testing the <this software> main website (but should only be used for debug purposes).
+
+1. `docker pull ncbihackathons/<this software>` command to pull the image from the DockerHub
+2. `docker run ncbihackathons/<this software>` Run the docker image from the master shell script
+3. Edit the configuration files as below
+
+### Installing <this software> from Github
+
+1. `git clone https://github.com/NCBI-Hackathons/<this software>.git`
+2. Edit the configuration files as below
+3. `sh server/<this software>.sh` to test
+4. Add cron job as required (to execute <this software>.sh script)
+
+### Configuration
+
+```Examples here```
+
+# Testing
+
+We tested four different tools with <this software>. They can be found in [server/tools/](server/tools/) . 
+
+# Additional Functionality
+
+### DockerFile
+
+<this software> comes with a Dockerfile which can be used to build the Docker image.
+
+  1. `git clone https://github.com/NCBI-Hackathons/<this software>.git`
+  2. `cd server`
+  3. `docker build --rm -t <this software>/<this software> .`
+  4. `docker run -t -i <this software>/<this software>`
+  
+### Website
+
+There is also a Docker image for hosting the main website. This should only be used for debug purposes.
+
+  1. `git clone https://github.com/NCBI-Hackathons/<this software>.git`
+  2. `cd Website`
+  3. `docker build --rm -t <this software>/website .`
+  4. `docker run -t -i <this software>/website`
+  
