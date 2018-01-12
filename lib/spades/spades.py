@@ -21,9 +21,9 @@ class Spades:
 
   def run(self, reads, prefix=None, outdir='asm', cpu_threads=4):
     self.parser.reset()
-    cmd = [self.path, '-s',
-                      '-i', reads,
-                      '--meta',
+    cmd = [self.path, '-s', reads,
+#                      '--meta', # meta only takes paired reads and we can't be sure; add this in if you know you have pairs
+                      '--only-assembler',
                       '-t', str(cpu_threads),
                       '-m', '12']
 
