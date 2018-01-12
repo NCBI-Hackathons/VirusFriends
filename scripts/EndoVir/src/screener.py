@@ -84,7 +84,7 @@ class Screener:
     self.assembler = lib.megahit.megahit.Megahit()
     self.vdbdump = lib.vdbdump.vdbdump.VdbDump()
     self.cdd_screener = lib.blast.rps.rpstblastn.RpstBlastn()
-    self.sorter = lib.samsorter.samsorter.SamSorter()
+    self.sorter = lib.samsorter.sort_matches.Sorter()
     self.flankdb = flankdb.FlankDb(os.path.join(self.wd, 'flanks'), 'flanks')
     self.contigs = {}
 
