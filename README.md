@@ -17,14 +17,12 @@ It's being estimated that there are 3x10^31 viral particles in the world, but on
 
 ## Why should we solve it?
 
-# What is <this software>?
-
-Overview Diagram
+# What is VirusFriends?
 
 This is an implementation that is inpired on work developed on previous NCBI-hackatons as part of the Virus Discovery Project, the natural histor of this work is: SIDEARM --> Virome Sniff --> ViruSpy --> EndoVir --> VirusFriends
 
 Overview Diagram
-
+![VirusFriends Pipeline](images/Workflow.png)
 Step 1. Screen a set of SRA datasets for 
 
 Input: [a list of SRA ids] [a fasta file with the viral database]
