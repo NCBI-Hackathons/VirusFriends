@@ -63,23 +63,27 @@ class VirusFriends:
     vrs_ctgs = {}
     for i in srrs:
       print("Screening {0}".format(i), file=sys.stderr)
-      ##### Todo: add logic to check if sam file exists and is non-zero in size
-      samfile = "%s.sam" % i
-      if (os.path.isfile(samfile) and os.path.getsize(samfile) > 0):
-        print ("Oh hey, there's alread a sam file made!"
       s = screener.Screener(self.wd, i, self.dbs['virusdb'], self.dbs['cdd'])
-      #srr_alignments = s.screen_srr(s.srr, s.virus_db.path)
-      s.screen_srr(s.srr, s.virus_db.path)
-      wd = self.wd
-      srr_sam = os.path.join(wd,"magicblast.sam")
+      wd = os.path.join(self.wd, i)
+      ### Added logic here that checks for the existence of the sam file,
+      ###  and runs magicblast if it isn't there or is size 0
+      sambasename = "%s.sam" % i
+      samfile = os.path.join(wd, sambasename)
+      if (os.path.isfile(samfile) and os.path.getsize(samfile) > 0):
+        print ("There's already a sam file at %s, skipping magicblast." % samfile)
+      else:
+        print ("Could not find samfile at location %s, running magicblast." % samfile)
+        s.screen_srr(s.srr, s.virus_db.path, samfile)
+      #srr_sam = os.path.join(wd,"magicblast.sam")
 
-      print ("sam is %s and current working dir is %s" % (srr_sam, wd))
-      sortit = s.sort_matches(srr_sam, wd)
+      print ("sam is %s and current working dir is %s" % (samfile, wd))
+      sortit = s.sort_matches(samfile, wd)
       
       #vdb_parser = s.vdbdump.run(s.srr, srr_alignments)
       #contigs = s.assemble(vdb_parser.dump_to_file())
-      weak_fasta = os.path.join(wd,"weak_magicblast.fasta")
+      weak_fasta = os.path.join(wd,"weak_%s.fasta" % i)
       contigs = s.assemble(weak_fasta)
+      print ("contigs returns %s" % contigs)
       sys.exit(0)
 
       putative_virus_contigs = s.cdd_screen(contigs, s.cdd_db.path, os.path.join(s.wd, 'rpst'))
@@ -100,7 +104,7 @@ class VirusFriends:
         sys.exit()
 
 def main():
-  ap = argparse.ArgumentParser(description='Endovir')
+  ap = argparse.ArgumentParser(description='Virus_Friends')
   ap.add_argument('-srr', type=str, default='SRR5150787',
                   help='SRR number, e.g. SRR5150787'),
   ap.add_argument('--wd', type=str, default='analysis',
@@ -113,7 +117,7 @@ def main():
     print("Running test in {} using {}".format(args.wd, args.srr), file=sys.stderr)
   else:
     print("Analyzing  {} using {}.".format(args.srr, args.wd), file=sys.stderr)
-  e = Endovir(wd=args.wd)
+  e = VirusFriends(wd=args.wd)
   print("Checking databases", file=sys.stderr)
   e.setup()
   print("Starting screen", file=sys.stderr)

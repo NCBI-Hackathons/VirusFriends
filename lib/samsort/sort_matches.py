@@ -31,7 +31,7 @@ class Sorter:
             'samfile {} could not be opened by pysam, check that it is a BAM/SAM file. Error:\n{}\n'.format(samfile, e))
             sys.exit(1)
 
-        #print ("got here")
+        print ("got here")
             
         strong_reads = []
         weak_reads = []
