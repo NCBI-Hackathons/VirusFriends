@@ -10,7 +10,7 @@
 #  Version: 0
 
 export ENDOVIR=$PWD
-endovir_dbs="$ENDOVIR/work/analysis/dbs"
+endovir_dbs="$ENDOVIR/analysis/dbs"
 endovir_tools="$ENDOVIR/tools"
 endovir_pssms='endovir.pn'
 BASEDIR=$PWD
