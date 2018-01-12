@@ -54,7 +54,7 @@ function install_edirect()
 	esearch=$(which esearch)
 	efetch=$(which efetch)
 	xtract=$(which xtract)
-	if [ ! -z $esearch ] || [ ! -z $efetch ] || [ ! -z $xtract ]; then
+	if [ -z $esearch ] || [ -z $efetch ] || [ -z $xtract ]; then
 		## edirect
 		if [ $TESTONLY ]; then echo "NCBI edirect (https://www.ncbi.nlm.nih.gov/books/NBK179288/) will be installed"; fi
 		if [ $INSTALL ]; then
@@ -78,7 +78,7 @@ function install_edirect()
 function install_blast()
 {
 	makeprofiledb=$(which makeprofiledb)
-	if [ ! -z $makeprofiledb ]; then
+	if [ -z $makeprofiledb ]; then
 		## blast+
 		if [ $TESTONLY == 1 ]; then echo "NCBI blast+ (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/) will be installed"; fi
 		if [ $INSTALL == 1 ]; then
@@ -100,7 +100,7 @@ function install_blast()
 function setup_magicblast()
 {
 	magicblast=$(which magicblast)
-	if [ ! -z $magicblast ]; then
+	if [ -z $magicblast ]; then
 		if [ $TESTONLY == 1 ]; then echo "MagicBlast (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/magicblast/LATEST) whill be installed"; fi
 		if [ $INSTALL == 1 ]; then
 			echo "Installing magicblast"
