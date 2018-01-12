@@ -19,6 +19,7 @@ import lib.blast.blastdb.makeprofiledb
 
 import screener
 import virus_contig
+import logging as log
 
 verbose = False
 
@@ -82,9 +83,18 @@ class VirusFriends:
             self.dbs[i] = self.db_sources[i]['db']
             self.dbs[i].setup(src=self.db_sources[i]['src'])
 
-    def screen(self, srrs=[]):
+    def screen(self, inputs=[], intype="srr"):
         vrs_ctgs = {}
-        for i in srrs:
+        blastcmds = []
+        if (intype == "srr"):
+            blastcmds.append("-srr")
+        elif (intype == "fasta"):
+            blastcmds.append("-query")
+        elif (intype == "fastq"):
+            blastcmds.append(["infmt", "fastq", "-query"])
+        else:
+            raise ValueError("Input type %s isn't supported; try srr, fasta or fastq, please." % intype)
+        for i in inputs:
             print("Screening {0}".format(i), file=sys.stderr)
             s = screener.Screener(self.wd, i, self.dbs['virusdb'], self.dbs['cdd'])
             wd = os.path.join(self.wd, i)
@@ -134,8 +144,10 @@ class VirusFriends:
 
 def main():
     ap = argparse.ArgumentParser(description='Virus_Friends')
-    ap.add_argument('-inputs', type=str, nargs='*',  default=['SRR5150787'],
+    ap.add_argument('--inputs', type=str, nargs='*',  default=['SRR5150787'], required=True,
                     help='One or more SRR numbers or fastq/a file paths as input, e.g. SRR5150787 or testfile.fq'),
+    ap.add_argument('--intype', type=str, default='srr',
+                    help='Type of input provided - can be either srr, fasta or fastq')
     ap.add_argument('--wd', type=str, default='analysis',
                     help='Working directory for analysis')
     ap.add_argument('--max_cpu', '-p', type=int, default=1,
@@ -152,7 +164,9 @@ def main():
     args = ap.parse_args()
 
     global verbose
+    ### Refactor all print statements that just help debug into log.debug("blah blah") instead of print("blah blah")
     if args.verbose:
+        log.basicConfig(format='%(message)s',level=log.DEBUG)
         verbose = True
 
     # srrs = ['SRR5150787', 'SRR5832142']
@@ -167,7 +181,8 @@ def main():
     e.setup()
     if verbose:
         print("Starting screen", file=sys.stderr)
-    e.screen(args.inputs)
+        
+    e.screen(args.inputs, args.intype)
     return 0
 
 
