@@ -20,6 +20,8 @@ It's being estimated that there are 3x10^31 viral particles in the world, but on
 # What is VirusFriends?
 
 This is an implementation that is inpired on work developed on previous NCBI-hackatons as part of the Virus Discovery Project, the natural histor of this work is: SIDEARM --> Virome Sniff --> ViruSpy --> EndoVir --> VirusFriends
+VirusFriends is the latest stage of the [Virus Discovery Project] (https://osf.io/4cn3j/) developed at several NCBI-sponsored hackathons 
+
 
 Overview Diagram
 ![VirusFriends Pipeline](images/Workflow.png)
