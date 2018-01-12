@@ -153,9 +153,9 @@ def main():
     ap.add_argument('-m', '--max_cpu', '-p', type=int, default=1,
                     help='Max number of cores to use. NOT YET IMPLEMENTED')
     ap.add_argument('-w', '--weak_threshold', type=int, default=80,
-                    help='Threshold (in % identity) to call a weak hit to the database. Default 80. Allowed: 1-100 (%)')
+                    help='Threshold (in %% identity) to call a weak hit to the database. Default 80. Allowed: 1-100%%')
     ap.add_argument('-s', '--strong_threshold', type=int, default=70,
-                    help='Threshold (in % identity) to call a strong hit to the database. Default 70. Allowed: 1-100 (%)')
+                    help='Threshold (in %% identity) to call a strong hit to the database. Default 70. Allowed: 1-100%%')
     ap.add_argument('-n', '--min_matched', type=int, default=50,
                     help='Minimum number of bases that must match to be considered a hit. Default 50. Allowed: 1- <readlength>')
     ap.add_argument('-b', '--database', type=str, default=None,
