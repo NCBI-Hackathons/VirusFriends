@@ -89,7 +89,7 @@ function install_blast()
 			rm -f blast.tgz
 			# bit of a hack to find the path name because blast includes the version number
 			P=$(find . -name blastn | sed -e 's/blastn$//; s/^\.\///')
-			NEWPATH=$NEWPATH:$P
+			NEWPATH=$NEWPATH:$PWD/$P
 			cd $BASEDIR
 		fi
 	fi
@@ -109,7 +109,7 @@ function setup_magicblast()
 			tar  -xvf magicblast.tar.gz
 			rm -f magicblast.tar.gz
 			P=$(find . -name magicblast | sed -e 's/magicblast$//; s/^\.\///')
-			NEWPATH=$NEWPATH:$P
+			NEWPATH=$NEWPATH:$PWD/$P
 			cd $BASEDIR
 		fi
 	fi
