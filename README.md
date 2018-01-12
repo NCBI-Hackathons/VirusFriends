@@ -5,7 +5,11 @@
 
 ### ...and a link to the DOI:
 
-## Awesome Logo
+![Phage Friends!](images/friends.png)
+
+## It's always sunny when you have phage friends, too
+
+![virus friends](images/phagefriends2.png)
 
 ### You can make a free DOI with zenodo <link>
 
