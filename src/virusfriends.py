@@ -20,8 +20,10 @@ import lib.blast.blastdb.makeprofiledb
 import screener
 import virus_contig
 
+verbose = False
 
 class VirusFriends:
+
     def __init__(self, wd=None, virusdb=None):
         """
         Initialize the class
@@ -69,6 +71,8 @@ class VirusFriends:
     def setup(self):
         self.set_wd()
         self.setup_databases()
+        if verbose:
+            sys.stderr.write("Completed database setup\n")
 
     def setup_databases(self):
         if not os.path.isdir(os.path.join(self.wd, self.dbs_dirname)):
@@ -94,21 +98,22 @@ class VirusFriends:
             sambasename = "%s.sam" % i
             samfile = os.path.join(wd, sambasename)
             if (os.path.isfile(samfile) and os.path.getsize(samfile) > 0):
-                print ("There's already a sam file at %s, skipping magicblast." % samfile)
+                print("There's already a sam file at %s, skipping magicblast." % samfile)
             else:
-                print ("Could not find samfile at location %s, running magicblast." % samfile)
+                print("Could not find samfile at location %s, running magicblast." % samfile)
                 s.screen_srr(s.srr, s.virus_db.path, samfile)
-            #srr_sam = os.path.join(wd,"magicblast.sam")
+            # srr_sam = os.path.join(wd,"magicblast.sam")
 
-            print ("sam is %s and current working dir is %s" % (samfile, wd))
+            print("sam is %s and current working dir is %s" % (samfile, wd))
             sortit = s.sort_matches(samfile, wd)
-            
-            #vdb_parser = s.vdbdump.run(s.srr, srr_alignments)
-            #contigs = s.assemble(vdb_parser.dump_to_file())
-            weak_fasta = os.path.join(wd,"weak_%s.fasta" % i)
+
+            # vdb_parser = s.vdbdump.run(s.srr, srr_alignments)
+            # contigs = s.assemble(vdb_parser.dump_to_file())
+            weak_fasta = os.path.join(wd, "weak_%s.fasta" % i)
             contigs = s.assemble(weak_fasta)
-            print ("contigs returns %s" % contigs)
+            print("contigs returns %s" % contigs)
             sys.exit(0)
+
             putative_virus_contigs = s.cdd_screen(contigs, s.cdd_db.path, os.path.join(s.wd, 'rpst'))
             if len(putative_virus_contigs) > 0:
                 for j in putative_virus_contigs:
@@ -129,32 +134,39 @@ class VirusFriends:
 
 def main():
     ap = argparse.ArgumentParser(description='Virus_Friends')
-    ap.add_argument('--wd', type=str, default='analysis',
-                    help='Working directory for analysis')
-    ap.add_argument('-db', type=str, default=None,
-                    help='Database to use. Default is to download and install the RefSeq viral database')
     ap.add_argument('-inputs', type=str, nargs='*',  default=['SRR5150787'],
                     help='One or more SRR numbers or fastq/a file paths as input, e.g. SRR5150787 or testfile.fq'),
+    ap.add_argument('--wd', type=str, default='analysis',
+                    help='Working directory for analysis')
     ap.add_argument('--max_cpu', '-p', type=int, default=1,
                     help='Max number of cores to use. NOT YET IMPLEMENTED')
     ap.add_argument('--weak_threshold', type=int, default=80,
                     help='Threshold (in % identity) to call a weak hit to the database. Default 80. Allowed: 1-100 (%)')
-    ap.add_argument('--strong_threshold',  type=int, default=70,
+    ap.add_argument('--strong_threshold', type=int, default=70,
                     help='Threshold (in % identity) to call a strong hit to the database. Default 70. Allowed: 1-100 (%)')
     ap.add_argument('--min_matched', type=int, default=50,
                     help='Minimum number of bases that must match to be considered a hit. Default 50. Allowed: 1- <readlength>')
+    ap.add_argument('-db', type=str, default=None,
+                    help='Database to use. Default is to download and install the RefSeq viral database')
+    ap.add_argument('-verbose', help='verbose output (mostly for debugging)', action='store_true')
     args = ap.parse_args()
+
+    global verbose
+    if args.verbose:
+        verbose = True
 
     # srrs = ['SRR5150787', 'SRR5832142']
     if args.srr == ['SRR5150787']:
-        print("Running test in {} in directory {}".format(args.wd, args.srr), file=sys.stderr)
+        print("Running test in {} using {}".format(args.wd, args.srr), file=sys.stderr)
     else:
-        print("Analyzing  {} in directory {}.".format(args.srr, args.wd), file=sys.stderr)
+        print("Analyzing  {} using {}.".format(args.srr, args.wd), file=sys.stderr)
 
     e = VirusFriends(wd=args.wd, virusdb=args.db)
-    print("Checking databases", file=sys.stderr)
+    if verbose:
+        print("Checking databases", file=sys.stderr)
     e.setup()
-    print("Starting screen", file=sys.stderr)
+    if verbose:
+        print("Starting screen", file=sys.stderr)
     e.screen(args.srr)
     return 0
 
