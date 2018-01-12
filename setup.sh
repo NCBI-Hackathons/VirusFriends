@@ -145,8 +145,19 @@ function make_endovir_cdd()
 }
 
 
+function finish_up()
+{
+	if [ ! -z $NEWPATH ]; then
+		echo "You need to append $NEWPATH to your PATH environment variable."
+		echo "I recommend doing this by adding the following line to ~/.bashrc"
+		echo -e "\texport PATH=\$PATH:$NEWPATH"
+		echo "but you may also want to add this to a different location so I didn't set it to you"
+		export PATH=$NEWPATH:$PATH
+	fi
+}
 
 install_edirect
 install_blast
 setup_magicblast
 make_endovir_cdd
+finish_up
