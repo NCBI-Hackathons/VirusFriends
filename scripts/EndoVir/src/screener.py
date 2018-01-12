@@ -18,7 +18,7 @@ import lib.blast.blastdb.makeblastdb
 import lib.megahit.megahit
 import lib.blast.rps.rpstblastn
 import lib.vdbdump.vdbdump
-import lib.samsort.samsort
+import lib.samsort.sort_matches
 
 import flankdb
 from flanks import flank_checker
@@ -96,8 +96,8 @@ class Screener:
     #return mbp.alignments
     return blastrun
   
-  def samsort(self, samfile):
-    return self.sorter.getWeak(samfile)
+  def sort_matches(self, samfile, outdir):
+    self.sorter.sort_matches(samfile,outdir )
     
   def assemble(self, sequences):
     return self.assembler.run(sequences, prefix=self.srr, outdir=self.asm_dir)
