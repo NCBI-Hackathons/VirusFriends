@@ -1,12 +1,13 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  endovir.py
+#  virusfriends.py
 #
-#  Author: Jan Piotr Buchmann <jan.buchmann@sydney.edu.au>
+#  Authors:
+#    Jan Piotr Buchmann <jan.buchmann@sydney.edu.au>
+#    Carrie Ganote <cganote@iu.edu>
 #  Description:
 #
 #  Version: 0.0
-
 
 import os
 import sys
@@ -19,7 +20,7 @@ import lib.blast.blastdb.makeprofiledb
 import screener
 import virus_contig
 
-class Endovir:
+class VirusFriends:
 
   def __init__(self, wd=None):
     self.analysis_path = ''
@@ -62,6 +63,10 @@ class Endovir:
     vrs_ctgs = {}
     for i in srrs:
       print("Screening {0}".format(i), file=sys.stderr)
+      ##### Todo: add logic to check if sam file exists and is non-zero in size
+      samfile = "%s.sam" % i
+      if (os.path.isfile(samfile) and os.path.getsize(samfile) > 0):
+        print ("Oh hey, there's alread a sam file made!"
       s = screener.Screener(self.wd, i, self.dbs['virusdb'], self.dbs['cdd'])
       #srr_alignments = s.screen_srr(s.srr, s.virus_db.path)
       s.screen_srr(s.srr, s.virus_db.path)
