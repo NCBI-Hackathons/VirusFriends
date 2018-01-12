@@ -144,23 +144,23 @@ class VirusFriends:
 
 def main():
     ap = argparse.ArgumentParser(description='Virus_Friends')
-    ap.add_argument('--inputs', type=str, nargs='*',  default=['SRR5150787'], required=True,
+    ap.add_argument('-i', '--inputs', type=str, nargs='*',  default=['SRR5150787'], required=True,
                     help='One or more SRR numbers or fastq/a file paths as input, e.g. SRR5150787 or testfile.fq'),
-    ap.add_argument('--intype', type=str, default='srr',
+    ap.add_argument('-t', '--intype', type=str, default='srr',
                     help='Type of input provided - can be either srr, fasta or fastq')
-    ap.add_argument('--wd', type=str, default='analysis',
+    ap.add_argument('-d', '--wd', type=str, default='analysis',
                     help='Working directory for analysis')
-    ap.add_argument('--max_cpu', '-p', type=int, default=1,
+    ap.add_argument('-m', '--max_cpu', '-p', type=int, default=1,
                     help='Max number of cores to use. NOT YET IMPLEMENTED')
-    ap.add_argument('--weak_threshold', type=int, default=80,
+    ap.add_argument('-w', '--weak_threshold', type=int, default=80,
                     help='Threshold (in % identity) to call a weak hit to the database. Default 80. Allowed: 1-100 (%)')
-    ap.add_argument('--strong_threshold', type=int, default=70,
+    ap.add_argument('-s', '--strong_threshold', type=int, default=70,
                     help='Threshold (in % identity) to call a strong hit to the database. Default 70. Allowed: 1-100 (%)')
-    ap.add_argument('--min_matched', type=int, default=50,
+    ap.add_argument('-n', '--min_matched', type=int, default=50,
                     help='Minimum number of bases that must match to be considered a hit. Default 50. Allowed: 1- <readlength>')
-    ap.add_argument('--db', type=str, default=None,
+    ap.add_argument('-b', '--database', type=str, default=None,
                     help='Database to use. Default is to download and install the RefSeq viral database')
-    ap.add_argument('--verbose', help='verbose output (mostly for debugging)', action='store_true')
+    ap.add_argument('-v', '--verbose', help='verbose output (mostly for debugging)', action='store_true')
     args = ap.parse_args()
 
     global verbose
