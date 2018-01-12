@@ -77,6 +77,7 @@ class Screener:
   def __init__(self, wd, srr, virus_db, cdd_db):
     if not os.path.exists(os.path.join(wd, srr)):
       os.mkdir(os.path.join(wd, srr))
+
     self.wd = os.path.join(wd, srr)
     self.srr = srr
     self.virus_db = virus_db
@@ -86,24 +87,23 @@ class Screener:
     self.asm_dir = os.path.join(self.wd, 'asm')
 
     self.assembler = lib.spades.spades.Spades()
-
     self.vdbdump = lib.vdbdump.vdbdump.VdbDump()
     self.cdd_screener = lib.blast.rps.rpstblastn.RpstBlastn()
     self.sorter = lib.samsort.sort_matches.Sorter()
     self.flankdb = flankdb.FlankDb(os.path.join(self.wd, 'flanks'), 'flanks')
     self.contigs = {}
 
-  def screen_srr(self, srr, db):
+  def screen_srr(self, srr, db, samfile):
     srr_screener = lib.blast.magicblast.magicblast.Magicblast()
     #mbp = lib.blast.magicblast.magicblast_parser.MagicblastParser()
-    blastrun = srr_screener.run(srr, db)
+    blastrun = srr_screener.run(srr, db, samfile)
     #mbp.parse(srr_screener.run(srr, db))
     #return mbp.alignments
     return blastrun
   
   def sort_matches(self, samfile, outdir):
     print ("Found samfile %s and printing to dir %s" % (samfile, outdir))
-    self.sorter.sort_matches(samfile,outdir )
+    self.sorter.sort_matches( samfile,outdir )
     
   def assemble(self, sequences):
     return self.assembler.run(sequences, prefix=self.srr, outdir=self.asm_dir)

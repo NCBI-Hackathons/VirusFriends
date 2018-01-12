@@ -13,13 +13,13 @@ from ..fasta import parser
 
 class Spades:
 
-  def __init__(self, path='spades'):
+  def __init__(self, path='spades.py'):
     self.path = path
     self.suffix = ".contigs.fa"
     self.min_contig_len = 400
     self.parser = parser.FastaParser()
 
-  def run(self, reads, prefix=None, outdir='spades_out', cpu_threads=4):
+  def run(self, reads, prefix=None, outdir='asm', cpu_threads=4):
     self.parser.reset()
     cmd = [self.path, '-s',
                       '-i', reads,
@@ -32,8 +32,10 @@ class Spades:
     cmd += ['-o', outdir]
     print("Log", cmd)
     spades = subprocess.run(cmd)
+    fil=os.path.join(outdir, prefix+self.suffix)
+    print ("Spades finished with %s, file is %s" % (spades, fil))
 
-    self.parser.parse(fil=os.path.join(outdir, prefix+self.suffix))
+    self.parser.parse(fil)
     return os.path.join(outdir, prefix+self.suffix)
 
   def new(self):
