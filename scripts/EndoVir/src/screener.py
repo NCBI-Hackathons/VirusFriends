@@ -16,6 +16,7 @@ import lib.blast.magicblast.magicblast_flank_parser
 import lib.blast.blastn.blastn
 import lib.blast.blastdb.makeblastdb
 import lib.spades.spades
+
 import lib.blast.rps.rpstblastn
 import lib.vdbdump.vdbdump
 import lib.samsort.sort_matches
@@ -81,6 +82,7 @@ class Screener:
     if os.path.exists(os.path.join(self.wd, 'asm')):
       shutil.rmtree(os.path.join(self.wd, 'asm'))
     self.asm_dir = os.path.join(self.wd, 'asm')
+
     self.assembler = lib.spades.spades.Spades()
 
     self.vdbdump = lib.vdbdump.vdbdump.VdbDump()
@@ -98,7 +100,9 @@ class Screener:
     return blastrun
   
   def sort_matches(self, samfile, outdir):
+
     print ("Found samfile %s and printing to dir %s" % (samfile, outdir))
+
     self.sorter.sort_matches(samfile,outdir )
     
   def assemble(self, sequences):

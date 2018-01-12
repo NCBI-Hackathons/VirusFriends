@@ -64,6 +64,7 @@ class Endovir:
       print("Screening {0}".format(i), file=sys.stderr)
       s = screener.Screener(self.wd, i, self.dbs['virusdb'], self.dbs['cdd'])
       #srr_alignments = s.screen_srr(s.srr, s.virus_db.path)
+
       s.screen_srr(s.srr, s.virus_db.path)
       wd = self.wd
       srr_sam = os.path.join(wd,"magicblast.sam")

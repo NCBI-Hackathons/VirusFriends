@@ -1,9 +1,7 @@
 
-
 import argparse
 import sys
 import pysam
-import logging as log
 
 class Sorter:
     def __init__(self):
@@ -11,8 +9,10 @@ class Sorter:
         self.WEAK_MATCH_THRESHOLD=0.8
         self.STRONG_MATCH_THRESHOLD=0.7
         
+
     def sort_matches(self, samfile, outdir, MIN_MATCHED_BASES = 50, WEAK_MATCH_THRESHOLD=0.8, STRONG_MATCH_THRESHOLD=0.7, log=True):
         print("in sort_matches, samfile is %s and outdir is: %s" % (samfile, outdir))
+
         if not outdir.endswith('/'):
             outdir = outdir + '/'
 
@@ -31,6 +31,7 @@ class Sorter:
             sys.stderr.write(
             'samfile {} could not be opened by pysam, check that it is a BAM/SAM file. Error:\n{}\n'.format(samfile, e))
             sys.exit(1)
+
         #print ("got here")
             
         strong_reads = []
