@@ -66,6 +66,11 @@ class VirusFriends:
 
       s = screener.Screener(self.wd, i, self.dbs['virusdb'], self.dbs['cdd'])
       wd = os.path.join(self.wd, i)
+      ### Need to figure out if the current input (i) is a file or an srr accession #.
+      intype = "srr"
+      if ('.' in i or not "SRR" in i[0:2]):
+        print ("This is probably a file: %s" % i)
+        intype = "query"
       ### Added logic here that checks for the existence of the sam file,
       ###  and runs magicblast if it isn't there or is size 0
       sambasename = "%s.sam" % i
@@ -107,7 +112,7 @@ class VirusFriends:
 def main():
   ap = argparse.ArgumentParser(description='Virus_Friends')
   ap.add_argument('-srr', type=str, nargs='*',  default=['SRR5150787'],
-                  help='One or more SRR numbers or fastq/gz file paths as input, e.g. SRR5150787, testfile.fq'),
+                  help='One or more SRR numbers or fastq/a file paths as input, e.g. SRR5150787, testfile.fq'),
   ap.add_argument('--wd', type=str, default='analysis',
                   help='Working directory for analysis')
   ap.add_argument('--max_cpu', '-p', type=int, default=1,

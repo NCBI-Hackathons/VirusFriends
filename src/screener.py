@@ -93,10 +93,10 @@ class Screener:
     self.flankdb = flankdb.FlankDb(os.path.join(self.wd, 'flanks'), 'flanks')
     self.contigs = {}
 
-  def screen_srr(self, srr, db, samfile):
+  def screen_srr(self, intype, inpt, db, samfile):
     srr_screener = lib.blast.magicblast.magicblast.Magicblast()
     #mbp = lib.blast.magicblast.magicblast_parser.MagicblastParser()
-    blastrun = srr_screener.run(srr, db, samfile)
+    blastrun = srr_screener.run(intype, inpt, db, samfile)
     #mbp.parse(srr_screener.run(srr, db))
     #return mbp.alignments
     return blastrun
