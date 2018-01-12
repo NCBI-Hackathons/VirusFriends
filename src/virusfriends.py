@@ -82,13 +82,12 @@ class VirusFriends:
         vrs_ctgs = {}
         for i in srrs:
             print("Screening {0}".format(i), file=sys.stderr)
-
             s = screener.Screener(self.wd, i, self.dbs['virusdb'], self.dbs['cdd'])
             wd = os.path.join(self.wd, i)
             ### Need to figure out if the current input (i) is a file or an srr accession #.
             intype = "srr"
             if ('.' in i or not "SRR" in i[0:2]):
-                print ("This is probably a file: %s" % i)
+                print ("Input file detected: %s" % i)
                 intype = "query"
             ### Added logic here that checks for the existence of the sam file,
             ###  and runs magicblast if it isn't there or is size 0
@@ -134,8 +133,8 @@ def main():
                     help='Working directory for analysis')
     ap.add_argument('-db', type=str, default=None,
                     help='Database to use. Default is to download and install the RefSeq viral database')
-    ap.add_argument('-srr', type=str, nargs='*',  default=['SRR5150787'],
-                    help='One or more SRR numbers or fastq/a file paths as input, e.g. SRR5150787, testfile.fq'),
+    ap.add_argument('-inputs', type=str, nargs='*',  default=['SRR5150787'],
+                    help='One or more SRR numbers or fastq/a file paths as input, e.g. SRR5150787 or testfile.fq'),
     ap.add_argument('--max_cpu', '-p', type=int, default=1,
                     help='Max number of cores to use. NOT YET IMPLEMENTED')
     ap.add_argument('--weak_threshold', type=int, default=80,
