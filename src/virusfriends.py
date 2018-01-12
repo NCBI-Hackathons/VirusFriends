@@ -156,10 +156,10 @@ def main():
         verbose = True
 
     # srrs = ['SRR5150787', 'SRR5832142']
-    if args.srr == ['SRR5150787']:
-        print("Running test in {} using {}".format(args.wd, args.srr), file=sys.stderr)
+    if args.inputs == ['SRR5150787']:
+        print("Running test in {} using {}".format(args.wd, args.inputs), file=sys.stderr)
     else:
-        print("Analyzing  {} using {}.".format(args.srr, args.wd), file=sys.stderr)
+        print("Analyzing  {} using {}.".format(args.inputs, args.wd), file=sys.stderr)
 
     e = VirusFriends(wd=args.wd, virusdb=args.db)
     if verbose:
@@ -167,7 +167,7 @@ def main():
     e.setup()
     if verbose:
         print("Starting screen", file=sys.stderr)
-    e.screen(args.srr)
+    e.screen(args.inputs)
     return 0
 
 
