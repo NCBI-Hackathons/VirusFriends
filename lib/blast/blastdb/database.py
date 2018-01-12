@@ -18,18 +18,37 @@ from . import blastdbcmd
 
 
 class BlastDatabase:
-    def __init__(self, cmd=None, dbdir=None, name=None, typ=None):
+    def __init__(self, cmd=None, dbdir=None, name=None, typ=None, verbose=False):
+        """
+        Initialize the blast database
+        :param cmd: an array of the commands
+        :param dbdir: the directory that holds the database
+        :param name: the name of the database in that directory
+        :param typ: the type (nucl or protein)
+        :param verbose: make additional output
+        """
         self.title = name
         self.dbdir = dbdir
         self.typ = typ
         self.dbtool = blastdbcmd.Blastdbcmd()
         self.path = os.path.join(self.dbdir, self.title)
         self.cmd = [cmd]
+        self.verbose = verbose
 
     def make_db(self, fil=None):
-        # test and see if the database has already been formated
+        # test and see if the database has already been formatted
+
+        extensions = []
+        if 'nucl' == self.typ:
+            extensions = ["nhd", "nhi", "nhr", "nin", "nog", "nsd", "nsi", "nsq"]
+        elif 'prot' == self.typ:
+            extensions = ["phd", "phi", "phr", "pin", "pog", "psd", "psi", "psq"]
+        else:
+            sys.stderr.write("Can't determine what the database type is for {}\n".format(self.typ))
+            sys.exit(-1)
+
         dbcomplete = True
-        for extn in ["nhd", "nhi", "nhr", "nin", "nog", "nsd", "nsi", "nsq"]:
+        for extn in extensions:
             if not os.path.exists(os.path.join(self.dbdir, "{}.{}".format(self.title, extn))):
                 dbcomplete = False
         if dbcomplete:
@@ -69,16 +88,17 @@ class BlastDatabase:
             os.mkdir(self.dbdir)
             self.fetch_db(src, self.title)
             self.make_db(src)
+        sys.stderr.write("RAE EXitering setup\n")
 
     def fetch_db(self, src, title):
         if src == 'Cdd':
             return
-        if not src.startswith('http') or not src.startswith('ftp'):
-            sys.stderr.write("{} does not appear to be a URL from to which to fetch the file\n".format(src))
-            return
         print("Fetching database {} from {}".format(title, src))
         db = open(self.path, 'w')
         for i in src:
+            if not i.startswith('http') and not i.startswith('ftp'):
+                sys.stderr.write("{} does not appear to be a URL from to which to fetch the file\n".format(i))
+                continue
             dbgz = open('dbgz', 'wb')
             response = urllib.request.urlopen(i)
             dbgz.write(response.read())
