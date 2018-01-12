@@ -56,8 +56,8 @@ function install_edirect()
 	xtract=$(which xtract)
 	if [ -z $esearch ] || [ -z $efetch ] || [ -z $xtract ]; then
 		## edirect
-		if [ $TESTONLY ]; then echo "NCBI edirect (https://www.ncbi.nlm.nih.gov/books/NBK179288/) will be installed"; fi
-		if [ $INSTALL ]; then
+		if [ $TESTONLY == 1 ]; then echo "NCBI edirect (https://www.ncbi.nlm.nih.gov/books/NBK179288/) will be installed"; fi
+		if [ $INSTALL == 1 ]; then
 			echo "INSTALLING edirect in $endovir_tools/edirect"
 			cd $endovir_tools
 			mkdir edirect
