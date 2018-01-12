@@ -16,8 +16,9 @@ from . import magicblast_parser
 
 class Magicblast:
 
-  def __init__(self, path='magicblast'):
+  def __init__(self, path='magicblast', outdir='analysis'):
     self.path = path
+    self.out = os.path.join(outdir,"magicblast.sam")
     self.num_threads = 4
     self.outfmt = 'sam'
 
@@ -27,7 +28,9 @@ class Magicblast:
                       '-no_unaligned',
                       '-num_threads', str(self.num_threads),
                       '-outfmt', self.outfmt,
+                      '-out', self.out,
                       '-splice', 'F']
     print(cmd)
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, bufsize=1, universal_newlines=True)
+    proc = subprocess.run(cmd, stdout=subprocess.PIPE, bufsize=1, universal_newlines=True)
+
     return proc.stdout

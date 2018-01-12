@@ -64,11 +64,18 @@ class Endovir:
       print("Screening {0}".format(i), file=sys.stderr)
       s = screener.Screener(self.wd, i, self.dbs['virusdb'], self.dbs['cdd'])
       #srr_alignments = s.screen_srr(s.srr, s.virus_db.path)
-      srr_sam = s.screen_srr(s.srr, s.virus_db.path)
-      sortit = s.sort_matches(srr_sam, self.wd)
-      exit(0)
+      s.screen_srr(s.srr, s.virus_db.path)
+      wd = self.wd
+      srr_sam = os.path.join(wd,"magicblast.sam")
+
+      print ("sam is %s and current working dir is %s" % (srr_sam, wd))
+      sortit = s.sort_matches(srr_sam, wd)
+      
       #vdb_parser = s.vdbdump.run(s.srr, srr_alignments)
-      contigs = s.assemble(vdb_parser.dump_to_file())
+      #contigs = s.assemble(vdb_parser.dump_to_file())
+      weak_fasta = os.path.join(wd,"weak_magicblast.fasta")
+      contigs = s.assemble(weak_fasta)
+      sys.exit(0)
       putative_virus_contigs = s.cdd_screen(contigs, s.cdd_db.path, os.path.join(s.wd, 'rpst'))
       if len(putative_virus_contigs) > 0:
         for j in putative_virus_contigs:
