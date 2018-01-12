@@ -1,9 +1,8 @@
 
 # VirusFriends -- A pipeline for surveying and exporing related viral strains from SRA datasets
 
-## Please cite our work -- here is the ICMJE Standard Citation:
-
-### ...and a link to the DOI:
+### Please cite our work -- here is the ICMJE Standard Citation: 
+### DOI:DOI 10.17605/OSF.IO/Z4BCN 
 
 ![Phage Friends!](images/friends.png)
 
@@ -11,12 +10,7 @@
 
 ![virus friends](images/phagefriends2.png)
 
-### You can make a free DOI with zenodo <link>
-
-## Website (if applicable)
-
-## Intro statement
-This is an implementation to discovere viruses that are somehow relared to already known ones. The idea is to expand 
+## VirusFriends is an implementation to discovere viruses that are slightly relared to already known ones. The idea is to use the genomes of known viruses as anchors to expand the viral sequence space. 
 
 ## What's the problem?
 It's being estimated that there are 3x10^31 viral particles in the world, but only ~9,500 viral genomes have being described at a genomic level. This means there is a hughe amount of viruses to be discovered! 
@@ -27,7 +21,7 @@ It's being estimated that there are 3x10^31 viral particles in the world, but on
 
 Overview Diagram
 
-This is an implementation that is inpired on ViruSpy
+This is an implementation that is inpired on work developed on previous NCBI-hackatons as part of the Virus Discovery Project, the natural histor of this work is: SIDEARM --> Virome Sniff --> ViruSpy --> EndoVir --> VirusFriends
 
 Overview Diagram
 
