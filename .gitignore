@@ -1,6 +1,6 @@
-scripts/EndoVir/work/
-scripts/EndoVir/data/
-scripts/EndoVir/src/analysis/dbs/*
+work/
+data/
+src/analysis/dbs/*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
