@@ -28,6 +28,10 @@ git clone https://github.com/NCBI-Hackathons/VirusFriends.git
 ```
 
 
+### Caveats
+
+At the moment, our [magic blast](scripts/magicblast_sra.sh) uses 6 threads. If you have more or less threads, you might want to increase or decrease this number.
+
 
 
 # EndoVir
