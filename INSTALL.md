@@ -5,10 +5,10 @@
 
 There are several dependencies that are required for Virus Friends:
 - [Magic BLAST](https://boratyng.github.io/magicblast/)
-  * You can download Magic BLAST from the [NCBI ftp site](ftp://ftp.ncbi.nlm.nih.gov/blast/executables/magicblast/)
+  * You can download Magic BLAST from the [NCBI ftp site](https://goo.gl/oLzUvD)
 
 - [Viral Refseq](https://www.ncbi.nlm.nih.gov/genome/viruses/)
-  * You will need to download viral RefSeq. You can grab it from the [NIH ftp site](ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/)
+  * You will need to download viral RefSeq. You can grab it from the [NIH ftp site](https://goo.gl/TEFNT8)
   * Once you have downloaded the data, concatentate the viral genome sequences:
   ```
   gunzip -c viral.1.1.genomic.fna.gz viral.2.1.genomic.fna.gz > viral.genomic.fna
