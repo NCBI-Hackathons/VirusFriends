@@ -54,9 +54,9 @@ class BlastDatabase:
       else:
         print("\tfound local Blast DB {0}".format(os.path.join(self.dbdir, self.title), file=sys.stderr))
     else:
-      os.makedir(self.dbdir)
-      self.fetch_db(src)
-      self.make_db(src, self.title)
+      os.mkdir(self.dbdir)
+      self.fetch_db(src, self.title)
+      self.make_db(src)
 
   def fetch_db(self, src, title):
     if src == 'Cdd':
