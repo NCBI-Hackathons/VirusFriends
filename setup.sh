@@ -15,7 +15,8 @@ endovir_tools="$ENDOVIR/tools"
 endovir_pssms='endovir.pn'
 BASEDIR=$PWD
 
-
+TESTONLY=0
+INSTALL=0
 if [ "$1" == "-L" ]; then 
 	TESTONLY=1; 
 	echo "Only listing software to be installed"
@@ -79,8 +80,8 @@ function install_blast()
 	makeprofiledb=$(which makeprofiledb)
 	if [ ! -x $makeprofiledb ]; then
 		## blast+
-		if [ $TESTONLY ]; then echo "NCBI blast+ (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/) will be installed"; fi
-		if [ $INSTALL ]; then
+		if [ $TESTONLY == 1 ]; then echo "NCBI blast+ (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/) will be installed"; fi
+		if [ $INSTALL == 1 ]; then
 			echo "Installing NCBI blast+";
 			cd $endovir_tools
 			wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/ncbi-blast-*-x64-linux.tar.gz -O blast.tgz
@@ -100,8 +101,8 @@ function setup_magicblast()
 {
 	magicblast=$(which magicblast)
 	if [ ! -x $magicblast ]; then
-		if [ $TESTONLY ]; then echo "MagicBlast (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/magicblast/LATEST) whill be installed"; fi
-		if [ $INSTALL ]; then
+		if [ $TESTONLY == 1 ]; then echo "MagicBlast (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/magicblast/LATEST) whill be installed"; fi
+		if [ $INSTALL == 1 ]; then
 			echo "Installing magicblast"
 			cd $endovir_tools
 			wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/magicblast/LATEST/ncbi-magicblast-1.3.0-x64-linux.tar.gz -O magicblast.tar.gz
@@ -117,8 +118,8 @@ function setup_magicblast()
 function make_endovir_cdd()
 {
 
-	if [ $TESTONLY ]; then echo "Making the VirusFriends CDD libraries"; fi
-	if [ $INSTALL ]; then 
+	if [ $TESTONLY == 1 ]; then echo "Making the VirusFriends CDD libraries"; fi
+	if [ $INSTALL == 1 ]; then 
 		echo "Making the VirusFriends CDD libraries";
 		echo "" > "$endovir_dbs/$endovir_pssms"
 		local qry="txid10239[Organism:exp] NOT (predicted OR putative)"
