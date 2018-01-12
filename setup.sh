@@ -148,6 +148,7 @@ function make_endovir_cdd()
 function finish_up()
 {
 	if [ ! -z $NEWPATH ]; then
+		NEWPATH=$(echo $NEWPATH | sed -e 's/^://')
 		echo "You need to append $NEWPATH to your PATH environment variable."
 		echo "I recommend doing this by adding the following line to ~/.bashrc"
 		echo -e "\texport PATH=\$PATH:$NEWPATH"
