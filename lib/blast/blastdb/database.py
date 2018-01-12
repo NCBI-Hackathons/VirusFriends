@@ -73,6 +73,9 @@ class BlastDatabase:
     def fetch_db(self, src, title):
         if src == 'Cdd':
             return
+        if not src.startswith('http') or not src.startswith('ftp'):
+            sys.stderr.write("{} does not appear to be a URL from to which to fetch the file\n".format(src))
+            return
         print("Fetching database {} from {}".format(title, src))
         db = open(self.path, 'w')
         for i in src:
