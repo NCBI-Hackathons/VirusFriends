@@ -147,7 +147,7 @@ def main():
     args = ap.parse_args()
 
     # srrs = ['SRR5150787', 'SRR5832142']
-    if args.srr == 'SRR5150787':
+    if args.srr == ['SRR5150787']:
         print("Running test in {} in directory {}".format(args.wd, args.srr), file=sys.stderr)
     else:
         print("Analyzing  {} in directory {}.".format(args.srr, args.wd), file=sys.stderr)
@@ -156,7 +156,7 @@ def main():
     print("Checking databases", file=sys.stderr)
     e.setup()
     print("Starting screen", file=sys.stderr)
-    e.screen([args.srr])
+    e.screen(args.srr)
     return 0
 
 
