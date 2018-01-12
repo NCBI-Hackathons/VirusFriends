@@ -20,6 +20,7 @@ import lib.blast.blastdb.makeprofiledb
 import screener
 import virus_contig
 
+verbose = False
 
 class VirusFriends:
 
@@ -70,6 +71,8 @@ class VirusFriends:
     def setup(self):
         self.set_wd()
         self.setup_databases()
+        if verbose:
+            sys.stderr.write("Completed database setup\n")
 
     def setup_databases(self):
         if not os.path.isdir(os.path.join(self.wd, self.dbs_dirname)):
@@ -83,6 +86,7 @@ class VirusFriends:
         vrs_ctgs = {}
         for i in srrs:
             print("Screening {0}".format(i), file=sys.stderr)
+
             s = screener.Screener(self.wd, i, self.dbs['virusdb'], self.dbs['cdd'])
             wd = os.path.join(self.wd, i)
             ### Added logic here that checks for the existence of the sam file,
@@ -126,27 +130,40 @@ class VirusFriends:
 
 def main():
     ap = argparse.ArgumentParser(description='Virus_Friends')
-    ap.add_argument('-srr', type=str, default='SRR5150787',
-                    help='SRR number, e.g. SRR5150787'),
+    ap.add_argument('-srr', type=str, nargs='*', default=['SRR5150787'],
+                    help='One or more SRR numbers or fastq/gz file paths as input, e.g. SRR5150787, testfile.fq'),
     ap.add_argument('--wd', type=str, default='analysis',
                     help='Working directory for analysis')
     ap.add_argument('--max_cpu', '-p', type=int, default=1,
                     help='Max number of cores to use. NOT YET IMPLEMENTED')
+    ap.add_argument('--weak_threshold', type=int, default=80,
+                    help='Threshold (in % identity) to call a weak hit to the database. Default 80. Allowed: 1-100 (%)')
+    ap.add_argument('--strong_threshold', type=int, default=70,
+                    help='Threshold (in % identity) to call a strong hit to the database. Default 70. Allowed: 1-100 (%)')
+    ap.add_argument('--min_matched', type=int, default=50,
+                    help='Minimum number of bases that must match to be considered a hit. Default 50. Allowed: 1- <readlength>')
     ap.add_argument('-db', type=str, default=None,
                     help='Database to use. Default is to download and install the RefSeq viral database')
+    ap.add_argument('-verbose', help='verbose output (mostly for debugging)', action='store_true')
     args = ap.parse_args()
 
+    global verbose
+    if args.verbose:
+        verbose = True
+
     # srrs = ['SRR5150787', 'SRR5832142']
-    if args.srr == 'SRR5150787':
-        print("Running test in {} in directory {}".format(args.wd, args.srr), file=sys.stderr)
+    if args.srr == ['SRR5150787']:
+        print("Running test in {} using {}".format(args.wd, args.srr), file=sys.stderr)
     else:
-        print("Analyzing  {} in directory {}.".format(args.srr, args.wd), file=sys.stderr)
+        print("Analyzing  {} using {}.".format(args.srr, args.wd), file=sys.stderr)
 
     e = VirusFriends(wd=args.wd, virusdb=args.db)
-    print("Checking databases", file=sys.stderr)
+    if verbose:
+        print("Checking databases", file=sys.stderr)
     e.setup()
-    print("Starting screen", file=sys.stderr)
-    e.screen([args.srr])
+    if verbose:
+        print("Starting screen", file=sys.stderr)
+    e.screen(args.srr)
     return 0
 
 
