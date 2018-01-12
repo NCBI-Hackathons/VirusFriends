@@ -64,7 +64,6 @@ class Endovir:
       print("Screening {0}".format(i), file=sys.stderr)
       s = screener.Screener(self.wd, i, self.dbs['virusdb'], self.dbs['cdd'])
       #srr_alignments = s.screen_srr(s.srr, s.virus_db.path)
-
       s.screen_srr(s.srr, s.virus_db.path)
       wd = self.wd
       srr_sam = os.path.join(wd,"magicblast.sam")
@@ -77,6 +76,7 @@ class Endovir:
       weak_fasta = os.path.join(wd,"weak_magicblast.fasta")
       contigs = s.assemble(weak_fasta)
       sys.exit(0)
+
       putative_virus_contigs = s.cdd_screen(contigs, s.cdd_db.path, os.path.join(s.wd, 'rpst'))
       if len(putative_virus_contigs) > 0:
         for j in putative_virus_contigs:

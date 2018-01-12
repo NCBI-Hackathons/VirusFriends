@@ -17,6 +17,7 @@ from . import magicblast_parser
 class Magicblast:
 
 
+
   def __init__(self, path='magicblast', outdir='analysis'):
     self.path = path
     self.out = os.path.join(outdir,"magicblast.sam")
@@ -33,5 +34,4 @@ class Magicblast:
                       '-splice', 'F']
     print(cmd)
     proc = subprocess.run(cmd, stdout=subprocess.PIPE, bufsize=1, universal_newlines=True)
-
     return proc.stdout

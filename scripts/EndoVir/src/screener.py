@@ -15,7 +15,9 @@ import lib.blast.magicblast.magicblast_parser
 import lib.blast.magicblast.magicblast_flank_parser
 import lib.blast.blastn.blastn
 import lib.blast.blastdb.makeblastdb
+
 import lib.spades.spades
+
 
 import lib.blast.rps.rpstblastn
 import lib.vdbdump.vdbdump
@@ -100,9 +102,7 @@ class Screener:
     return blastrun
   
   def sort_matches(self, samfile, outdir):
-
     print ("Found samfile %s and printing to dir %s" % (samfile, outdir))
-
     self.sorter.sort_matches(samfile,outdir )
     
   def assemble(self, sequences):
