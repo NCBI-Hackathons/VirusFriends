@@ -175,7 +175,7 @@ def main():
     else:
         print("Analyzing  {} using {}.".format(args.inputs, args.wd), file=sys.stderr)
 
-    e = VirusFriends(wd=args.wd, virusdb=args.db)
+    e = VirusFriends(wd=args.wd, virusdb=args.database)
     if verbose:
         print("Checking databases", file=sys.stderr)
     e.setup()
