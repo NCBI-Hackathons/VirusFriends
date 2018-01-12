@@ -158,9 +158,9 @@ def main():
                     help='Threshold (in % identity) to call a strong hit to the database. Default 70. Allowed: 1-100 (%)')
     ap.add_argument('--min_matched', type=int, default=50,
                     help='Minimum number of bases that must match to be considered a hit. Default 50. Allowed: 1- <readlength>')
-    ap.add_argument('-db', type=str, default=None,
+    ap.add_argument('--db', type=str, default=None,
                     help='Database to use. Default is to download and install the RefSeq viral database')
-    ap.add_argument('-verbose', help='verbose output (mostly for debugging)', action='store_true')
+    ap.add_argument('--verbose', help='verbose output (mostly for debugging)', action='store_true')
     args = ap.parse_args()
 
     global verbose
