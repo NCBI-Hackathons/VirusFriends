@@ -1,8 +1,11 @@
 
 # VirusFriends -- A pipeline for surveying and exporing related viral strains from SRA datasets
 
-### Please cite our work -- here is the ICMJE Standard Citation: 
+## Please cite our work!
+
 ### DOI:DOI 10.17605/OSF.IO/Z4BCN 
+
+### https://osf.io/4cn3j/
 
 ![Phage Friends!](images/friends.png)
 
