@@ -122,11 +122,14 @@ class VirusFriends:
             weak_fasta = os.path.join(wd, "weak_%s.fasta" % i)
             contigs = s.assemble(weak_fasta)
             print("contigs returns %s" % contigs)
-            sys.exit(0)
+            #sys.exit(0)
 
             putative_virus_contigs = s.cdd_screen(contigs, s.cdd_db.path, os.path.join(s.wd, 'rpst'))
+
             if len(putative_virus_contigs) > 0:
                 for j in putative_virus_contigs:
+
+                    print ("working on contig # j %s" % s.assembler.parser.sequences)
                     c = virus_contig.VirusContig("ctg_" + str(len(vrs_ctgs)),
                                                  s.assembler.parser.sequences[j].sequence,
                                                  i,

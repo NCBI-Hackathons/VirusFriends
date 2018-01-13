@@ -51,8 +51,9 @@ class MagicblastFlankParser(magicblast_parser.MagicblastParser):
   def parse(self, src, contigs):
     alignments = []
     read_count = 0
+    print("src is %s" % src)
     for i in src:
-      #print(i.rstrip())
+      print(i.rstrip())
       if i[0] != '#':
         cols = i.strip().split('\t')
         if cols[1] in self.flankmap:

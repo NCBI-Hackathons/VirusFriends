@@ -15,7 +15,7 @@ class Spades:
 
   def __init__(self, path='spades.py'):
     self.path = path
-    self.suffix = ".contigs.fa"
+    self.suffix = "contigs.fasta"
     self.min_contig_len = 400
     self.parser = parser.FastaParser()
 
@@ -32,11 +32,11 @@ class Spades:
     cmd += ['-o', outdir]
     print("Log", cmd)
     spades = subprocess.run(cmd)
-    fil=os.path.join(outdir, prefix+self.suffix)
+    fil=os.path.join(outdir, self.suffix)
     print ("Spades finished with %s, file is %s" % (spades, fil))
 
-    self.parser.parse(fil)
-    return os.path.join(outdir, prefix+self.suffix)
+    self.parser.parse(fil=fil)
+    return os.path.join(outdir, self.suffix)
 
   def new(self):
     return Spades()

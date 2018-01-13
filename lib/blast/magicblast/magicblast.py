@@ -20,14 +20,13 @@ class Magicblast:
     self.num_threads = 4
     self.outfmt = 'sam'
 
-  def run(self, srr, db, samfile):
+  def run(self, srr, db, samfile=None):
     cmd = [self.path, '-db',  db,
                       '-sra', srr,
                       '-no_unaligned',
                       '-num_threads', str(self.num_threads),
-                      '-outfmt', self.outfmt,
-                      '-out', samfile,
                       '-splice', 'F']
-    print(cmd)
+    if samfile is not None:
+      cmd.append(['-outfmt', self.outfmt, '-out', samfile])
     proc = subprocess.run(cmd, stdout=subprocess.PIPE, bufsize=1, universal_newlines=True)
     return proc.stdout
