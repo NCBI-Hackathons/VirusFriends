@@ -23,8 +23,19 @@ VirusFriends is a bioinformatics tool that discovers viruses in Whole Shotgun Se
 This is an implementation that is inpired on work developed on previous NCBI-hackatons as part of the Virus Discovery Project, the natural histor of this work is: SIDEARM --> Virome Sniff --> ViruSpy --> EndoVir --> VirusFriends
 VirusFriends is the latest stage of the [Virus Discovery Project] (https://osf.io/4cn3j/) developed at several NCBI-sponsored hackathons 
 
-## Use Cases
+### Pipeline 
 
+![VirusFriends Pipeline](images/Workflow.png)
+Step 1. Screen a set of SRA datasets for viral reference genomes and keep the "very good" hits and "weak hits"
+
+Input: [a list of SRA ids] [a fasta file with the viral database]
+Output: sam files, fasta files for weak viral hits, stats about number of hits, identity, etc ... for strong and weak hits
+
+Step 2: Weak hits go into denovo assembly, viral motifs search and extension of the contigs
+Input: [fasta file of weak hits]
+Output: enriched contigs, weakly related to known viruses
+
+## Use Cases
 
 ### HIV-spiked metagenome
 
@@ -54,15 +65,7 @@ Pysam 0.13
 
 ##Installation 
 Overview Diagram
-![VirusFriends Pipeline](images/Workflow.png)
-Step 1. Screen a set of SRA datasets for viral reference genomes and keep the "very good" hits and "weak hits"
 
-Input: [a list of SRA ids] [a fasta file with the viral database]
-Output: sam files, fasta files for weak viral hits, stats about number of hits, identity, etc ... for strong and weak hits
-
-Step 2: Weak hits go into denovo assembly, viral motifs search and extension of the contigs
-Input: [fasta file of weak hits]
-Output: enriched contigs, weakly related to known viruses
 
 # How to use <this software>
 
