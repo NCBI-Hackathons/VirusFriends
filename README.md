@@ -44,19 +44,19 @@ https://github.com/NCBI-Hackathons/Virus_Domains/tree/master), and [Virus_Detect
 ![endovir and virusfriends](images/EndoVir_VirusFriends.png)
 
 
-## Use Cases
+## Test Datasets
 
 ### HIV-spiked metagenome
 
 ### Ebola metagenome 
+
+## Use Cases
 
 ### crAssphage
 
 ### Picobirnavirus
 
 ### VirusFriends with any nucleotides database
-
-
 
 ## Quick Start Guide ##
 To get started, a working directory needs to be created and the appropriate databases need to be put in place. Currently, these steps are best handled by running the setup.sh script in the root directory of VirusFriends.
