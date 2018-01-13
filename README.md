@@ -89,7 +89,7 @@ This will create a directory called SRR5150787 in the work/analysis directory wh
 ## Authors
 
 * **Taylor G. O’Connell** 
-* **Kyle Levi**
+* **Kyle Levi** (https://github.com/KyleLevi)
 * **Carrie Ganote**
 * **Bhavya Papudeshi**
 * **Sean Benler**
