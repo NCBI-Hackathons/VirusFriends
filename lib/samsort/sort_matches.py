@@ -30,7 +30,12 @@ class Sorter:
             sys.stderr.write(
             'samfile {} could not be opened by pysam, check that it is a BAM/SAM file. Error:\n{}\n'.format(samfile, e))
             sys.exit(1)
-            
+
+
+        # Right now sorting is only done by the percent of bases matched, it was our intention that
+        # matches could also be classified as 'weak' if the percent coverage of the organism was low however,
+        # calculating that proved very computationally expensive (1 hour+ for a 1gb SAM file).
+        # If you find a quick way to calculate percent coverage from a samfile, email klevi@sdsu.edu!!!!
         strong_reads = []
         weak_reads = []
         for read in samfile.fetch():
