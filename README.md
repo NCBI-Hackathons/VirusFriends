@@ -22,7 +22,40 @@ It's being estimated that there are 3x10^31 viral particles in the world, but on
 This is an implementation that is inpired on work developed on previous NCBI-hackatons as part of the Virus Discovery Project, the natural histor of this work is: SIDEARM --> Virome Sniff --> ViruSpy --> EndoVir --> VirusFriends
 VirusFriends is the latest stage of the [Virus Discovery Project] (https://osf.io/4cn3j/) developed at several NCBI-sponsored hackathons 
 
+##Pipeline 
 
+VirusFriends is a bioinformatics tool that discovers viruses in Whole Shotgun Sequence metagenomic samples in the Sequence Read Archive.  In addition to identification and quantification of known viruses in metagenomes, VirusFriends also allows for identification of novel viruses in metagenomic samples. VirusFriends uses Magic-BLAST to screen metagenomes from the SRA for presence of reads that map to the NCBI Viral RefSeq database or a custom user-specified reference database. For a given reference, statistics are output that include read coverage, and numbers of reads mapped at various levels of sequence identity. Novel viruses are identified by de-novo assembly and iteratively searching for reads that map to the 5’ and 3’ ends of a given contig to extend the contig’s length.
+
+
+##Use Cases
+
+###HIV
+
+###Ebola
+
+###crAssphage
+
+###Picobirnavirus
+
+###VirusFriends with any nucleotides database
+
+##Quick Start
+
+##Dependencies
+
+Python 3.5 
+Megahit v1.1.2
+Blast 2.7 
+SPAdes v3.11.1
+Samtools 1.6
+Biopython v.
+Sra-toolkit v.2.8.2
+git version 2.7.4
+Pysam 0.13
+
+##Stats on good and weak hits
+
+##Installation 
 Overview Diagram
 ![VirusFriends Pipeline](images/Workflow.png)
 Step 1. Screen a set of SRA datasets for viral reference genomes and keep the "very good" hits and "weak hits"
