@@ -87,7 +87,7 @@ Pysam 0.13
 
 ## Authors
 
-* **Taylor G. O’Connell** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Taylor G. O’Connell** 
 * **Kyle Lev**
 * **Carrie Ganote**
 * **Bhavya Papudeshi**
@@ -95,4 +95,4 @@ Pysam 0.13
 * **Ana Cobian**
 * **Rob Edwards**
 * **Ben Busby**
-* **Jan Piotr Buchmann**
+* **Jan Piotr Buchmann** 
