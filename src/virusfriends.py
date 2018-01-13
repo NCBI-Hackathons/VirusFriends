@@ -89,7 +89,13 @@ class VirusFriends:
         Check the databases are compiled and if not stop execution
         :return:
         """
-
+        complete = True
+        for d in self.db_sources:
+            if not lib.blast.blastdb.database.BlastDatabase.check_database():
+                complete = False
+                sys.stderr.write("ERROR: {} is not a properly formatted database\n".format(d.name))
+        if not complete:
+            sys.exit(-1)
 
 
     def screen(self, inputs=[], intype="srr"):
