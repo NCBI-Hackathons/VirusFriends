@@ -56,7 +56,7 @@ class VirusFriends:
                       typ='nucl')
         }
 
-        if None == 'cdd':
+        if None == cdddb:
             self.db_sources['cdd'] = {
                 'db' : lib.blast.blastdb.database.BlastDatabase(
                     name='endovir_cdd',
@@ -91,9 +91,9 @@ class VirusFriends:
         """
         complete = True
         for d in self.db_sources:
-            if not lib.blast.blastdb.database.BlastDatabase.check_database():
+            if not self.db_sources[d]['db'].check_database():
                 complete = False
-                sys.stderr.write("ERROR: {} is not a properly formatted database\n".format(d.name))
+                sys.stderr.write("ERROR: {} is not a properly formatted database\n".format(self.db_sources[d]['db'].title))
         if not complete:
             sys.exit(-1)
 
