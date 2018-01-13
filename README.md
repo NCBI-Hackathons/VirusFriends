@@ -10,7 +10,7 @@
 
 ![virus friends](images/phagefriends2.png)
 
-## VirusFriends is an implementation to discovere viruses that are slightly relared to already known ones. The idea is to use the genomes of known viruses as anchors to expand the viral sequence space. 
+## VirusFriends is an implementation to discover viruses that are slightly related to already known ones. The idea is to use the genomes of known viruses as anchors to expand the viral sequence space. 
 
 ## What's the problem?
 It's being estimated that there are 3x10^31 viral particles in the world, but only ~9,500 viral genomes have being described at a genomic level. This means there is a hughe amount of viruses to be discovered! 
