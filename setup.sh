@@ -10,7 +10,7 @@
 #  Version: 0
 
 export ENDOVIR=$PWD
-endovir_dbs="$ENDOVIR/work/analysis/dbs"
+endovir_dbs="$ENDOVIR/analysis/dbs"
 endovir_tools="$ENDOVIR/tools"
 endovir_pssms='endovir.pn'
 BASEDIR=$PWD
@@ -89,7 +89,7 @@ function install_blast()
 			rm -f blast.tgz
 			# bit of a hack to find the path name because blast includes the version number
 			P=$(find . -name blastn | sed -e 's/blastn$//; s/^\.\///')
-			NEWPATH=$NEWPATH:$P
+			NEWPATH=$NEWPATH:$PWD/$P
 			cd $BASEDIR
 		fi
 	fi
@@ -109,7 +109,7 @@ function setup_magicblast()
 			tar  -xvf magicblast.tar.gz
 			rm -f magicblast.tar.gz
 			P=$(find . -name magicblast | sed -e 's/magicblast$//; s/^\.\///')
-			NEWPATH=$NEWPATH:$P
+			NEWPATH=$NEWPATH:$PWD/$P
 			cd $BASEDIR
 		fi
 	fi
@@ -148,6 +148,7 @@ function make_endovir_cdd()
 function finish_up()
 {
 	if [ ! -z $NEWPATH ]; then
+		NEWPATH=$(echo $NEWPATH | sed -e 's/^://')
 		echo "You need to append $NEWPATH to your PATH environment variable."
 		echo "I recommend doing this by adding the following line to ~/.bashrc"
 		echo -e "\texport PATH=\$PATH:$NEWPATH"
