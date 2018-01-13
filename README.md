@@ -84,3 +84,15 @@ Pysam 0.13
 ### Installing <this software> from Github
 
 1. `git clone https://github.com/NCBI-Hackathons/VirusFriends.git`
+
+## Authors
+
+* **Taylor G. O’Connell** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Kyle Lev**
+* **Carrie Ganote**
+* **Bhavya Papudeshi**
+* **Sean Benlar**
+* **Ana Cobian**
+* **Rob Edwards**
+* **Ben Busby**
+* **Jan Piotr Buchmann**
