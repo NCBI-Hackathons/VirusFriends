@@ -35,7 +35,7 @@ class BlastDatabase:
         self.cmd = [cmd]
         self.verbose = verbose
 
-    def check_database(self, db):
+    def check_database(self):
         """
         Check a database for the files if it has compiled.
         :param db: The database object
@@ -43,26 +43,26 @@ class BlastDatabase:
         """
 
         extensions = []
-        if 'nucl' == db.typ:
+        if 'nucl' == self.typ:
             extensions = ["nhd", "nhi", "nhr", "nin", "nog", "nsd", "nsi", "nsq"]
-        elif 'prot' == db.typ:
+        elif 'prot' == self.typ:
             extensions = ["phd", "phi", "phr", "pin", "pog", "psd", "psi", "psq"]
-        elif 'rps' == db.typ:
+        elif 'rps' == self.typ:
             extensions = ["aux", "freq", "loo", "phr", "pin", "psd", "psi", "psq", "rps"]
         else:
-            sys.stderr.write("Can't determine what the database type is for {}\n".format(db.typ))
+            sys.stderr.write("Can't determine what the database type is for {}\n".format(self.typ))
             sys.exit(-1)
 
         dbcomplete = True
         for extn in extensions:
-            if not os.path.exists(os.path.join(db.dbdir, "{}.{}".format(db.title, extn))):
+            if not os.path.exists(os.path.join(self.dbdir, "{}.{}".format(self.title, extn))):
                 dbcomplete = False
         return dbcomplete
 
     def make_db(self, fil=None):
         # test and see if the database has already been formatted
 
-        if not self.check_database(self):
+        if not self.check_database():
             sys.stderr.write("The database {} is complete. Not reformatting\n".format(self.title))
             return
 
