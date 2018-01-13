@@ -130,8 +130,8 @@ class VirusFriends:
             # contigs = s.assemble(vdb_parser.dump_to_file())
             weak_fasta = os.path.join(wd, "weak_%s.fasta" % i)
             contigs = s.assemble(weak_fasta)
-            print("contigs returns %s" % contigs)
-            #sys.exit(0)
+            #print("contigs returns %s" % contigs)
+            sys.exit(0)
 
             putative_virus_contigs = s.cdd_screen(contigs, s.cdd_db.path, os.path.join(s.wd, 'rpst'))
 
