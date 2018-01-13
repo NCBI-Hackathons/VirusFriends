@@ -25,7 +25,7 @@ verbose = False
 
 class VirusFriends:
 
-    def __init__(self, wd=None, virusdb=None):
+    def __init__(self, wd=None, virusdb=None, cdddb=None):
         """
         Initialize the class
         :param wd: working directory
@@ -37,32 +37,41 @@ class VirusFriends:
         self.screens = {}
         self.flank_len = 500
         self.dbs_dirname = 'dbs'
-        self.db_sources = {
-            'virusdb': {'src': ['ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.1.genomic.fna.gz',
-                                'ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.2.1.genomic.fna.gz'],
-                        'db': lib.blast.blastdb.makeblastdb.Makeblastdb(name='viral.genomic.refseq.fna',
-                                                                        dbdir=os.path.join(self.wd, self.dbs_dirname),
-                                                                        typ='nucl')},
-            'cdd': {'src': ['ftp://ftp.ncbi.nlm.nih.gov/pub/mmdb/cdd/cdd.tar.gz'],
-                    'db': lib.blast.blastdb.makeprofiledb.Makeprofiledb(name='endovir_cdd',
-                                                                        dbdir=os.path.join(self.wd, self.dbs_dirname),
-                                                                        typ='rps')}
+
+        # we are requiring the databases to be installed already
+        self.db_sources = {}
+        if None == virusdb:
+            self.db_sources['virusdb'] = {
+                    'db' : lib.blast.blastdb.database.BlastDatabase(
+                        dbdir=os.path.join(self.wd, "analysis/dbs"),
+                        name='viral.genomic.refseq.fna',
+                        typ='nucl'
+                    )
+            }
+        else:
+            self.db_sources['virusdb'] = {
+                  'db': lib.blast.blastdb.database.BlastDatabase(
+                      name=os.path.split(virusdb)[1],
+                      dbdir=os.path.join(os.path.split(virusdb)[0]),
+                      typ='nucl')
         }
 
-        if None == virusdb:
-            self.db_sources['virusdb'] = {'src': ['ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.1.genomic.fna.gz',
-                                                  'ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.2.1.genomic.fna.gz'],
-                                          'db': lib.blast.blastdb.makeblastdb.Makeblastdb(
-                                              name='viral.genomic.refseq.fna',
-                                              dbdir=os.path.join(self.wd, self.dbs_dirname),
-                                              typ='nucl')}
+        if None == 'cdd':
+            self.db_sources['cdd'] = {
+                'db' : lib.blast.blastdb.database.BlastDatabase(
+                    name='endovir_cdd',
+                    dbdir=os.path.join(self.wd, self.dbs_dirname),
+                    typ='rps'
+                )
+            }
         else:
-            self.db_sources['virusdb'] = {'src' : [virusdb],
-                                          'db'  : lib.blast.blastdb.makeblastdb.Makeblastdb(
-                                              name=os.path.split(virusdb)[1],
-                                              dbdir=os.path.join(os.path.split(virusdb)[0]),
-                                              typ='nucl')
-                                          }
+            self.db_sources['cdd'] = {
+                'db' : lib.blast.blastdb.database.BlastDatabase(
+                    name=os.path.split(cdddb)[1],
+                    dbdir=os.path.join(os.path.split(cdddb)[0]),
+                    typ='rps'
+                )
+            }
         self.dbs = {}
 
     def set_wd(self):
@@ -71,17 +80,17 @@ class VirusFriends:
 
     def setup(self):
         self.set_wd()
-        self.setup_databases()
+        self.check_databases()
         if verbose:
             sys.stderr.write("Completed database setup\n")
 
-    def setup_databases(self):
-        if not os.path.isdir(os.path.join(self.wd, self.dbs_dirname)):
-            os.mkdir(os.path.join(self.wd, self.dbs_dirname))
-        for i in self.db_sources:
-            print("Setup Blast DB {0}".format(i), file=sys.stderr)
-            self.dbs[i] = self.db_sources[i]['db']
-            self.dbs[i].setup(src=self.db_sources[i]['src'])
+    def check_databases(self):
+        """
+        Check the databases are compiled and if not stop execution
+        :return:
+        """
+
+
 
     def screen(self, inputs=[], intype="srr"):
         vrs_ctgs = {}
@@ -121,8 +130,8 @@ class VirusFriends:
             # contigs = s.assemble(vdb_parser.dump_to_file())
             weak_fasta = os.path.join(wd, "weak_%s.fasta" % i)
             contigs = s.assemble(weak_fasta)
-            print("contigs returns %s" % contigs)
-            #sys.exit(0)
+            #print("contigs returns %s" % contigs)
+            sys.exit(0)
 
             putative_virus_contigs = s.cdd_screen(contigs, s.cdd_db.path, os.path.join(s.wd, 'rpst'))
 

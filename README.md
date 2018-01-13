@@ -35,6 +35,14 @@ Step 2: Weak hits go into denovo assembly, viral motifs search and extension of 
 Input: [fasta file of weak hits]
 Output: enriched contigs, weakly related to known viruses
 
+### How does this relate to previous work?
+
+Our hackathon project is build on the shoulders of many other good projects. The closest relative to this project is [EndoVir](https://github.com/NCBI-Hackathons/EndoVir/tree/master) and our relationship to this project can be seen in the figure below. This project also has deeper roots in [ViruSpy](https://github.com/NCBI-Hackathons/ViruSpy/tree/master), [Virus Domains](
+https://github.com/NCBI-Hackathons/Virus_Domains/tree/master), and [Virus_Detection_SRA](https://github.com/NCBI-Hackathons/Virus_Detection_SRA/tree/master). An overview of this history can be seen [here](https://osf.io/4cn3j/) and our relationship to EndoVir can be seen below.
+
+![endovir and virusfriends](images/EndoVir_VirusFriends.png)
+
+
 ## Use Cases
 
 ### HIV-spiked metagenome
@@ -47,7 +55,9 @@ Output: enriched contigs, weakly related to known viruses
 
 ### VirusFriends with any nucleotides database
 
-### Quick Start Guide ###
+
+
+## Quick Start Guide ##
 To get started, a working directory needs to be created and the appropriate databases need to be put in place. Currently, these steps are best handled by running the setup.sh script in the root directory of VirusFriends.
 `bash setup.sh`
 
@@ -57,11 +67,13 @@ This will create a folder called 'work'. It should download databases into a sub
 
 This will create a directory called SRR5150787 in the work/analysis directory which will contain the initial results from magicblast in the form of a sam file. SPAdes will assemble any weakly matching reads into contigs.fasta in the asm folder. From there, the rpstblastn and bud pipelines will start.
 
-##Dependencies
 
-Python 3.5 
+
+### Dependencies ###
+
+Python 3.5
 Megahit v1.1.2
-Blast 2.7 
+Blast 2.7
 SPAdes v3.11.1
 Samtools 1.6
 Biopython v.
@@ -69,30 +81,6 @@ Sra-toolkit v.2.8.2
 git version 2.7.4
 Pysam 0.13
 
-##Stats on good and weak hits
-
-##Installation 
-Overview Diagram
-
-
-# How to use <this software>
-
 ### Installing <this software> from Github
 
 1. `git clone https://github.com/NCBI-Hackathons/VirusFriends.git`
-
-### Configuration
-
-```Examples here```
-
-# Testing
-
-We tested four different tools with <this software>. They can be found in [server/tools/](server/tools/) .
-
-### How does this relate to previous work?
-
-Our hackathon project is build on the shoulders of many other good projects. The closest relative to this project is [EndoVir](https://github.com/NCBI-Hackathons/EndoVir/tree/master) and our relationship to this project can be seen in the figure below. This project also has deeper roots in [ViruSpy](https://github.com/NCBI-Hackathons/ViruSpy/tree/master), [Virus Domains](
-https://github.com/NCBI-Hackathons/Virus_Domains/tree/master), and [Virus_Detection_SRA](https://github.com/NCBI-Hackathons/Virus_Detection_SRA/tree/master). An overview of this history can be seen [here](https://osf.io/4cn3j/) and our relationship to EndoVir can be seen below.
-
-![endovir and virusfriends](images/EndoVir_VirusFriends.png)
-
