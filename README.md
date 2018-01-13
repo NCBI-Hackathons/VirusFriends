@@ -4,7 +4,7 @@
 ### DOI:DOI 10.17605/OSF.IO/Z4BCN 
 ### https://osf.io/4cn3j/
 
-![Phage Friends!](images/friends.png)
+![Phage Friends!](images/friends.png =250x250)
 
 ## It's always sunny when you have phage friends, too
 
