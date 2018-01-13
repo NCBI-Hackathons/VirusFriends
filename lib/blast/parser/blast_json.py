@@ -29,7 +29,7 @@ class BlastParser:
     self.hsp_count = 0
 
   def parse(self, stdin):
-    blast_result = json.load(stdin)
+    blast_result = json.loads(stdin)
     for i in blast_result['BlastOutput2']:
       self.parse_results(i['report']['results'])
 

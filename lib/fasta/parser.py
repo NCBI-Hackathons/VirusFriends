@@ -17,6 +17,7 @@ class FastaParser:
     self.src = sys.stdin
 
   def parse(self, src=None, fil=None, stream=False):
+    print ("Parsing file %s" % fil)
     if fil != None:
       src = open(fil, 'r')
       self.doFhClose = True
@@ -30,6 +31,7 @@ class FastaParser:
           self.add_sequence(sequence.FastaSequence(header, seq), stream)
           seq = ''
         header = i[1:].strip()
+        print ("found header in parser.py %s" % header)
       else:
         seq += i.strip()
     self.add_sequence(sequence.FastaSequence(header, seq), stream)
