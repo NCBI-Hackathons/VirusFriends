@@ -28,7 +28,7 @@ Overview Diagram
 Step 1. Screen a set of SRA datasets for viral reference genomes and keep the "very good" hits and "weak hits"
 
 Input: [a list of SRA ids] [a fasta file with the viral database]
-Output: sam files, fasta files for weak viral hits, stats about number of hits,identity, etc ... for strong and weak hits
+Output: sam files, fasta files for weak viral hits, stats about number of hits, identity, etc ... for strong and weak hits
 
 Step 2: Weak hits go into denovo assembly, viral motifs search and extension of the contigs
 Input: [fasta file of weak hits]
