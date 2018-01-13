@@ -1,10 +1,7 @@
 
-# VirusFriends -- A pipeline for surveying and exporing related viral strains from SRA datasets
-
+# VirusFriends: discover viral sequences in the NCBI SRA!
 ## Please cite our work!
-
 ### DOI:DOI 10.17605/OSF.IO/Z4BCN 
-
 ### https://osf.io/4cn3j/
 
 ![Phage Friends!](images/friends.png)
