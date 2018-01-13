@@ -1,10 +1,10 @@
 
 # VirusFriends: discover viral sequences in the NCBI SRA!
+![Phage Friends!](images/friends.png)
+
 ## Please cite our work!
 ### DOI:DOI 10.17605/OSF.IO/Z4BCN 
 ### https://osf.io/4cn3j/
-
-![Phage Friends!](images/friends.png)
 
 ## It's always sunny when you have phage friends, too
 
