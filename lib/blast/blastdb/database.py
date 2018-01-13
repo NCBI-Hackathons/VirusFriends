@@ -35,23 +35,32 @@ class BlastDatabase:
         self.cmd = [cmd]
         self.verbose = verbose
 
-    def make_db(self, fil=None):
-        # test and see if the database has already been formatted
+    def check_database(self, db):
+        """
+        Check a database for the files if it has compiled.
+        :param db: The database object
+        :return: True if all files are present. False if not
+        """
 
         extensions = []
-        if 'nucl' == self.typ:
+        if 'nucl' == db.typ:
             extensions = ["nhd", "nhi", "nhr", "nin", "nog", "nsd", "nsi", "nsq"]
-        elif 'prot' == self.typ:
+        elif 'prot' == db.typ:
             extensions = ["phd", "phi", "phr", "pin", "pog", "psd", "psi", "psq"]
         else:
-            sys.stderr.write("Can't determine what the database type is for {}\n".format(self.typ))
+            sys.stderr.write("Can't determine what the database type is for {}\n".format(db.typ))
             sys.exit(-1)
 
         dbcomplete = True
         for extn in extensions:
-            if not os.path.exists(os.path.join(self.dbdir, "{}.{}".format(self.title, extn))):
+            if not os.path.exists(os.path.join(db.dbdir, "{}.{}".format(db.title, extn))):
                 dbcomplete = False
-        if dbcomplete:
+        return dbcomplete
+
+    def make_db(self, fil=None):
+        # test and see if the database has already been formatted
+
+        if not self.check_database(self):
             sys.stderr.write("The database {} is complete. Not reformatting\n".format(self.title))
             return
 
@@ -108,3 +117,6 @@ class BlastDatabase:
             os.unlink('dbgz')
         db.close()
         # print("DB fetch placeholder for {0} to make db {1}".format(src, title))
+
+
+
