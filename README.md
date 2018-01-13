@@ -47,7 +47,15 @@ Output: enriched contigs, weakly related to known viruses
 
 ### VirusFriends with any nucleotides database
 
-##Quick Start
+### Quick Start Guide ###
+To get started, a working directory needs to be created and the appropriate databases need to be put in place. Currently, these steps are best handled by running the setup.sh script in the root directory of VirusFriends.
+`bash setup.sh`
+
+This will create a folder called 'work'. It should download databases into a subfolder in analysis/dbs. In order to run VirusFriends, you will need ot be working from the work directory. To test, run the test dataset through VirusFriends:
+`cd work`
+`../src/virusfriends.py --inputs SRR5150787 -intype srr`
+
+This will create a directory called SRR5150787 in the work/analysis directory which will contain the initial results from magicblast in the form of a sam file. SPAdes will assemble any weakly matching reads into contigs.fasta in the asm folder. From there, the rpstblastn and bud pipelines will start.
 
 ##Dependencies
 
