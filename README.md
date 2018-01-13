@@ -84,10 +84,7 @@ ng the <this software> main website (but should only be used for debug purposes)
 
 ### Installing <this software> from Github
 
-1. `git clone https://github.com/NCBI-Hackathons/<this software>.git`
-2. Edit the configuration files as below
-3. `sh server/<this software>.sh` to test
-4. Add cron job as required (to execute <this software>.sh script)
+1. `git clone https://github.com/NCBI-Hackathons/VirusFriends.git`
 
 ### Configuration
 
@@ -96,26 +93,6 @@ ng the <this software> main website (but should only be used for debug purposes)
 # Testing
 
 We tested four different tools with <this software>. They can be found in [server/tools/](server/tools/) .
-
-# Additional Functionality
-
-### DockerFile
-
-<this software> comes with a Dockerfile which can be used to build the Docker image.
-
-  1. `git clone https://github.com/NCBI-Hackathons/<this software>.git`
-  2. `cd server`
-  3. `docker build --rm -t <this software>/<this software> .`
-  4. `docker run -t -i <this software>/<this software>`
-
-### Website
-
-There is also a Docker image for hosting the main website. This should only be used for debug purposes.
-
-  1. `git clone https://github.com/NCBI-Hackathons/<this software>.git`
-  2. `cd Website`
-  3. `docker build --rm -t <this software>/website .`
-  4. `docker run -t -i <this software>/website`
 
 ### How does this relate to previous work?
 
