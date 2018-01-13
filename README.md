@@ -77,10 +77,10 @@ This will create a directory called SRR5150787 in the work/analysis directory wh
 * **Blast 2.7**
 * **SPAdes v3.11.1**
 * **Samtools 1.6**
-* **Biopython **
-* **Sra-toolkit v.2.8.2 **
-* **git version 2.7.4 **
-* **Pysam 0.13 **
+* **Biopython**
+* **Sra-toolkit v.2.8.2**
+* **git version 2.7.4**
+* **Pysam 0.13**
 
 ### Installing <this software> from Github
 
