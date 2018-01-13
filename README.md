@@ -92,7 +92,7 @@ Pysam 0.13
 * **Kyle Levi**
 * **Carrie Ganote**
 * **Bhavya Papudeshi**
-* **Sean Benlar**
+* **Sean Benler**
 * **Ana Cobian**
 * **Rob Edwards**
 * **Ben Busby**
