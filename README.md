@@ -84,7 +84,3 @@ Pysam 0.13
 ### Installing <this software> from Github
 
 1. `git clone https://github.com/NCBI-Hackathons/VirusFriends.git`
-
-### Configuration
-
-```Examples here```
