@@ -69,19 +69,6 @@ Overview Diagram
 
 # How to use <this software>
 
-## Installation options:
-
-We provide two options for installing <this software>: Docker or directly from Github.
-
-### Docker
-
-The Docker image contains <this software> as well as a webserver and FTP server in case you want to deploy the FTP server. It does also contain a web server for testi
-ng the <this software> main website (but should only be used for debug purposes).
-
-1. `docker pull ncbihackathons/<this software>` command to pull the image from the DockerHub
-2. `docker run ncbihackathons/<this software>` Run the docker image from the master shell script
-3. Edit the configuration files as below
-
 ### Installing <this software> from Github
 
 1. `git clone https://github.com/NCBI-Hackathons/VirusFriends.git`
