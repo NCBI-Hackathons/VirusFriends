@@ -47,6 +47,8 @@ class BlastDatabase:
             extensions = ["nhd", "nhi", "nhr", "nin", "nog", "nsd", "nsi", "nsq"]
         elif 'prot' == db.typ:
             extensions = ["phd", "phi", "phr", "pin", "pog", "psd", "psi", "psq"]
+        elif 'rps' == db.typ:
+            extensions = ["aux", "freq", "loo", "phr", "pin", "psd", "psi", "psq", "rps"]
         else:
             sys.stderr.write("Can't determine what the database type is for {}\n".format(db.typ))
             sys.exit(-1)
