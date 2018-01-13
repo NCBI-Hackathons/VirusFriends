@@ -21,6 +21,7 @@ VirusFriends is a bioinformatics tool that discovers viruses in Whole Shotgun Se
 ## What is VirusFriends?
 
 This is an implementation that is inpired on work developed on previous NCBI-hackatons as part of the Virus Discovery Project, the natural histor of this work is: SIDEARM --> Virome Sniff --> ViruSpy --> EndoVir --> VirusFriends
+
 VirusFriends is the latest stage of the [Virus Discovery Project] (https://osf.io/4cn3j/) developed at several NCBI-sponsored hackathons 
 
 ### Pipeline 
@@ -84,3 +85,15 @@ Pysam 0.13
 ### Installing <this software> from Github
 
 1. `git clone https://github.com/NCBI-Hackathons/VirusFriends.git`
+
+## Authors
+
+* **Taylor G. O’Connell** 
+* **Kyle Levi**
+* **Carrie Ganote**
+* **Bhavya Papudeshi**
+* **Sean Benler**
+* **Ana Cobian**
+* **Rob Edwards**
+* **Ben Busby**
+* **Jan Piotr Buchmann** 
