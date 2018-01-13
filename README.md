@@ -71,9 +71,9 @@ This will create a directory called SRR5150787 in the work/analysis directory wh
 
 ### Dependencies ###
 
-Python 3.5 
+Python 3.5
 Megahit v1.1.2
-Blast 2.7 
+Blast 2.7
 SPAdes v3.11.1
 Samtools 1.6
 Biopython v.
