@@ -57,7 +57,7 @@ This will create a folder called 'work'. It should download databases into a sub
 
 This will create a directory called SRR5150787 in the work/analysis directory which will contain the initial results from magicblast in the form of a sam file. SPAdes will assemble any weakly matching reads into contigs.fasta in the asm folder. From there, the rpstblastn and bud pipelines will start.
 
-##Dependencies
+### Dependencies ###
 
 Python 3.5 
 Megahit v1.1.2
@@ -68,14 +68,6 @@ Biopython v.
 Sra-toolkit v.2.8.2
 git version 2.7.4
 Pysam 0.13
-
-##Stats on good and weak hits
-
-##Installation 
-Overview Diagram
-
-
-# How to use <this software>
 
 ### Installing <this software> from Github
 
