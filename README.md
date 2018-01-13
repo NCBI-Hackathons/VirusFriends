@@ -9,14 +9,13 @@
 
 ![virus friends](images/phagefriends2.png)
 
-## VirusFriends is an implementation to discover viruses that are slightly related to already known ones. The idea is to use the genomes of known viruses as anchors to expand the viral sequence space. 
+## VirusFriends is an implementation to discover viruses that are slightly related to already known ones. 
+The idea is to use the genomes of known viruses as anchors to expand the viral sequence space. 
 
-## What's the problem?
+## Why VirusFriends?
 It's being estimated that there are 3x10^31 viral particles in the world, but only ~9,500 viral genomes have being described at a genomic level. This means there is a huge amount of viruses to be discovered! 
 
 VirusFriends is a bioinformatics tool that discovers viruses in Whole Shotgun Sequence metagenomic samples in the Sequence Read Archive.  In addition to identification and quantification of known viruses in metagenomes, VirusFriends also allows for identification of novel viruses in metagenomic samples. VirusFriends uses Magic-BLAST to screen metagenomes from the SRA for presence of reads that map to the NCBI Viral RefSeq database or a custom user-specified reference database. For a given reference, statistics are output that include read coverage, and numbers of reads mapped at various levels of sequence identity. Novel viruses are identified by de-novo assembly and iteratively searching for reads that map to the 5’ and 3’ ends of a given contig to extend the contig’s length.
-
-## Why should we solve it?
 
 # What is VirusFriends?
 
