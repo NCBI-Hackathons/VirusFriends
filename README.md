@@ -88,12 +88,12 @@ This will create a directory called SRR5150787 in the work/analysis directory wh
 
 ## Authors
 
-* **Taylor G. O’Connell** 
+* **Taylor G. O’Connell** (https://github.com/taylor-oconnell)
 * **Kyle Levi** (https://github.com/KyleLevi)
-* **Carrie Ganote**
-* **Bhavya Papudeshi**
-* **Sean Benler**
-* **Ana Cobian**
-* **Rob Edwards**
-* **Ben Busby**
+* **Carrie Ganote** (https://github.com/cganote)
+* **Bhavya Papudeshi** 
+* **Sean Benler** (https://github.com/sean-bam)
+* **Ana Cobian** (https://github.com/yinacobian)
+* **Rob Edwards** (https://github.com/linsalrob)
+* **Ben Busby** (https://github.com/DCGenomics)
 * **Jan Piotr Buchmann** 
