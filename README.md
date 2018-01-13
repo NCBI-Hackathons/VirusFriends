@@ -1,10 +1,10 @@
 
 # VirusFriends: discover viral sequences in the NCBI SRA!
+![Phage Friends!](images/friends.png)
+
 ## Please cite our work!
 ### DOI:DOI 10.17605/OSF.IO/Z4BCN 
 ### https://osf.io/4cn3j/
-
-![Phage Friends!](images/friends.png)
 
 ## It's always sunny when you have phage friends, too
 
@@ -13,7 +13,7 @@
 ## VirusFriends is an implementation to discover viruses that are slightly related to already known ones. The idea is to use the genomes of known viruses as anchors to expand the viral sequence space. 
 
 ## What's the problem?
-It's being estimated that there are 3x10^31 viral particles in the world, but only ~9,500 viral genomes have being described at a genomic level. This means there is a hughe amount of viruses to be discovered! 
+It's being estimated that there are 3x10^31 viral particles in the world, but only ~9,500 viral genomes have being described at a genomic level. This means there is a huge amount of viruses to be discovered! 
 
 ## Why should we solve it?
 
@@ -22,13 +22,46 @@ It's being estimated that there are 3x10^31 viral particles in the world, but on
 This is an implementation that is inpired on work developed on previous NCBI-hackatons as part of the Virus Discovery Project, the natural histor of this work is: SIDEARM --> Virome Sniff --> ViruSpy --> EndoVir --> VirusFriends
 VirusFriends is the latest stage of the [Virus Discovery Project] (https://osf.io/4cn3j/) developed at several NCBI-sponsored hackathons 
 
+##Pipeline 
 
+VirusFriends is a bioinformatics tool that discovers viruses in Whole Shotgun Sequence metagenomic samples in the Sequence Read Archive.  In addition to identification and quantification of known viruses in metagenomes, VirusFriends also allows for identification of novel viruses in metagenomic samples. VirusFriends uses Magic-BLAST to screen metagenomes from the SRA for presence of reads that map to the NCBI Viral RefSeq database or a custom user-specified reference database. For a given reference, statistics are output that include read coverage, and numbers of reads mapped at various levels of sequence identity. Novel viruses are identified by de-novo assembly and iteratively searching for reads that map to the 5’ and 3’ ends of a given contig to extend the contig’s length.
+
+
+##Use Cases
+
+###HIV
+
+###Ebola
+
+###crAssphage
+
+###Picobirnavirus
+
+###VirusFriends with any nucleotides database
+
+##Quick Start
+
+##Dependencies
+
+Python 3.5 
+Megahit v1.1.2
+Blast 2.7 
+SPAdes v3.11.1
+Samtools 1.6
+Biopython v.
+Sra-toolkit v.2.8.2
+git version 2.7.4
+Pysam 0.13
+
+##Stats on good and weak hits
+
+##Installation 
 Overview Diagram
 ![VirusFriends Pipeline](images/Workflow.png)
 Step 1. Screen a set of SRA datasets for viral reference genomes and keep the "very good" hits and "weak hits"
 
 Input: [a list of SRA ids] [a fasta file with the viral database]
-Output: sam files, fasta files for weak viral hits, stats about number of hits,identity, etc ... for strong and weak hits
+Output: sam files, fasta files for weak viral hits, stats about number of hits, identity, etc ... for strong and weak hits
 
 Step 2: Weak hits go into denovo assembly, viral motifs search and extension of the contigs
 Input: [fasta file of weak hits]
