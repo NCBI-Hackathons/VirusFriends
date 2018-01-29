@@ -37,41 +37,18 @@ class VirusFriends:
         self.screens = {}
         self.flank_len = 500
         self.dbs_dirname = 'dbs'
-
-        # we are requiring the databases to be installed already
-        self.db_sources = {}
-        if None == virusdb:
-            self.db_sources['virusdb'] = {
-                    'db' : lib.blast.blastdb.database.BlastDatabase(
-                        dbdir=os.path.join(self.wd, "analysis/dbs"),
-                        name='viral.genomic.refseq.fna',
-                        typ='nucl'
-                    )
-            }
-        else:
-            self.db_sources['virusdb'] = {
-                  'db': lib.blast.blastdb.database.BlastDatabase(
-                      name=os.path.split(virusdb)[1],
-                      dbdir=os.path.join(os.path.split(virusdb)[0]),
-                      typ='nucl')
+        #chnaged the code back to endovir
+        self.db_sources = {
+            'virusdb' : {'src' : ['ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.1.genomic.fna.gz',
+                                  'ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.2.1.genomic.fna.gz'],
+                          'db' : lib.blast.blastdb.makeblastdb.Makeblastdb(name='viral.genomic.refseq.fna',
+                                                                    dbdir=os.path.join(self.wd, self.dbs_dirname),
+                                                                    typ='nucl')},
+             'cdd' : {'src' : ['ftp://ftp.ncbi.nlm.nih.gov/pub/mmdb/cdd/cdd.tar.gz'],
+                      'db' : lib.blast.blastdb.makeprofiledb.Makeprofiledb(name='endovir_cdd',
+                                                                    dbdir=os.path.join(self.wd, self.dbs_dirname),
+                                                                    typ='rps')}
         }
-
-        if None == cdddb:
-            self.db_sources['cdd'] = {
-                'db' : lib.blast.blastdb.database.BlastDatabase(
-                    name='endovir_cdd',
-                    dbdir=os.path.join(self.wd, self.dbs_dirname),
-                    typ='rps'
-                )
-            }
-        else:
-            self.db_sources['cdd'] = {
-                'db' : lib.blast.blastdb.database.BlastDatabase(
-                    name=os.path.split(cdddb)[1],
-                    dbdir=os.path.join(os.path.split(cdddb)[0]),
-                    typ='rps'
-                )
-            }
         self.dbs = {}
 
     def set_wd(self):
@@ -85,18 +62,13 @@ class VirusFriends:
             sys.stderr.write("Completed database setup\n")
 
     def check_databases(self):
-        """
-        Check the databases are compiled and if not stop execution
-        :return:
-        """
-        complete = True
-        for d in self.db_sources:
-            if not self.db_sources[d]['db'].check_database():
-                complete = False
-                sys.stderr.write("ERROR: {} is not a properly formatted database\n".format(self.db_sources[d]['db'].title))
-        if not complete:
-            sys.exit(-1)
-
+        #Chnaging this code back to endovir code
+        if not os.path.isdir(os.path.join(self.wd, self.dbs_dirname)):
+           os.mkdir(os.path.join(self.wd, self.dbs_dirname))
+        for i in self.db_sources:
+           print("Setup Blast DB {0}".format(i), file=sys.stderr)
+           self.dbs[i] = self.db_sources[i]['db']
+           self.dbs[i].setup(src=self.db_sources[i]['src'])
 
     def screen(self, inputs=[], intype="srr"):
         vrs_ctgs = {}
@@ -122,12 +94,15 @@ class VirusFriends:
             ###  and runs magicblast if it isn't there or is size 0
             sambasename = "%s.sam" % i
             samfile = os.path.join(wd, sambasename)
-            if (os.path.isfile(samfile) and os.path.getsize(samfile) > 0):
+            if (os.path.isfile(samfile) > 0):
                 print("There's already a sam file at %s, skipping magicblast." % samfile)
             else:
                 print("Could not find samfile at location %s, running magicblast." % samfile)
                 s.screen_srr(s.srr, s.virus_db.path, samfile)
-            # srr_sam = os.path.join(wd,"magicblast.sam")
+                #srr_alignments = s.screen_srr(i, s.virus_db.path)
+                #vdb_parser = s.vdbdump.run(s.srr, srr_alignments)
+            
+            samfile = os.path.join(wd,"magicblast.sam")
 
             print("sam is %s and current working dir is %s" % (samfile, wd))
             sortit = s.sort_matches(samfile, wd)
@@ -141,7 +116,7 @@ class VirusFriends:
 
             putative_virus_contigs = s.cdd_screen(contigs, s.cdd_db.path, os.path.join(s.wd, 'rpst'))
 
-            if len(putative_virus_contigs) > 0:
+            if len(putative_virus_contigs) > 1000:
                 for j in putative_virus_contigs:
 
                     print ("working on contig # j %s" % s.assembler.parser.sequences)
@@ -189,7 +164,7 @@ def main():
 
     # srrs = ['SRR5150787', 'SRR5832142']
     if args.inputs == ['SRR5150787']:
-        print("Running test in {} using {}".format(args.wd, args.inputs), file=sys.stderr)
+        print("Running test in {} using {}".format(args.wd, args.inputs))
     else:
         print("Analyzing  {} using {}.".format(args.inputs, args.wd), file=sys.stderr)
 
