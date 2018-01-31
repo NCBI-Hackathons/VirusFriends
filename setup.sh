@@ -60,8 +60,6 @@ function install_edirect()
 		if [ $INSTALL == 1 ]; then
 			echo "INSTALLING edirect in $endovir_tools/edirect"
 			cd $endovir_tools
-			mkdir edirect
-			cd edirect
 			perl -MNet::FTP -e \
 			    '$ftp = new Net::FTP("ftp.ncbi.nlm.nih.gov", Passive => 1);
 			     $ftp->login; $ftp->binary;
