@@ -44,8 +44,6 @@ fi
 mkdir -p $endovir_tools
 mkdir -p $endovir_dbs
 
-
-
 NEWPATH=""
 
 function install_edirect()
@@ -160,3 +158,9 @@ install_blast
 setup_magicblast
 make_endovir_cdd
 finish_up
+
+# Need to add script to install SPAdes,
+# check if python 3.5 is installed and python3 points to python3.5 
+# pysam is installed
+# sra-toolkit is installed 
+# viral.genomic.fna file gets downloaded as well
