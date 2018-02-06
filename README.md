@@ -57,34 +57,37 @@ https://github.com/NCBI-Hackathons/Virus_Domains/tree/master), and [Virus_Detect
 ### Picobirnavirus
 
 ### VirusFriends with any nucleotides database
-
+  
 ## Quick Start Guide ##
-To get started, a working directory needs to be created and the appropriate databases need to be put in place. Currently, these steps are best handled by running the setup.sh script in the root directory of VirusFriends.
-`bash setup.sh`
+To get started, a working directory needs to be created and the appropriate databases need to be put in place. Currently, these steps are best handled by running the setup.sh script in the root directory of VirusFriends. The setup.sh script installs a list of tools required to run VirusFriends. 
+`bash setup.sh -I`
+To list the list of tools that will be installed run 
+`bash setup -L`
 
-This will create a folder called 'work'. It should download databases into a subfolder in analysis/dbs. In order to run VirusFriends, you will need ot be working from the work directory. To test, run the test dataset through VirusFriends:
-`cd work`
-`../src/virusfriends.py --inputs SRR5150787 -intype srr`
+To run VirusFriends
+`python3 src/virusfriends.py --inputs SRR5150787 -intype srr`
 
-This will create a directory called SRR5150787 in the work/analysis directory which will contain the initial results from magicblast in the form of a sam file. SPAdes will assemble any weakly matching reads into contigs.fasta in the asm folder. From there, the rpstblastn and bud pipelines will start.
-
-
+This will create a directory called SRR5150787 in the VirusFriends/analysis directory which will contain the initial results from magicblast in the form of a sam file. SPAdes will assemble any weakly matching reads into contigs.fasta in the asm folder. From there, the rpstblastn and bud pipelines will start.
 
 ### Dependencies ###
 
-* **Python 3.5**
-* **Megahit v1.1.2**
-* **Blast 2.7**
-* **SPAdes v3.11.1**
-* **Samtools 1.6**
-* **Biopython**
-* **Sra-toolkit v.2.8.2**
-* **git version 2.7.4**
-* **Pysam 0.13**
-
+VirusFriends require a set of tools, most of these tools are installed using the setup.sh script if they are already not in your path. There are three dependencies that are not installed by setup.sh script currently, but required to run VirusFriends 
+  * **git version 2.7.4** 
+  * **Python 3.5**
+  * **Pysam 0.13**
+  * **Samtools 1.7**
+  * **Biopython**
+  
 ### Installing <this software> from Github
 
 1. `git clone https://github.com/NCBI-Hackathons/VirusFriends.git`
+  
+The follwing tools are downloaded and installed by setup.sh file if not already installed and in your path
+* **Megahit v1.1.2**
+* **Blast 2.7**
+* **SPAdes v3.11.1**
+* **Sra-toolkit v.2.8.2**
+* **MagicBlast v1.3.0**
 
 ## Authors
 
