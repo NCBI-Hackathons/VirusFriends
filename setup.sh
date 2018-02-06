@@ -4,6 +4,7 @@
 #  Copyright 2017 The University of Sydney
 #  Author: Jan P Buchmann <jan.buchmann@sydney.edu.au>
 #  Author: Robert Edwards <raedwards@gmail.com>
+#  Author: Bhavya Papudeshi<npbhavya13@gmail.com>
 #  Description:
 #   Install some dependencies for VirusFriends
 #
@@ -91,13 +92,11 @@ function install_blast()
 	fi
 }
 
-
-
 function setup_magicblast()
 {
 	magicblast=$(which magicblast)
 	if [ -z $magicblast ]; then
-		if [ $TESTONLY == 1 ]; then echo "MagicBlast (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/magicblast/LATEST) whill be installed"; fi
+		if [ $TESTONLY == 1 ]; then echo "MagicBlast (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/magicblast/LATEST) will be installed"; fi
 		if [ $INSTALL == 1 ]; then
 			echo "Installing magicblast"
 			cd $endovir_tools
@@ -110,6 +109,43 @@ function setup_magicblast()
 		fi
 	fi
 }
+
+function setup_spades()
+{
+        spades=$(which spades.py)
+        if [ -z $spades ]; then
+                if [ $TESTONLY == 1 ]; then echo "SPAdes (http://cab.spbu.ru/files/release3.11.1/SPAdes-3.11.1-Linux.tar.gz) will be installed"; fi
+                if [ $INSTALL == 1 ]; then
+                        echo "Installing SPAdes"
+                        cd $endovir_tools
+                        wget  http://cab.spbu.ru/files/release3.11.1/SPAdes-3.11.1-Linux.tar.gz -O spades.tar.gz
+                        tar  -xvzf spades.tar.gz 
+                        rm -f spades.tar.gz
+                        P=$(find . -name spades.py | sed -e 's/spades$//; s/^\.\///')
+                        NEWPATH=$NEWPATH:$PWD/$P
+                        cd $BASEDIR
+                fi
+        fi
+}
+
+function setup_sratools()
+{
+        sratools=$(which vdb_dump)
+        if [ -z $sratools ]; then
+                if [ $TESTONLY == 1 ]; then echo "SRA Toolkit (https://github.com/ncbi/sra-tools/archive/2.8.2-5.tar.gz) will be installed"; fi
+                if [ $INSTALL == 1 ]; then
+                        echo "Installing SRAtoolkit"
+                        cd $endovir_tools
+                        wget https://github.com/ncbi/sra-tools/archive/2.8.2-5.tar.gz -O sratoolkit.tar.gz
+                        tar  -xvzf sratoolkit.tar.gz
+                        rm -f sratoolkit.tar.gz
+                        P=$(find . -name vdb_dump | sed -e 's/sratools$//; s/^\.\///')
+                        NEWPATH=$NEWPATH:$PWD/$P
+                        cd $BASEDIR
+                fi
+        fi
+}
+
 
 function make_endovir_cdd()
 {
@@ -156,11 +192,8 @@ function finish_up()
 install_edirect
 install_blast
 setup_magicblast
+setup_spades
+setup_sratoolkit
 make_endovir_cdd
 finish_up
 
-# Need to add script to install SPAdes,
-# check if python 3.5 is installed and python3 points to python3.5 
-# pysam is installed
-# sra-toolkit is installed 
-# viral.genomic.fna file gets downloaded as well
