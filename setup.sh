@@ -210,27 +210,39 @@ function make_endovir_cdd()
 	if [ $TESTONLY == 1 ]; then echo "Making the VirusFriends CDD libraries"; fi
 	if [ $INSTALL == 1 ]; then 
 		echo "Making the VirusFriends CDD libraries";
-		echo "" > "$endovir_dbs/$endovir_pssms"
+		echo "" > "$VirusFriends_dbs/$VirusFriends_pssms"
 		local qry="txid10239[Organism:exp] NOT (predicted OR putative)"
 		for i in $($esearch -db  cdd -query "$qry"                | \
 		     $efetch -format docsum                               | \
 		     $xtract -pattern DocumentSummary -element Accession  | \
 		     grep -v cl);
 		do
-	     		echo $i".smp" >> "$endovir_dbs/$endovir_pssms"
+	     		echo $i".smp" >> "$VirusFriends_dbs/$VirusFriends_pssms"
     		done
 
 		  local cdd_ftp='ftp://ftp.ncbi.nlm.nih.gov/pub/mmdb/cdd/cdd.tar.gz'
-		  wget $cdd_ftp -O - | tar -C "$endovir_dbs/" -xzvT "$endovir_dbs/$endovir_pssms"
+		  wget $cdd_ftp -O - | tar -C "$VirusFriends_dbs/" -xzvT "$VirusFriends_dbs/$VirusFriends_pssms"
 		  cd $VirusFriends_dbs
 		  $makeprofiledb -title "endovir"                    \
-				 -in "$endovir_dbs/$endovir_pssms"   \
-				 -out "$endovir_dbs/endovir_cdd"     \
+				 -in "$VirusFriends_dbs/$VirusFriends_pssms"   \
+				 -out "$VirusFriends_dbs/endovir_cdd"     \
 				 -threshold 9.82                     \
 				 -scale 100                          \
 				 -dbtype rps                         \
 				 -index true
 	fi
+}
+
+function make_viralrefseq_database()
+{
+
+        if [ $TESTONLY == 1 ]; then echo "Making the VirusFriends viral refseq database"; fi
+        if [ $INSTALL == 1 ]; then
+                echo "Making the VirusFriends viral refseq database";
+		wget ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.1.genomic.fna.gz -O viral.2.1.genomic.fna.gz
+		makeblastdb -title viral.genomic.refseq.fna  -in $VirusFriends_dbs/viral.2.1.genomic.fna.gz  \
+				-out $VirusFriends_dbs/viral.genomic.refseq.fna -dbtype nucl -parse_seqids 
+        fi
 }
 
 
@@ -254,5 +266,6 @@ setup_sratoolkit
 setup_samtools
 python_check
 make_endovir_cdd
+make_viralrefseq_database
 finish_up
 
