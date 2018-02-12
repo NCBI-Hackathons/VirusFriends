@@ -114,7 +114,7 @@ function python3_check()
 {
         python=$(python3 --version)
 	python_version=$( echo $python | cut -d ' ' -f2 )
-        if [ -z $python_version != 3.5.5 ]; then
+        if [ "$python_version" != 3.5.5 ]; then
                 if [ $TESTONLY == 1 ]; then echo "Installing Python v3.5.5(https://www.python.org/ftp/python/3.5.5/Python-3.5.5.tgz) will be installed"; fi
                 if [ $INSTALL == 1 ]; then
                         echo "Installing python3"
@@ -137,8 +137,8 @@ function python3_check()
 			export PATH=$VirusFriends_tools/Python-3.5.5/bin:$PATH
 			export PYTHONPATH=$VirusFriends_tools/Python-3.5.5:$PYTHONPATH
                         #checking for pysam install, making an assumption you have root access on the machine. Code needs to be fixed for non-root install
-			sudo pip3 install pysam
-			sudo pip3 install biopython
+			pip3 install pysam --user
+			pip3 install biopython --user
 			cd $BASEDIR
                 fi
         fi
@@ -258,14 +258,14 @@ function finish_up()
 	fi
 }
 
-install_edirect
-install_blast
-setup_magicblast
-setup_spades
-setup_sratoolkit
-setup_samtools
-python_check
-make_endovir_cdd
-make_viralrefseq_database
+#install_edirect
+#install_blast
+#setup_magicblast
+#setup_spades
+#setup_sratoolkit
+#setup_samtools
+python3_check
+#make_endovir_cdd
+#make_viralrefseq_database
 finish_up
 
