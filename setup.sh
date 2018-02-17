@@ -258,14 +258,14 @@ function finish_up()
 	fi
 }
 
-#install_edirect
-#install_blast
-#setup_magicblast
-#setup_spades
-#setup_sratoolkit
-#setup_samtools
+install_edirect
+install_blast
+setup_magicblast
+setup_spades
+setup_sratoolkit
+setup_samtools
 python3_check
-#make_endovir_cdd
-#make_viralrefseq_database
+make_endovir_cdd
+make_viralrefseq_database
 finish_up
 
