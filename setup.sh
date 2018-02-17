@@ -239,8 +239,9 @@ function make_viralrefseq_database()
         if [ $TESTONLY == 1 ]; then echo "Making the VirusFriends viral refseq database"; fi
         if [ $INSTALL == 1 ]; then
                 echo "Making the VirusFriends viral refseq database";
-		wget ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.1.genomic.fna.gz -O viral.2.1.genomic.fna.gz
-		makeblastdb -title viral.genomic.refseq.fna  -in $VirusFriends_dbs/viral.2.1.genomic.fna.gz  \
+		wget ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.1.genomic.fna.gz -O $VirusFriends_dbs/viral.genomic.fna.gz
+                gunzip -d  $VirusFriends_dbs/viral.genomic.fna.gz
+		makeblastdb -title viral.genomic.refseq.fna  -in $VirusFriends_dbs/viral.genomic.fna  \
 				-out $VirusFriends_dbs/viral.genomic.refseq.fna -dbtype nucl -parse_seqids 
         fi
 }
