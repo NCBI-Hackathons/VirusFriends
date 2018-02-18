@@ -13,7 +13,6 @@
 export VirusFriends=$PWD
 VirusFriends_dbs="$VirusFriends/analysis/dbs"
 VirusFriends_tools="$VirusFriends/tools"
-VirusFriends_pssms='VirusFriends.pn'
 BASEDIR=$PWD
 
 TESTONLY=0
@@ -203,35 +202,29 @@ function setup_sratools()
         fi
 }
 
-
 function make_endovir_cdd()
 {
 
-	if [ $TESTONLY == 1 ]; then echo "Making the VirusFriends CDD libraries"; fi
-	if [ $INSTALL == 1 ]; then 
-		echo "Making the VirusFriends CDD libraries";
-		echo "" > "$VirusFriends_dbs/$VirusFriends_pssms"
-		local qry="txid10239[Organism:exp] NOT (predicted OR putative)"
-		for i in $($esearch -db  cdd -query "$qry"                | \
-		     $efetch -format docsum                               | \
-		     $xtract -pattern DocumentSummary -element Accession  | \
-		     grep -v cl);
-		do
-	     		echo $i".smp" >> "$VirusFriends_dbs/$VirusFriends_pssms"
-    		done
+  if [ $TESTONLY == 1 ]; then echo "Making the VirusFriends CDD libraries"; fi
+  if [ $INSTALL == 1 ]; then
+  	echo "" > "$VirusFriends_dbs/$endovir_pssms"
+  	local qry="txid10239[Organism:exp] NOT (predicted OR putative)"
+  	for i in $($esearch -db  cdd -query "$qry"                      | \
+             $efetch -format docsum                               | \
+             $xtract -pattern DocumentSummary -element Accession  | \
+             grep -v cl)
+    	do
+      	     echo $i".smp" >> "$VirusFriends_dbs/$endovir_pssms"
+    	done
 
-		  local cdd_ftp='ftp://ftp.ncbi.nlm.nih.gov/pub/mmdb/cdd/cdd.tar.gz'
-		  wget $cdd_ftp -O - | tar -C "$VirusFriends_dbs/" -xzvT "$VirusFriends_dbs/$VirusFriends_pssms"
-		  cd $VirusFriends_dbs
-		  $makeprofiledb -title "endovir"                    \
-				 -in "$VirusFriends_dbs/$VirusFriends_pssms"   \
-				 -out "$VirusFriends_dbs/endovir_cdd"     \
-				 -threshold 9.82                     \
-				 -scale 100                          \
-				 -dbtype rps                         \
-				 -index true
-	fi
+  	local cdd_ftp='ftp://ftp.ncbi.nlm.nih.gov/pub/mmdb/cdd/cdd.tar.gz'
+  	wget $cdd_ftp -O - | tar -C "$VirusFriends_dbs/" -xzvT "$VirusFriends_dbs/$endovir_pssms"
+  	cd $VirusFriends_dbs
+  	makeprofiledb -title endovir -in $VirusFriends_dbs/Cdd.pn   \
+                 -out $VirusFriends_dbs/endovir_cdd -dbtype rps -threshold 9.82 -scale 100 -index true
+  fi
 }
+
 
 function make_viralrefseq_database()
 {
@@ -259,7 +252,7 @@ function finish_up()
 	fi
 }
 
-install_edirect
+#install_edirect
 install_blast
 setup_magicblast
 setup_spades
