@@ -66,7 +66,7 @@ To list the list of tools that will be installed run
 `bash setup -L`
 
 To run VirusFriends
-`python3 src/virusfriends.py --inputs SRR5150787 -intype srr`
+`python3 src/virusfriends.py --inputs SRR5150787`
 
 This will create a directory called SRR5150787 in the VirusFriends/analysis directory which will contain the initial results from magicblast in the form of a sam file. SPAdes will assemble any weakly matching reads into contigs.fasta in the asm folder. From there, the rpstblastn and bud pipelines will start.
 
