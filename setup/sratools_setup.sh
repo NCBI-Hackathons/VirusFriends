@@ -10,38 +10,37 @@
 
 function install_sratools()
 {
+  if [ $TESTONLY == 1 ]
+    then
+      echo "SRATools will be installed ($1)"
+      return
+  fi
 
+  echo "Installing SRAtoolkit"
+  local sradir="$VirusFriends_tools/sratools"
+  mkdir -p "$sradir"
+  wget $1 -O - | tar -C $sradir --strip-components=1 -zxvf -
+  P=$(find . -name vdb_dump | sed -e 's/sratools$//; s/^\.\///')
+  NEWPATH=$NEWPATH:$PWD/$P
 }
 
 
 function setup_sratools()
 {
   local ftp_path="https://github.com/ncbi/sra-tools/archive/2.8.2-5.tar.gz"
-
   if isInPath 'vdb_dump'
     then
-      echo "Found spades: $(which spades)"
+      echo "Found vdb_dump, assuming working version of SRAtools: $(which vdb_dump)"
       return
   fi
-  if [ $TESTONLY == 1 ]
-    then
-      echo "SPAdes will be installed ($ftp_path)"
-      return
-  fi
-  install_spades $ftp_path
+  echo "TESTING MODE uncomment spades install cmd"
+  install_sratools $ftp_path
   cd $BASEDIR
 
-  sratools=$(which vdb_dump)
   if [ -z $sratools ]; then
           if [ $TESTONLY == 1 ]; then echo "SRA Toolkit (https://github.com/ncbi/sra-tools/archive/2.8.2-5.tar.gz) will be installed"; fi
           if [ $INSTALL == 1 ]; then
-                  echo "Installing SRAtoolkit"
-                  cd $VirusFriends_tools
-                  wget https://github.com/ncbi/sra-tools/archive/2.8.2-5.tar.gz -O sratoolkit.tar.gz
-                  tar  -xvzf sratoolkit.tar.gz
-                  rm -f sratoolkit.tar.gz
-                  P=$(find . -name vdb_dump | sed -e 's/sratools$//; s/^\.\///')
-                  NEWPATH=$NEWPATH:$PWD/$P
+
                   cd $BASEDIR
           fi
   fi

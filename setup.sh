@@ -59,11 +59,11 @@ function expand_newpath()
 }
 
 ## Load libaries
-#source $VirusFriends/setup/edirect_setup.sh
+source $VirusFriends/setup/edirect_setup.sh
 source $VirusFriends/setup/python_setup.sh
-#source $VirusFriends/setup/blast_setup.sh
-#source $VirusFriends/setup/samtools_setup.sh
-#ource $VirusFriends/setup/spades_setup.sh
+source $VirusFriends/setup/blast_setup.sh
+source $VirusFriends/setup/samtools_setup.sh
+source $VirusFriends/setup/spades_setup.sh
 
 
 
@@ -118,11 +118,11 @@ function finish_up()
   fi
 }
 
-#setup_edirect
+setup_edirect
 setup_python
-#setup_blast
-#setup_magicblast
-#setup_spades
+setup_blast
+setup_magicblast
+setup_spades
 #setup_sratoolkit
 #setup_samtools
 

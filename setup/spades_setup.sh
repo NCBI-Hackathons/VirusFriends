@@ -10,6 +10,11 @@
 
 function install_spades()
 {
+  if [ $TESTONLY == 1 ]
+    then
+      echo "SPAdes will be installed ($1)"
+      return
+  fi
   local spades_dir="SPAdes-3.11.1-Linux"
   echo "Installing SPAdes"
   cd $VirusFriends_tools
@@ -21,16 +26,12 @@ function setup_spades()
 {
   local ftp_path="http://cab.spbu.ru/files/release3.11.1/SPAdes-3.11.1-Linux.tar.gz"
 
-  if isInPath spades
+  if isInPath 'spades'
     then
       echo "Found spades: $(which spades)"
       return
   fi
-  if [ $TESTONLY == 1 ]
-    then
-      echo "SPAdes will be installed ($ftp_path)"
-      return
-  fi
-  install_spades $ftp_path
+  echo "TESTING MODE uncomment spades install cmd"
+  #install_spades $ftp_path
   cd $BASEDIR
 }
