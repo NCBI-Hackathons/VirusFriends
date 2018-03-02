@@ -15,33 +15,23 @@ function install_sratools()
       echo "SRATools will be installed ($1)"
       return
   fi
-
-  echo "Installing SRAtoolkit"
+  echo "Installing SRAtoolkit ($1)"
   local sradir="$VirusFriends_tools/sratools"
   mkdir -p "$sradir"
   wget $1 -O - | tar -C $sradir --strip-components=1 -zxvf -
-  P=$(find . -name vdb_dump | sed -e 's/sratools$//; s/^\.\///')
-  NEWPATH=$NEWPATH:$PWD/$P
+  expand_newpath "$sradir/bin/"
 }
-
 
 function setup_sratools()
 {
-  local ftp_path="https://github.com/ncbi/sra-tools/archive/2.8.2-5.tar.gz"
-  if isInPath 'vdb_dump'
+  vdbdump='vdb-dump'
+  if isInPath $vdbdump
     then
-      echo "Found vdb_dump, assuming working version of SRAtools: $(which vdb_dump)"
+      echo "Found $vdbdump, assuming working version of SRAtools: $(which $vdbdump)"
       return
   fi
-  echo "TESTING MODE uncomment spades install cmd"
-  install_sratools $ftp_path
-  cd $BASEDIR
-
-  if [ -z $sratools ]; then
-          if [ $TESTONLY == 1 ]; then echo "SRA Toolkit (https://github.com/ncbi/sra-tools/archive/2.8.2-5.tar.gz) will be installed"; fi
-          if [ $INSTALL == 1 ]; then
-
-                  cd $BASEDIR
-          fi
-  fi
+  local ftp_path="https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.8.2/sratoolkit.2.8.2-ubuntu64.tar.gz"
+  echo "TESTING MODE uncomment sratool install cmd"
+  #install_sratools $ftp_path
+  cd $VirusFriends
 }

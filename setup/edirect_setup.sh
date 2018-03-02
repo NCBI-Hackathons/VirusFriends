@@ -17,7 +17,8 @@ function has_edirect()
   printf "    $esearch: "
   if isInPath $esearch
     then
-      printf "$(which $esearch)\n"
+      esearch_bin=$(which $esearch)
+      printf "esearch_bin\n"
     else
       printf "None\n"
       SUCCESS=1
@@ -25,7 +26,8 @@ function has_edirect()
   printf "    $efetch: "
   if isInPath $efetch
     then
-      printf "$(which efetch)\n"
+      efetch_bin=$(which efetch)
+      printf "$efetch_bin\n"
     else
       printf "None\n"
       SUCCESS=1
@@ -33,7 +35,8 @@ function has_edirect()
   printf "    $xtract: "
   if isInPath $xtract
     then
-      printf "$(which $xtract)\n"
+      xtract_bin=$(which $xtract)
+      printf "$xtract_bin\n"
     else
       echo "None"
       SUCCESS=1
@@ -48,12 +51,13 @@ function install_edirect()
       echo "TEST: EDirect will be installed"
       return
   fi
-  echo "INSTALLING edirect in $VirusFriends_tools/edirect"
-  cd $VirusFriends_tools
-  ftp_path="ftp.ncbi.nlm.nih.gov//entrez/entrezdirect/edirect.tar.gz"
-  $wget $ftp_path -O - | tar xf -
-  ./edirect/setup.sh
-  expand_newpath $PWD
+  local edirect_dir="$VirusFriends_tools/edirect"
+  echo "INSTALLING edirect in $edirect_dir"
+  $wget $1 -O - | tar -C $edirect_dir  -xf -
+  sh $edirect_dir/setup.sh
+  expand_newpath $edirect_dir
+  cd $VirusFriends
+  return 0
 }
 
 function setup_edirect()
@@ -64,6 +68,6 @@ function setup_edirect()
       echo "Found EDirect"
       return
   fi
-  install_edirect
-  cd $BASEDIR
+  local ftp_path="ftp.ncbi.nlm.nih.gov//entrez/entrezdirect/edirect.tar.gz"
+  [[ $(install_edirect $1) -eq 0 ]] && return
 }

@@ -15,11 +15,12 @@ function install_spades()
       echo "SPAdes will be installed ($1)"
       return
   fi
-  local spades_dir="SPAdes-3.11.1-Linux"
+  local spades_dir="$VirusFriends_tools/SPAdes"
+  mkdir -p $spades_dir
   echo "Installing SPAdes"
-  cd $VirusFriends_tools
-  $wget $1 -O - |  tar xvzf -
-  expand_newpath "$PWD/$spades_dir/bin"
+  $wget $1 -O - |  tar -C $spades_dir -xvzf -
+  expand_newpath "$spades_dir/bin"
+  cd $VirusFriends
 }
 
 function setup_spades()
@@ -32,6 +33,5 @@ function setup_spades()
       return
   fi
   echo "TESTING MODE uncomment spades install cmd"
-  #install_spades $ftp_path
-  cd $BASEDIR
+  [[ $(install_spades $ftp_path) -eq 0 ]] && return
 }

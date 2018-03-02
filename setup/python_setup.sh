@@ -16,7 +16,7 @@ function get_python_version()
   python_version_patch=$(echo $python_version | cut -d. -f3)
 }
 
-function hasRequiredVersion()
+function hasRequiredVersionPython()
 {
   PYTHON_MIN_MAJ=3
   PYTHON_MIN_MIN=5
@@ -48,24 +48,25 @@ function install_python()
   fi
 
   echo "Installing python 3.5.5 ($1)"
-  cd $VirusFriends_tools
-  wget $1 -O - | tar zxvf -
-  cd Python-3.5.5
-  ./configure --prefix=$VirusFriends_tools/Python-3.5.5/
-  make
-  make install
-
+  local python_dir="$VirusFriends_tools/python"
+  local python_bin_dir="$python_dir/bin"
+  wget $1 -O - | tar -C $python_dir -zxvf -
+  cd $python_dir
+  ./configure --prefix=$python_bin_dir
+  make -j$cpus && make install
   local pip='pip3'
   if ! isInPath $pip
     then
       echo "Installing python $pip"
       wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py -O - | python - --user
   fi
-  export PATH=$VirusFriends_tools/Python-3.5.5/bin:$PATH
-  export PYTHONPATH=$VirusFriends_tools/Python-3.5.5:$PYTHONPATH
-  pip_bin=$(which $pip)
+  export PATH="$python_bin_dir:$PATH"
+  export PYTHONPATH="$python_dir:$PYTHONPATH"
+  local pip_bin=$(which $pip)
   $pip_bin install pysam --user
   $pip_bin biopython --user
+  cd $VirusFriends
+  return 0
 }
 
 function setup_python()
@@ -76,13 +77,12 @@ function setup_python()
     then
       python=$(which python3)
       get_python_version $python
-      if hasRequiredVersion
+      if hasRequiredVersionPython
         then
           echo "Found Python $python_version"
           return
       fi
   fi
   echo "TESTING MODE uncomment python install cmd"
-  #install_python $python_ftp_path
-  cd $BASEDIR
+  [[ $(install_python $python_ftp_path) -eq 0 ]] && return
 }

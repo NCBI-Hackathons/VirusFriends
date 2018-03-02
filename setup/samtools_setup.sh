@@ -7,76 +7,65 @@
 #  \version 0.0.2
 #  \description
 #-------------------------------------------------------------------------------
-function get_samtool_version()
+function get_samtools_version()
 {
-  samtools_version=$(echo $1 --version | grep samtools | cut -f ' ' -f2)
+  local version=$($1 --version | grep samtools| cut -d' ' -f2|cut -d'-' -f1)
   samtools_maj=$(echo $version | cut -d. -f1)
   samtools_min=$(echo $version | cut -d. -f2)
 }
-
-function do_install_samtools()
+function hasRequiredVersionSamtools()
 {
-  if [ $samtools_maj -le $MIN_SAMTOOLS_MAJOR]
+  local MIN_SAMTOOLS_MAJOR=1
+  local MIN_SAMTOOLS_MINOR=7
+
+  if [[ $samtools_maj -gt $MIN_SAMTOOLS_MAJOR ]]
     then
-      [[ $samtools_min -lt $MIN_SAMTOOLS_MINOR ]] && return
-    else
       return
+    else
+      if [[ $samtools_maj -eq $MIN_SAMTOOLS_MAJOR ]]
+        then
+          return
+      else
+        [[ $samtools_min -ge $MIN_SAMTOOLS_MINOR ]]
+        return
+      fi
   fi
 }
 
 function install_samtools()
 {
+  if [ $TESTONLY == 1 ]
+    then
+      echo "SRATools will be installed ($1)"
+      return
+  fi
+  local samtools_dir="$VirusFriends_tools/samtools"
+  local samtools_build_dir="$samtools_dir/build"
   echo "Installing SAMtools"
-  cd $VirusFriends_tools
-  $wget  $1 -O - | tar  vxjf -
-  cd samtools-1.7
-  ./configure --prefix=$VirusFriends_tools/samtools-1.7/
-  make
-  make install
-  cd ..
-  local P=$(find . -name samtools | sed -e 's/samtools$//; s/^\.\///')
-  expand_newpath "$PWD/$P"
-  echo "Installed SAMtools in $PWD/$P"
+  mkdir -p "$samtools_build_dir"
+  $wget  $1 -O - | tar  -C $samtools_build_dir --strip-components=1 -vxjf -
+  cd $samtools_dir
+  ./configure --prefix=$samtools_build_dir
+  make -j$cpus && make install
+  expand_newpath "$samtools_build_dir/bin"
+  echo "Installed SAMtools in $samtools_build_dir/bin"
 }
 
 function setup_samtools()
 {
-  local MIN_SAMTOOLS_MAJOR=1
-  local MIN_SAMTOOLS_MINOR=7
   local ftp_path="https://github.com/samtools/samtools/releases/download/1.7/samtools-1.7.tar.bz2"
-  local samtools_in_path=false
+  local samtools='samtools'
 
-  if isInPath samtools
+  if isInPath $samtools
     then
-      samtools=$(which samtools)
-      get_samtool_version $samtools
-      echo "Found samtools $samtools_version"
-      samtools_in_path=true
-  fi
-
-  if [ $TESTONLY == 1 ]
-    then
-      if [ "$samtools_in_path" = true]
+      get_samtools_version $(which $samtools)
+      if hasRequiredVersionSamtools
         then
-          if do_install_samtools
-            then
-              echo "TEST: SAMTools v.1.7 will be installed ($ftp_path)"
-              return
-          fi
-        else
-          echo "TEST: SAMTools v.1.7 will be installed ($ftp_path)"
+          echo "Found $(eval $(which $samtools) --version | grep samtools)"
           return
       fi
   fi
-
-  if [ "$samtools_in_path" = true ]
-    then
-      if do_install_samtools
-        then
-          install_samtools $ftp_path
-      fi
-    else
-      install_samtools $ftp_path
-  fi
-  cd $BASEDIR
+ echo "TESTING MODE uncomment samtool install cmd"
+ #install_samtools $ftp_path
+ cd $VirusFriends
 }
