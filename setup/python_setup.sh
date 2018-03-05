@@ -84,5 +84,6 @@ function setup_python()
       fi
   fi
   echo "TESTING MODE uncomment python install cmd"
-  [[ $(install_python $python_ftp_path) -eq 0 ]] && return
+  install_python $python_ftp_path
+  return
 }

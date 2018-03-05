@@ -3,7 +3,7 @@ data/
 src/analysis/dbs/*
 *~
 *#
-
+*.geany
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

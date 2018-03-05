@@ -56,7 +56,7 @@ function install_edirect()
   $wget $1 -O - | tar -C $edirect_dir  -xf -
   sh $edirect_dir/setup.sh
   expand_newpath $edirect_dir
-  cd $VirusFriends
+  reset_wd
   return 0
 }
 
@@ -69,5 +69,6 @@ function setup_edirect()
       return
   fi
   local ftp_path="ftp.ncbi.nlm.nih.gov//entrez/entrezdirect/edirect.tar.gz"
-  [[ $(install_edirect $1) -eq 0 ]] && return
+  install_edirect $1
+  return
 }

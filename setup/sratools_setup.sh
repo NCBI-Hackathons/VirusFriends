@@ -20,6 +20,7 @@ function install_sratools()
   mkdir -p "$sradir"
   wget $1 -O - | tar -C $sradir --strip-components=1 -zxvf -
   expand_newpath "$sradir/bin/"
+  cd $VirusFriends
 }
 
 function setup_sratools()
@@ -31,7 +32,6 @@ function setup_sratools()
       return
   fi
   local ftp_path="https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.8.2/sratoolkit.2.8.2-ubuntu64.tar.gz"
-  echo "TESTING MODE uncomment sratool install cmd"
-  #install_sratools $ftp_path
-  cd $VirusFriends
+  install_sratools $ftp_path
+  return
 }

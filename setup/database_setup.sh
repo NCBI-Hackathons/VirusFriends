@@ -3,12 +3,13 @@
 #  \file database_setup.sh
 #  \author Jan P Buchmann <jan.buchmann@sydney.edu.au>
 #  \copyright 2018 The University of Sydney
-#  \version 0.0.0
+#  \version 0.0.1
 #  \description
 #-------------------------------------------------------------------------------
 
 function prepare_cdd_database()
 {
+  printf "" > $1  # reset pn file
   local cdd_smp_dir="$VirusFriends_dbs/cdd_smp"
   mkdir -p $cdd_smp_dir
   local cdd_db="endovir_cdd"
@@ -20,16 +21,16 @@ function prepare_cdd_database()
     do
             echo "$i.smp" >> "$1"
     done
-  $wget $2 -O - | tar -C "$cdd_smp_dir/" -xzvT $1 -f -
+  (set -x; $wget $2 -O - | tar -C "$cdd_smp_dir/" -xzvT $1 -f -)
   cd $cdd_smp_dir
-  makeprofiledb -title endovir     \
-                 -in $1            \
-                 -out ../$cdd_db      \
-                 -dbtype rps       \
-                 -threshold 9.82   \
-                 -scale 100        \
-                 -index true
-  cd $VirusFriends
+  makeprofiledb -title endovir  \
+                -in $1          \
+                -out ../$cdd_db \
+                -dbtype rps     \
+                -threshold 9.82 \
+                -scale 100      \
+                -index true
+  reset_wd
   return 0
 }
 
@@ -41,22 +42,30 @@ function setup_cdd_database()
       return
   fi
   local cdd_pssms="$VirusFriends_dbs/endovir.pn"
-  printf "" > $cdd_pssms  # reset pn file
   local cdd_ftp='ftp://ftp.ncbi.nlm.nih.gov/pub/mmdb/cdd/cdd.tar.gz'
-  [[ $(prepare_cdd_database $cdd_pssms $cdd_ftp) -eq 0 ]] && return
+  prepare_cdd_database $cdd_pssms $cdd_ftp
+
+  return
 }
 
-#function prepare_viral_refseq_database()
-#{
-  #part1="viral.1.1.genomic.fna.gz"
-  #echo "Preapring the VirusFriends viral refseq database"
-
-  #$wget $1 -O $VirusFriends_dbs/viral.genomic.fna.gz
-                #gunzip -d  $VirusFriends_dbs/viral.genomic.fna.gz
-    #makeblastdb -title viral.genomic.refseq.fna  -in $VirusFriends_dbs/viral.genomic.fna  \
-        #-out $VirusFriends_dbs/viral.genomic.refseq.fna -dbtype nucl -parse_seqids
-        #fi
-#}
+function prepare_viral_refseq_database()
+{
+#  echo "Preparing the VirusFriends viral refseq database"
+  local sequences="$VirusFriends_dbs/$1"
+  printf "" > $sequences
+  for i in 1 2
+  do
+    (set -x; $wget "ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.$i.1.genomic.fna.gz" -O -  \
+            | gunzip -d -c >> $sequences)
+  done
+  makeblastdb -title $1       \
+              -in $sequences     \
+              -out $sequences  \
+              -dbtype 'nucl'  \
+              -parse_seqids
+  reset_wd
+  return 0
+}
 
 function setup_viral_refseq_database()
 {
@@ -64,6 +73,7 @@ function setup_viral_refseq_database()
     then echo "Making the VirusFriends viral refseq database"
     return
   fi
-  local ftp_base_path="ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/"
-  [[ $(prepare_viral_refseq_database $ftp_path) -eq 0 ]] && return
+  virus_refseq="virus_refeseq_genomes"
+  prepare_viral_refseq_database $virus_refseq
+  return
 }

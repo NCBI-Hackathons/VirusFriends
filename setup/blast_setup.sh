@@ -33,7 +33,8 @@ function setup_blast()
   fi
   local ftp_path="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/"
   local version="ncbi-blast-*-x64-linux.tar.gz"
-  [[ $(install_blast "$ftp_path/$version") -eq 0 ]] && return
+  install_blast "$ftp_path/$version"
+  return
 }
 
 function install_magicblast()
@@ -61,5 +62,6 @@ function setup_magicblast()
   fi
   local ftp_path="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/magicblast/LATEST"
   local version="ncbi-magicblast-1.3.0-x64-linux.tar.gz"
-  [[ $(install_magicblast "$ftp_path/$version") -eq 0 ]] && return
+  install_magicblast "$ftp_path/$version"
+  return
 }

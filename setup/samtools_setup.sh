@@ -49,6 +49,7 @@ function install_samtools()
   make -j$cpus && make install
   expand_newpath "$samtools_build_dir/bin"
   echo "Installed SAMtools in $samtools_build_dir/bin"
+  cd $VirusFriends
 }
 
 function setup_samtools()
@@ -65,7 +66,6 @@ function setup_samtools()
           return
       fi
   fi
- echo "TESTING MODE uncomment samtool install cmd"
- #install_samtools $ftp_path
- cd $VirusFriends
+ install_samtools $ftp_path
+ return
 }

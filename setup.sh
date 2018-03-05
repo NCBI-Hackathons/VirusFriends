@@ -14,7 +14,7 @@ VF_PATH=""
 ## VirusFriends database directories
 VirusFriends_dbs="$VirusFriends/analysis/dbs"
 mkdir -p $VirusFriends_dbs
-#endovir_cdd="$VirusFriends_dbs/en"
+
 ## VirusFriends tools
 VirusFriends_tools="$VirusFriends/tools"
 mkdir -p $VirusFriends_tools
@@ -26,38 +26,10 @@ make=$(which make)
 ## Global variables for setup
 cpus=$(cat /proc/cpuinfo | grep processor | wc -l)
 ((cpus--))
-echo "Will use $cpus CPU(s) for setup"
 
 efetch_bin=''
 esearch_bin=''
 xtract_bin=''
-
-TESTONLY=0
-INSTALL=0
-
-if [ "$1" == "-L" ]; then
-  TESTONLY=1;
-  echo "Only listing software to be installed"
-elif [ "$1" == "-I" ]; then
-  INSTALL=1;
-  echo "Installing software"
-else
-  echo "
- `basename $0` [-LV]
--L: List the software that will be installed. No changes will be made.
--I: Install the software
-
-This installer will test for several pieces of software in your path and optionally install those that are missing.
-
-If you provide the -L option, it will just list the software that will be installed.
-
-If you provide the -I option, it will download appropriate software and install it. The default installation
-directory is $VirusFriends_tools, but you can edit this install script to change that if you would prefer.
-
-Databases will also be installed in $VirusFriends_dbs.
-"
-  exit 0
-fi
 
 ## Load libaries
 source $VirusFriends/setup/edirect_setup.sh
@@ -78,11 +50,14 @@ function expand_newpath()
 {
   NEWPATH=$VF_PATH:$1
 }
-
+function reset_wd()
+{
+  cd $VirusFriends
+}
 function finish_up()
 {
   if [ ! -z $VF_PATH ]; then
-    NEWPATH=$(echo $VF_PATH | sed -e 's/^://')
+    VF_PATH=$(echo $VF_PATH | sed -e 's/^://')
     echo "You need to append $VF_PATH to your PATH environment variable."
     echo "I recommend doing this by adding the following line to ~/.bashrc"
     echo -e "\texport PATH=\$PATH:$VF_PATH"
@@ -91,14 +66,102 @@ function finish_up()
   fi
 }
 
+function usage()
+{
+  echo "
+ `basename $0` [-LV]
+-L: List the software that will be installed. No changes will be made.
+-I: Install the software
+
+This installer will test for several pieces of software in your path and optionally install those that are missing.
+
+If you provide the -L option, it will just list the software that will be installed.
+
+If you provide the -I option, it will download appropriate software and install it. The default installation
+directory is $VirusFriends_tools, but you can edit this install script to change that if you would prefer.
+
+Databases will also be installed in $VirusFriends_dbs.
+"
+}
+
+TESTONLY=0
+INSTALL=0
+
+if [ "$1" == "-L" ]; then
+  TESTONLY=1;
+  echo "Only listing software to be installed"
+elif [ "$1" == "-I" ]; then
+  INSTALL=1;
+  echo "Installing software"
+else
+  usage
+  exit 0
+fi
+
 ## Go/no go poll
-setup_edirect
-#setup_python
-#setup_blast
-#setup_magicblast
-#setup_spades
-#setup_sratools
-#setup_samtools
-setup_cdd_database
-#make_viralrefseq_database
-#finish_up
+go_for_vf=true
+echo "Will use $cpus CPU(s) for setup where possible"
+if [[ setup_edirect -ne 0 ]]
+  then
+    echo "Edirect install failed"
+    go_for_vf=false
+fi
+if [[ setup_python -ne 0 ]]
+  then
+    echo "Python Install failed"
+    go_for_vf=false
+fi
+
+if [[ setup_blast -ne 0 ]]
+  then
+    echo "Blast Install failed"
+    go_for_vf=false
+fi
+
+if [[ setup_magicblast -ne 0 ]]
+  then
+    echo "Magicblast Install failed"
+    go_for_vf=false
+fi
+
+if [[ setup_spades -ne 0 ]]
+  then
+    echo "SPADes Install failed"
+    go_for_vf=false
+fi
+
+if [[ setup_sratools -ne 0 ]]
+  then
+    echo "SRATools Install failed"
+    go_for_vf=false
+fi
+
+if [[ setup_samtools -ne 0 ]]
+  then
+    echo "SAMTools Install failed"
+    go_for_vf=false
+fi
+
+if [[ setup_cdd_database -ne 0 ]]
+  then
+    echo "Preparing Cdd database failed"
+    go_for_vf=false
+fi
+
+if [[ setup_viral_refseq_database -ne 0 ]]
+  then
+    echo "Preparing Virus Genome Refseq database failed"
+    go_for_vf=false
+fi
+
+if [[ $go = false ]]
+  then
+    "VirusFriend setup failed"
+fi
+finish_up
+if [ $TESTONLY == 1 ]
+  then
+    echo "VirusFriends test finished"
+  else
+  echo "VirusFriend setup successful"
+fi

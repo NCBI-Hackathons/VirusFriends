@@ -33,5 +33,6 @@ function setup_spades()
       return
   fi
   echo "TESTING MODE uncomment spades install cmd"
-  [[ $(install_spades $ftp_path) -eq 0 ]] && return
+  install_spades $ftp_path
+  return
 }
