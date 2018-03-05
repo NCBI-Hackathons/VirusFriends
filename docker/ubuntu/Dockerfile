@@ -7,8 +7,8 @@
 
 FROM ubuntu:latest
 
-RUN apt-get -q update
-RUN apt-get install -y build-essential      \
+RUN apt-get -q update &&                    \
+    apt-get install -y build-essential      \
                        libncurses5-dev      \
                        zlib1g-dev           \
                        libbz2-dev           \
@@ -18,4 +18,8 @@ RUN apt-get install -y build-essential      \
                        wget                 \
                        bzip2
 
-RUN git clone https://github.com/NCBI-Hackathons/VirusFriends
+RUN git clone https://github.com/NCBI-Hackathons/VirusFriends && \
+    cd VirusFriends && \
+    ls -a           && \
+    git checkout -b testing && \
+    git pull  origin testing
