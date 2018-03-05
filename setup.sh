@@ -101,64 +101,17 @@ fi
 ## Go/no go poll
 go_for_vf=true
 echo "Will use $cpus CPU(s) for setup where possible"
-if [[ setup_edirect -ne 0 ]]
-  then
-    echo "Edirect install failed"
-    go_for_vf=false
-fi
-if [[ setup_python -ne 0 ]]
-  then
-    echo "Python Install failed"
-    go_for_vf=false
-fi
-
-if [[ setup_blast -ne 0 ]]
-  then
-    echo "Blast Install failed"
-    go_for_vf=false
-fi
-
-if [[ setup_magicblast -ne 0 ]]
-  then
-    echo "Magicblast Install failed"
-    go_for_vf=false
-fi
-
-if [[ setup_spades -ne 0 ]]
-  then
-    echo "SPADes Install failed"
-    go_for_vf=false
-fi
-
-if [[ setup_sratools -ne 0 ]]
-  then
-    echo "SRATools Install failed"
-    go_for_vf=false
-fi
-
-if [[ setup_samtools -ne 0 ]]
-  then
-    echo "SAMTools Install failed"
-    go_for_vf=false
-fi
-
-if [[ setup_cdd_database -ne 0 ]]
-  then
-    echo "Preparing Cdd database failed"
-    go_for_vf=false
-fi
-
-if [[ setup_viral_refseq_database -ne 0 ]]
-  then
-    echo "Preparing Virus Genome Refseq database failed"
-    go_for_vf=false
-fi
-
-if [[ $go = false ]]
-  then
-    "VirusFriend setup failed"
-fi
+setup_edirect
+setup_python
+setup_blast
+setup_magicblast
+setup_spades
+setup_sratools
+setup_samtools
+setup_cdd_database
+setup_viral_refseq_database
 finish_up
+
 if [ $TESTONLY == 1 ]
   then
     echo "VirusFriends test finished"

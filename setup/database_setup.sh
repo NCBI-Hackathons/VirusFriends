@@ -50,7 +50,7 @@ function setup_cdd_database()
 
 function prepare_viral_refseq_database()
 {
-#  echo "Preparing the VirusFriends viral refseq database"
+  echo "Preparing the VirusFriends viral refseq database"
   local sequences="$VirusFriends_dbs/$1"
   printf "" > $sequences
   for i in 1 2
