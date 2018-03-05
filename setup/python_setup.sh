@@ -79,11 +79,10 @@ function setup_python()
       get_python_version $python
       if hasRequiredVersionPython
         then
-          echo "Found Python $python_version"
+          echo "Found Python $python_version (Required: $PYTHON_MIN_MAJ.$PYTHON_MIN_MIN.$PYTHON_MIN_PATCH)"
           return
       fi
   fi
-  echo "TESTING MODE uncomment python install cmd"
   install_python $python_ftp_path
   return
 }

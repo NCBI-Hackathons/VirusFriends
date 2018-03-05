@@ -48,7 +48,7 @@ function isInPath()
 
 function expand_newpath()
 {
-  NEWPATH=$VF_PATH:$1
+  VF_PATH=$VF_PATH:$1
 }
 function reset_wd()
 {
@@ -64,6 +64,7 @@ function finish_up()
     echo "but you may also want to add this to a different location so I didn't set it to you"
     export PATH=$VF_PATH:$PATH
   fi
+  export PATH=$VF_PATH:$PATH
 }
 
 function usage()
@@ -106,15 +107,13 @@ setup_python
 setup_blast
 setup_magicblast
 setup_spades
-setup_sratools
-setup_samtools
-setup_cdd_database
-setup_viral_refseq_database
+#setup_sratools
+#setup_samtools
+#setup_cdd_database
+#setup_viral_refseq_database
 finish_up
 
 if [ $TESTONLY == 1 ]
   then
     echo "VirusFriends test finished"
-  else
-  echo "VirusFriend setup successful"
 fi

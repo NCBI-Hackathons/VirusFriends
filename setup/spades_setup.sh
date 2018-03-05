@@ -32,7 +32,6 @@ function setup_spades()
       echo "Found spades: $(which spades)"
       return
   fi
-  echo "TESTING MODE uncomment spades install cmd"
   install_spades $ftp_path
   return
 }

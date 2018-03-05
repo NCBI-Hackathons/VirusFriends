@@ -28,7 +28,7 @@ function setup_blast()
   if isInPath makeprofiledb
     then
       makeprofiledb=$(which makeprofiledb)
-      echo "Found makeprofiledb: $makeprofiledb"
+      echo "Found makeprofiledb: $makeprofiledb. Assuming installed BLAST"
       return
   fi
   local ftp_path="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/"
@@ -46,7 +46,7 @@ function install_magicblast()
   echo "Installing magicblast ($1)"
   cd $VirusFriends_tools
   local mblast_dir="$VirusFriends_tools/magicblast"
-  $wget $1 -O - | tar -C $mblast_dir -xvf -
+  $wget $1 -O - | tar -C $mblast_dir -xzvf -
 #  P=$(find . -name magicblast | sed -e 's/magicblast$//; s/^\.\///')
   expand_newpath "$mblast_dir"
   cd $VirusFriends

@@ -69,6 +69,6 @@ function setup_edirect()
       return
   fi
   local ftp_path="ftp.ncbi.nlm.nih.gov//entrez/entrezdirect/edirect.tar.gz"
-  install_edirect $1
+  install_edirect $ftp_path
   return
 }
