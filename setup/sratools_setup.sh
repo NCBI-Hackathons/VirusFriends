@@ -18,8 +18,8 @@ function install_sratools()
   echo "Installing SRAtoolkit ($1)"
   local sradir="$VirusFriends_tools/sratools"
   mkdir -p "$sradir"
-  wget $1 -O - | tar -C $sradir --strip-components=1 -zxvf -
-  expand_newpath "$sradir/bin/"
+  wget_tool $1 $sradir "gzip"
+  expand_vfpath "$sradir/bin/"
   cd $VirusFriends
 }
 

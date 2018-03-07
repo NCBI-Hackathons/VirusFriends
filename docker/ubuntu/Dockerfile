@@ -16,10 +16,14 @@ RUN apt-get -q update &&                    \
                        libcurl4-gnutls-dev  \
                        git                  \
                        wget                 \
+                       libssl-dev           \
                        bzip2
+#                       libwww-perl
 
-RUN git clone https://github.com/NCBI-Hackathons/VirusFriends && \
-    cd VirusFriends && \
-    ls -a           && \
-    git checkout -b testing && \
-    git pull  origin testing
+
+RUN adduser --quiet --disabled-password --gecos '' virusfriend
+RUN su - virusfriend -c "cd /home/virusfriend && \
+                         git clone https://github.com/NCBI-Hackathons/VirusFriends && \
+                         cd VirusFriends && \
+                         git checkout -b testing && \
+                         git pull  origin testing"

@@ -52,10 +52,16 @@ function install_edirect()
       return
   fi
   local edirect_dir="$VirusFriends_tools/edirect"
+  mkdir -p $edirect_dir
   echo "INSTALLING edirect in $edirect_dir"
-  $wget $1 -O - | tar -C $edirect_dir  -xf -
+  perl -MNet::FTP -e \
+    '$ftp = new Net::FTP("ftp.ncbi.nlm.nih.gov", Passive => 1);
+     $ftp->login; $ftp->binary;
+     $ftp->get("/entrez/entrezdirect/edirect.tar.gz");'
+  gunzip -c edirect.tar.gz | tar -C "$edirect_dir" --strip-components=1 -xf -
+  rm edirect.tar.gz
   sh $edirect_dir/setup.sh
-  expand_newpath $edirect_dir
+  expand_vfpath $edirect_dir
   reset_wd
   return 0
 }

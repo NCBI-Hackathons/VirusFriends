@@ -46,7 +46,8 @@ function isInPath()
  [[ ! -z $(which $1) ]] && return
 }
 
-function expand_newpath()
+# $1: path
+function expand_vfpath()
 {
   VF_PATH=$VF_PATH:$1
 }
@@ -62,9 +63,26 @@ function finish_up()
     echo "I recommend doing this by adding the following line to ~/.bashrc"
     echo -e "\texport PATH=\$PATH:$VF_PATH"
     echo "but you may also want to add this to a different location so I didn't set it to you"
-    export PATH=$VF_PATH:$PATH
+  # export PATH=$VF_PATH:$PATH
   fi
-  export PATH=$VF_PATH:$PATH
+ # export PATH=$VF_PATH:$PATH
+}
+
+# $1 address $2 install_dir $3 compression: gzip|bzip
+function wget_tool()
+{
+  local tar_cmd="tar -C $2 --strip-components=1 "
+  if [[ "$3" == "gzip" ]]
+    then
+      tar_cmd+="-xz"
+  fi
+
+  if [[ "$3" == "bzip" ]]
+    then
+      tar_cmd+="-xj"
+  fi
+  tar_cmd+="vf -"
+  (set -x; $wget $1 -O - | $tar_cmd)
 }
 
 function usage()
@@ -102,18 +120,22 @@ fi
 ## Go/no go poll
 go_for_vf=true
 echo "Will use $cpus CPU(s) for setup where possible"
+## Installing Python is a major PITA, can't get it to work properly.
+#export PYTHONPATH=""
+#export PYTHONHOME=""
+#setup_python
 setup_edirect
-setup_python
-setup_blast
-setup_magicblast
-setup_spades
+#setup_blast
+#setup_magicblast
+#setup_spades
 #setup_sratools
 #setup_samtools
-#setup_cdd_database
+setup_cdd_database
 #setup_viral_refseq_database
-finish_up
+
 
 if [ $TESTONLY == 1 ]
   then
     echo "VirusFriends test finished"
 fi
+finish_up

@@ -16,10 +16,11 @@ function install_blast()
   fi
   echo "Installing NCBI blast+ ($1)"
   local blast_dir="$VirusFriends_tools/blast"
-  $wget $1 -O - | tar -C $blast_dir -xvf -
+  mkdir -p $blast_dir
+  wget_tool $1 $blast_dir "gzip"
   ## bit of a hack to find the path name because blast includes the version number
   #P=$(find . -name blastn | sed -e 's/blastn$//; s/^\.\///')
-  expand_newpath $blast_dir
+  expand_vfpath "$blast_dir/bin"
   cd $VirusFriends
 }
 
@@ -46,9 +47,10 @@ function install_magicblast()
   echo "Installing magicblast ($1)"
   cd $VirusFriends_tools
   local mblast_dir="$VirusFriends_tools/magicblast"
-  $wget $1 -O - | tar -C $mblast_dir -xzvf -
+  mkdir -p $mblast_dir
+  wget_tool $1 $mblast_dir "gzip"
 #  P=$(find . -name magicblast | sed -e 's/magicblast$//; s/^\.\///')
-  expand_newpath "$mblast_dir"
+  expand_vfpath "$mblast_dir/bin"
   cd $VirusFriends
 }
 

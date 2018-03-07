@@ -14,10 +14,10 @@ function prepare_cdd_database()
   mkdir -p $cdd_smp_dir
   local cdd_db="endovir_cdd"
   local qry="txid10239[Organism:exp] NOT (predicted OR putative)"
-  for i in $($esearch_bin -db cdd -query "$qry"| \
-            $efetch_bin -format docsum                              | \
-            $xtract_bin -pattern DocumentSummary -element Accession | \
-            grep -v cl)
+  for i in $($esearch_bin -db cdd -query "$qry"                      | \
+             $efetch_bin -format docsum                              | \
+             $xtract_bin -pattern DocumentSummary -element Accession | \
+             grep -v cl)
     do
             echo "$i.smp" >> "$1"
     done
@@ -44,8 +44,7 @@ function setup_cdd_database()
   local cdd_pssms="$VirusFriends_dbs/endovir.pn"
   local cdd_ftp='ftp://ftp.ncbi.nlm.nih.gov/pub/mmdb/cdd/cdd.tar.gz'
   prepare_cdd_database $cdd_pssms $cdd_ftp
-
-  return
+  return 0
 }
 
 function prepare_viral_refseq_database()

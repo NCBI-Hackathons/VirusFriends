@@ -49,22 +49,26 @@ function install_python()
 
   echo "Installing python 3.5.5 ($1)"
   local python_dir="$VirusFriends_tools/python"
-  local python_bin_dir="$python_dir/bin"
-  wget $1 -O - | tar -C $python_dir -zxvf -
+  mkdir -p $python_dir
+  wget $1 -O - | tar -C $python_dir --strip-components=1 -zxvf -
   cd $python_dir
-  ./configure --prefix=$python_bin_dir
+  echo $PWD
+  ./configure --prefix=$python_dir
   make -j$cpus && make install
+  export PYTHONHOME="$python_dir/bin/"
+  export PYTHONPATH="$python_dir/lib/python3.5/:$python_dir/lib/python3.5/site-packages/"
+  #      PYTHONPATH=/home/virusfriend/VirusFriends/tools/python/lib/python3.5
+  expand_vfpath $PYTHONHOME
+  expand_vfpath $PYTHONPATH
+  export PATH="$PATH:$python_dir/bin"
+  echo "------------------------"
+  echo $PYTHONHOME
+  echo $PYTHONPATH
+  echo "------------------------"
+  expand_vfpath "$python_dir"
   local pip='pip3'
-  if ! isInPath $pip
-    then
-      echo "Installing python $pip"
-      wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py -O - | python - --user
-  fi
-  export PATH="$python_bin_dir:$PATH"
-  export PYTHONPATH="$python_dir:$PYTHONPATH"
-  local pip_bin=$(which $pip)
-  $pip_bin install pysam --user
-  $pip_bin biopython --user
+  $pip install --user pysam
+  $pip install --user biopython
   cd $VirusFriends
   return 0
 }
@@ -73,7 +77,7 @@ function setup_python()
 {
   local python_ftp_path="https://www.python.org/ftp/python/3.5.5/Python-3.5.5.tgz"
 
-  if isInPath "python3"
+  if isInPath 'python3'
     then
       python=$(which python3)
       get_python_version $python

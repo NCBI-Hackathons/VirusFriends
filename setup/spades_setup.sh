@@ -18,8 +18,9 @@ function install_spades()
   local spades_dir="$VirusFriends_tools/SPAdes"
   mkdir -p $spades_dir
   echo "Installing SPAdes"
-  $wget $1 -O - |  tar -C $spades_dir -xvzf -
-  expand_newpath "$spades_dir/bin"
+  wget_tool $1 $spades_dir "gzip"
+  #$wget $1 -O - |  tar -C $spades_dir -xvzf -
+  expand_vfpath "$spades_dir/bin"
   cd $VirusFriends
 }
 

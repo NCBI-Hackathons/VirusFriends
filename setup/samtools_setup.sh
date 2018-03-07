@@ -40,15 +40,15 @@ function install_samtools()
       return
   fi
   local samtools_dir="$VirusFriends_tools/samtools"
-  local samtools_build_dir="$samtools_dir/build"
   echo "Installing SAMtools"
-  mkdir -p "$samtools_build_dir"
-  $wget  $1 -O - | tar  -C $samtools_build_dir --strip-components=1 -vxjf -
+  mkdir -p "$samtools_dir"
+  wget_tool $1 $samtools_dir "bzip"
   cd $samtools_dir
-  ./configure --prefix=$samtools_build_dir
-  make -j$cpus && make install
-  expand_newpath "$samtools_build_dir/bin"
-  echo "Installed SAMtools in $samtools_build_dir/bin"
+  ./configure --prefix="$samtools_dir" --datadir="$samtools_dir" --docdir="$samtools_dir"
+  make -j$cpus
+  make install
+  expand_vfpath "$samtools_dir/bin"
+  echo "Installed SAMtools in $samtools_dir/bin"
   cd $VirusFriends
 }
 
