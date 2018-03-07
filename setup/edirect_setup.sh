@@ -18,7 +18,7 @@ function has_edirect()
   if isInPath $esearch
     then
       esearch_bin=$(which $esearch)
-      printf "esearch_bin\n"
+      printf "$esearch_bin\n"
     else
       printf "None\n"
       SUCCESS=1
@@ -58,7 +58,7 @@ function install_edirect()
     '$ftp = new Net::FTP("ftp.ncbi.nlm.nih.gov", Passive => 1);
      $ftp->login; $ftp->binary;
      $ftp->get("/entrez/entrezdirect/edirect.tar.gz");'
-  gunzip -c edirect.tar.gz | tar -C "$edirect_dir" --strip-components=1 -xf -
+  tar -C "$edirect_dir" --strip-components=1 -xzf edirect.tar.gz
   rm edirect.tar.gz
   sh $edirect_dir/setup.sh
   expand_vfpath $edirect_dir

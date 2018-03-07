@@ -21,15 +21,15 @@ function prepare_cdd_database()
     do
             echo "$i.smp" >> "$1"
     done
-  (set -x; $wget $2 -O - | tar -C "$cdd_smp_dir/" -xzvT $1 -f -)
+  $wget $2 -O - | tar -C "$cdd_smp_dir/" -xzvT $1 -f -
   cd $cdd_smp_dir
-  makeprofiledb -title endovir  \
-                -in $1          \
-                -out ../$cdd_db \
-                -dbtype rps     \
-                -threshold 9.82 \
-                -scale 100      \
-                -index true
+  $makeprofiledb_bin -title 'endovir' \
+                     -in $1           \
+                     -out ../$cdd_db  \
+                     -dbtype 'rps'    \
+                     -threshold 9.82  \
+                     -scale 100       \
+                     -index 'true'
   reset_wd
   return 0
 }
@@ -57,11 +57,11 @@ function prepare_viral_refseq_database()
     (set -x; $wget "ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.$i.1.genomic.fna.gz" -O -  \
             | gunzip -d -c >> $sequences)
   done
-  makeblastdb -title $1       \
-              -in $sequences     \
-              -out $sequences  \
-              -dbtype 'nucl'  \
-              -parse_seqids
+  $makeblastdb_bin -title $1        \
+                   -in $sequences   \
+                   -out $sequences  \
+                   -dbtype 'nucl'   \
+                   -parse_seqids
   reset_wd
   return 0
 }

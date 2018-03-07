@@ -18,8 +18,8 @@ function install_blast()
   local blast_dir="$VirusFriends_tools/blast"
   mkdir -p $blast_dir
   wget_tool $1 $blast_dir "gzip"
-  ## bit of a hack to find the path name because blast includes the version number
-  #P=$(find . -name blastn | sed -e 's/blastn$//; s/^\.\///')
+  makeblastdb_bin="$blast_dir/bin/makeblastdb"
+  makeprofiledb_bin="$blast_dir/bin/makeprofiledb"
   expand_vfpath "$blast_dir/bin"
   cd $VirusFriends
 }
@@ -49,7 +49,6 @@ function install_magicblast()
   local mblast_dir="$VirusFriends_tools/magicblast"
   mkdir -p $mblast_dir
   wget_tool $1 $mblast_dir "gzip"
-#  P=$(find . -name magicblast | sed -e 's/magicblast$//; s/^\.\///')
   expand_vfpath "$mblast_dir/bin"
   cd $VirusFriends
 }

@@ -30,6 +30,7 @@ cpus=$(cat /proc/cpuinfo | grep processor | wc -l)
 efetch_bin=''
 esearch_bin=''
 xtract_bin=''
+makeblastdb_bin=''
 
 ## Load libaries
 source $VirusFriends/setup/edirect_setup.sh
@@ -63,9 +64,7 @@ function finish_up()
     echo "I recommend doing this by adding the following line to ~/.bashrc"
     echo -e "\texport PATH=\$PATH:$VF_PATH"
     echo "but you may also want to add this to a different location so I didn't set it to you"
-  # export PATH=$VF_PATH:$PATH
   fi
- # export PATH=$VF_PATH:$PATH
 }
 
 # $1 address $2 install_dir $3 compression: gzip|bzip
@@ -117,21 +116,21 @@ else
   exit 0
 fi
 
-## Go/no go poll
-go_for_vf=true
+
 echo "Will use $cpus CPU(s) for setup where possible"
-## Installing Python is a major PITA, can't get it to work properly.
+## Go/no go poll
+# Installing Python is a major PITA, can't get it to work properly.
 #export PYTHONPATH=""
 #export PYTHONHOME=""
 #setup_python
 setup_edirect
-#setup_blast
-#setup_magicblast
-#setup_spades
-#setup_sratools
-#setup_samtools
+setup_blast
+setup_magicblast
+setup_spades
+setup_sratools
+setup_samtools
 setup_cdd_database
-#setup_viral_refseq_database
+setup_viral_refseq_database
 
 
 if [ $TESTONLY == 1 ]
