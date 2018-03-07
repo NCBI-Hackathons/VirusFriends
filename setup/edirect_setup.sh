@@ -20,7 +20,7 @@ function has_edirect()
       esearch_bin=$(which $esearch)
       printf "$esearch_bin\n"
     else
-      printf "None\n"
+      printf "NA\n"
       SUCCESS=1
   fi
   printf "    $efetch: "
@@ -29,7 +29,7 @@ function has_edirect()
       efetch_bin=$(which efetch)
       printf "$efetch_bin\n"
     else
-      printf "None\n"
+      printf "NA\n"
       SUCCESS=1
   fi
   printf "    $xtract: "
@@ -38,7 +38,7 @@ function has_edirect()
       xtract_bin=$(which $xtract)
       printf "$xtract_bin\n"
     else
-      echo "None"
+      printf "NA\n"
       SUCCESS=1
   fi
   return $SUCCESS
@@ -62,6 +62,9 @@ function install_edirect()
   rm edirect.tar.gz
   sh $edirect_dir/setup.sh
   expand_vfpath $edirect_dir
+  efetch_bin="$edirect_dir/efetch"
+  esearch_bin="$edirect_dir/esearch"
+  xtract_bin="$edirect_dir/xtract"
   reset_wd
   return 0
 }

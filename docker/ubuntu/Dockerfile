@@ -18,8 +18,6 @@ RUN apt-get -q update &&                    \
                        wget                 \
                        libssl-dev           \
                        bzip2
-#                       libwww-perl
-
 
 RUN adduser --quiet --disabled-password --gecos '' virusfriend
 RUN su - virusfriend -c "cd /home/virusfriend && \

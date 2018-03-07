@@ -15,7 +15,7 @@ function prepare_cdd_database()
   local cdd_db="endovir_cdd"
   local qry="txid10239[Organism:exp] NOT (predicted OR putative)"
   for i in $($esearch_bin -db cdd -query "$qry"                      | \
-             $efetch_bin -format docsum                              | \
+             $efetch_bin -format "docsum"                              | \
              $xtract_bin -pattern DocumentSummary -element Accession | \
              grep -v cl)
     do

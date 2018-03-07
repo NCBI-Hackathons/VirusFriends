@@ -27,10 +27,11 @@ make=$(which make)
 cpus=$(cat /proc/cpuinfo | grep processor | wc -l)
 ((cpus--))
 
-efetch_bin=''
-esearch_bin=''
-xtract_bin=''
-makeblastdb_bin=''
+efetch_bin=$(which efetch)
+esearch_bin=$(which esearch)
+xtract_bin=$(which xtract)
+makeblastdb_bin=$(which makeblastdb)
+makeprofiledb_bin=$(which makeprofildb)
 
 ## Load libaries
 source $VirusFriends/setup/edirect_setup.sh
@@ -124,13 +125,13 @@ echo "Will use $cpus CPU(s) for setup where possible"
 #export PYTHONHOME=""
 #setup_python
 setup_edirect
-setup_blast
-setup_magicblast
-setup_spades
-setup_sratools
-setup_samtools
+#setup_blast
+#setup_magicblast
+#setup_spades
+#setup_sratools
+#setup_samtools
 setup_cdd_database
-setup_viral_refseq_database
+#setup_viral_refseq_database
 
 
 if [ $TESTONLY == 1 ]
