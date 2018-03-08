@@ -31,7 +31,7 @@ efetch_bin=$(which efetch)
 esearch_bin=$(which esearch)
 xtract_bin=$(which xtract)
 makeblastdb_bin=$(which makeblastdb)
-makeprofiledb_bin=$(which makeprofildb)
+makeprofiledb_bin=$(which makeprofiledb)
 
 ## Load libaries
 source $VirusFriends/setup/edirect_setup.sh

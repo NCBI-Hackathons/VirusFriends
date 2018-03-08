@@ -11,7 +11,7 @@ function has_edirect()
 {
   local esearch='esearch'
   local efetch='efetch'
-  local xtract='xtract  '
+  local xtract='xtract'
   local SUCCESS=0
 
   printf "    $esearch: "
@@ -60,6 +60,7 @@ function install_edirect()
      $ftp->get("/entrez/entrezdirect/edirect.tar.gz");'
   tar -C "$edirect_dir" --strip-components=1 -xzf edirect.tar.gz
   rm edirect.tar.gz
+  echo export "PATH=${PATH}:$edirect_dir"
   sh $edirect_dir/setup.sh
   expand_vfpath $edirect_dir
   efetch_bin="$edirect_dir/efetch"
